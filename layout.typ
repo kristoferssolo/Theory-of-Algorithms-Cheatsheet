@@ -14,7 +14,7 @@
   set document(author: authors)
 
   set page(
-    columns: 2,
+    columns: 1,
     margin: (
       left: 10mm,
       right: 10mm,
