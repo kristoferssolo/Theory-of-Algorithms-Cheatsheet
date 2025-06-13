@@ -1,6 +1,7 @@
 #import "@preview/finite:0.5.0": automaton
 #import "@preview/fletcher:0.5.7" as fletcher: diagram, edge, node
 #import "@preview/gentle-clues:1.2.0": *
+#import "@preview/tablex:0.0.9": tablex
 #import "layout.typ": indent-par, project
 
 #show: project.with(title: [Theory of Algorithms Cheatsheet], authors: (
@@ -19,6 +20,13 @@
 = Tjūringa Mašīnas
 == Info
 Var būt 3 veida uzdevumi: stāvokļu, tekstuāls, vairāklenšu.
+
+#info(title: "Čērča-Tjūringa tēze")[
+  Viss, ko var intuitīvi saukt par "algoritmu" vai "efektīvu procedūru", var
+  tikt izpildīts ar Tjūringa mašīnu.
+  Tā nav pierādāma teorēma, bet gan skaitļošanas modeļa definīcija, kurai līdz
+  šim nav atrasts pretpiemērs.
+]
 
 === Viena lente
 $(q, a) -> (q', a', d)$ -- stāvoklī $q$ redzot $a$, ieraksta $a'$
@@ -413,6 +421,7 @@ Kopējais soļu skaits:
 #let linineq = `LIN-INEQ`
 #let M1 = $M 1$
 #let M2 = $M 2$
+#let SAT = `SAT`
 
 == Info
 - $halt(M\# x)=1$, ja $M$ apstājas, ja ieejas virkne $=x$.
@@ -548,6 +557,19 @@ Kopējais soļu skaits:
   mašīnām.
 ]
 
+#teo(
+  title: "Kuka-Levina teorēma",
+)[#SAT problēma (Boolean satisfiability problem) ir NP-pilna.]
+
+#info[
+  #SAT problēma: dots Būla algebras izteikums, vai ir iespējams piešķirt
+  mainīgajiem vērtības (patiess/aplams) tā, lai viss izteikums būtu
+  patiess?
+]
+Šī teorēma bija pirmā, kas pierādīja kādas problēmas NP-pilnību.
+Pēc tās, lai pierādītu, ka cita problēma $L$ ir NP-pilna, pietiek parādīt,
+ka $L in NP$ un ka $SAT <_p L$ (vai jebkura cita zināma NP-pilna problēma).
+
 = Sarežģītības klases
 #let time = `TIME`
 == Info
@@ -574,3 +596,34 @@ $ lim (log^17 n)/n = lim (m^17)/c^m = lim (m/c^(m slash 17))^17 -> 0 $
 - $time(n)$ -- `2x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
 - $time(n^2)$ -- `4x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
 - $time(n^3)$ -- `8x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
+
+= Extras
+== Logaritmu īpašības
+
+#context [
+  #set text(size: 10pt)
+  #show math.equation: set text(weight: 400, size: 8pt)
+
+  #figure(table(
+    columns: 3,
+    [*Property*], [*Definition*], [*Example*],
+    [Product],
+    $ log_b m n = log_b m + log_b n $,
+    $ log_3 9 = log_3 9 + log_3 x $,
+
+    [Quotient],
+    $ log_b m/n = log_b m - log_b n $,
+    $
+      log_(1/4) 4/5 = log_(1/4) 4
+      - log_(1/4) 5
+    $,
+
+    [Power], $ log_b m^p=p dot log_b m $, $ log_2 8^x = x dot log_2 8 $,
+    [Equality],
+    $ "If" log_b m = log_b n, \ "then" m=n $,
+    $
+      log_8(3x-4)=log_8(5x+2) \
+      "so," 3x-4=5x+2
+    $,
+  ))
+]
