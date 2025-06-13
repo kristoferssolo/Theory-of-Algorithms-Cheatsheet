@@ -277,6 +277,35 @@ This reduction demonstrates that $halt 2$ is computationally no harder than
 $halt$, implying that $halt 2$ is at least as undecidable as $halt$.
 
 = Daļēja atrisināmība
+== Info
+A problem is considered partially undecidable if it is not decidable, meaning
+there is no algorithm that can correctly determines a "yes" or "no" answer for
+every input instance of the problem.
+However, it may still be semidecidable, also known as recursively enumerable.
+
+In the context of Turing machines and computability theory, a problem is
+partially undecidable if there exists a Turing machine that halts and produces a
+"yes" answer for every instance that belongs to the problem, but may either loop
+indefinitely or reject instances that do not belong to the problem.
+In other words, there is an algorithm that can recognize the instances that
+satisfy the problem's criteria but may not halt on instances that do not.
+
+A problem being partially undecidable means that there is no total algorithm
+that can always produce a correct "no" answer for instances outside the problem.
+It may be possible to construct a Turing machine that halts and produces a "no"
+answer for certain instances outside the problem, but this is not guaranteed for
+all instances.
+
+#teo(
+  title: "Raisa teorēma",
+)[Ja $F$ nav triviāla (ir $M:F(M)=0$ un $M':F(M')=1$), tad $F$ -- neatrisināma.]
+
+$A$ -- daļēji atrisināma, ja ir Tjūringa mašīna $T$:
+- Ja $A(x)=1$, tad $T(x)=1$.
+- Ja $A(x)=0$, tad $T(x)=0$ vai $T(x)$ neapstājas.
+
+#teo[$A$ -- daļēji atrisināma tad un tikai tad, ja $A$ -- algoritmiski sanumurējama.]
+
 = Algoritmiskā sanumurējamība
 = TM darbības laiks
 = NP (neatrisināmas problēmas)
