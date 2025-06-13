@@ -96,7 +96,6 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 - Sasniedzot $\#$, uz otras lentes iet atpakaļ līdz pirmajam simbolam.
 - Salīdzina pirmās lentes simbolus pēc $\#$ ar otro lenti.
 
-#set page(columns: 2)
 = Lielais $O$ un mazais $o$
 == Info
 - Tiek dota funkcija un jānosaka vai tā atrisināma dotajā lielā $O$ vai mazā $o$
@@ -232,68 +231,65 @@ Pielietojot apgriezto funkciju uz $n$, varam atgūt sākotnējo pāri $(k_1, k_2
 Tādējādi funkcija $f$ ir surjektīva.
 
 = Redukcijas
-Given a problem $halt2(M, x, y) = 1$ where turing machine $M$ halts on at least
-one of the inputs $x$ or $y$, prove and show that it can or can't be reduced to
-$halt(halt <= halt 2)$.
+Dota problēma $halt2(M, x, y) = 1$, kur Tjūringa mašīna $M$ apstājas vismaz uz
+vienas no ievadēm $x$ vai $y$.
+Pierādīt, ka to var vai nevar reducēt uz $halt(halt <= halt 2)$.
 
-To prove that the problem $halt2(M, x, y)$ can be reduced to #halt, we need to
-show that we can construct a Turing machine that solves #halt2 using a
-subroutine for solving #halt.
+Lai pierādītu, ka problēmu $halt2(M, x, y)$ var reducēt uz #halt, mums jāparāda,
+ka varam konstruēt Tjūringa mašīnu, kas atrisina #halt2, izmantojot #halt
+atrisināšanas apakšprogrammu.
 
-Let's assume we have a Turing machine $H$ that solves the #halt problem.
-We will construct a new Turing machine $H 2$ that solves the #halt2 problem
-using $H$ as a subroutine.
+Pieņemsim, ka mums ir Tjūringa mašīna $H$, kas atrisina #halt problēmu.
+Konstruēsim jaunu Tjūringa mašīnu $H 2$, kas atrisina #halt2 problēmu,
+izmantojot $H$ kā apakšprogrammu.
 
-The Turing machine $H 2$ works as follows:
-+ Given inputs $M$, $x$, and $y$.
-+ Run $H$ on the input $(M, x)$.
-+ If $H$ accepts $(M, x)$, halt and accept.
-+ If $H$ rejects $(M, x)$, run $H$ on the input $(M, y)$.
-+ If $H$ accepts $(M, y)$, halt and accept.
-+ If $H$ rejects $(M, y)$, halt and reject.
+Tjūringa mašīna $H 2$ darbojas sekojoši:
+- Doti ievades dati $M$, $x$ un $y$.
+- Palaiž $H$ ar ievaddatiem $(M, x)$.
+- Ja $H$ akceptē $(M, x)$, apstājas un akceptē.
+- Ja $H$ noraida $(M, x)$, palaiž $H$ ar ievaddatiem $(M, y)$.
+- Ja $H$ akceptē $(M, y)$, apstājas un akceptē.
+- Ja $H$ noraida $(M, y)$, apstājas un noraida.
 
-By constructing $H 2$ in this way, we are simulating the behavior of $H$ on
-both inputs $x$ and $y$.
-If $H$ accepts either $(M, x)$ or $(M, y)$, $H 2$ will also accept and halt.
-If $H$ rejects both $(M, x)$ and $(M, y)$, $H 2$ will also reject and halt.
+Konstruējot $H 2$ šādā veidā, mēs simulējam $H$ darbību uz abām ievadēm $x$ un
+$y$.
+Ja $H$ akceptē vai nu $(M, x)$ vai $(M, y)$, arī $H 2$ akceptēs un apstāsies.
+Ja $H$ noraida gan $(M, x)$, gan $(M, y)$, arī $H 2$ noraidīs un apstāsies.
 
-Now, let's analyze the reduction:
+Redukcijas analīze:
+- Ja $halt2(M, x, y) = 1$, tas nozīmē, ka Tjūringa mašīna $M$ apstājas vismaz uz
+  vienas no ievadēm $x$ vai $y$.
+  Šajā gadījumā $H 2$ arī apstāsies un akceptēs, jo tā veiksmīgi simulē $H$ uz
+  abām ievadēm un akceptē, ja $H$ akceptē kādu no tām.
+  Tādējādi #halt2 tiek reducēta uz #halt.
+- Ja $halt2(M, x, y) = 0$, tas nozīmē, ka Tjūringa mašīna $M$ neapstājas ne uz
+  $x$, ne uz $y$.
+  Šajā gadījumā #halt2 arī neapstāsies un noraidīs, jo tā simulē $H$ uz abām
+  ievadēm un noraida, ja $H$ norada abas.
+  Tādējādi #halt2 tiek reducēta uz #halt.
 
-- If $halt2(M, x, y) = 1$, it means that Turing machine $M$ halts on at least
-  one of the inputs $x$ or $y$.
-  In this case, $H 2$ will also halt and accept, because it successfully
-  simulates $H$ on both inputs and accepts if $H$ accepts either of them.
-  Thus, #halt2 is reduced to #halt.
-- If $halt2(M, x, y) = 0$, it means that Turing machine $M$ does not halt on
-  both inputs $x$ and $y$.
-  In this case, $H 2$ will also not halt and will reject, because it simulates
-  $H$ on both inputs and rejects if $H$ rejects both of them.
-  Thus, #halt2 is reduced to #halt.
-
-Therefore, we have shown that the problem #halt2 can be reduced to #halt by
-constructing a Turing machine $H 2$ that uses $H$ as a subroutine.
-This reduction demonstrates that #halt2 is computationally no harder than
-#halt, implying that #halt2 is at least as undecidable as #halt.
+Tātad esam pierādījuši, ka problēmu #halt2 var reducēt uz #halt, konstruējot
+Tjūringa mašīnu $H 2$, kas izmanto $H$ kā apakšprogrammu.
+Šī redukcija parāda, ka #halt2 skaitļošanas ziņā nav sarežģītāka par #halt, kas
+nozīmē, ka #halt2 ir vismaz tikpat neizsķirama kā #halt.
 
 = Daļēja atrisināmība
 == Info
-A problem is considered partially undecidable if it is not decidable, meaning
-there is no algorithm that can correctly determines a "yes" or "no" answer for
-every input instance of the problem.
-However, it may still be semidecidable, also known as recursively enumerable.
+Problēma tiek uzskatīta par daļēji atrisināmu (vai algoritmiski sanumurējamu),
+ja tā nav izšķirama, kas nozīmē, ka nav algoritma, kas varētu pareizi noteikt
+"jā" vai "nē" atbildi katram problēmas ievades gadījumam.
 
-In the context of Turing machines and computability theory, a problem is
-partially undecidable if there exists a Turing machine that halts and produces a
-"yes" answer for every instance that belongs to the problem, but may either loop
-indefinitely or reject instances that do not belong to the problem.
-In other words, there is an algorithm that can recognize the instances that
-satisfy the problem's criteria but may not halt on instances that do not.
+Tjūringa mašīnu un algoritmu teorijas kontekstā, problēma ir daļēji atrisināma,
+ja eksistē Tjūringa mašīna, kas apstājas un dod "jā" atbildi katram gadījumam,
+kas pieder problēmai, bet var vai nu darboties bezgalīgi, vai noraidīt
+gadījumus, kas nepieder problēmai.
+Citiem vārdiem sakot, ir algoritms, kas var atpazīt gadījumus, kas atbilst
+problēmas kritērijiem, bet var neapstāties uz gadījumiem, kas neatbilst.
 
-A problem being partially undecidable means that there is no total algorithm
-that can always produce a correct "no" answer for instances outside the problem.
-It may be possible to construct a Turing machine that halts and produces a "no"
-answer for certain instances outside the problem, but this is not guaranteed for
-all instances.
+Tas, ka problēma ir daļēji atrisināma, nozīmē, ka nav konkrēta algoritma, kas
+vienmēr varētu sniegt pareizu "nē" atbildi gadījumiem ārpus problēmas.
+Var būt iespējams konstruēt Tjūringa mašīnu, kas apstājas un sniedz "nē" atbildi
+noteiktiem gadījumiem ārpus problēmas, bet tas nav garantēts visiem gadījumiem
 
 #teo(
   title: "Raisa teorēma",
@@ -368,6 +364,31 @@ Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
     focus on the dominant term that represents the growth rate.
   + Express the simplified runtime function using the appropriate Big $O$ notation,
     such as $O(n)$, $O(n log n)$, $O(n^2)$, $O(2^n)$, etc.
+
++ Identificēt galvenās operācijas vai soļus, ko Tjūringa mašīna veic katrai
+  ievadei.
+  + Tas varētu ietvert simbolu lasīšanu no lentes, simbolu rakstīšanu lentē,
+    lentes galviņas pārvietošanu, aprēķinu veikšanu vai lēmumu pieņemšanu,
+    pamatojoties uz pašreizējo stāvokli un ievades simbolu.
++ Noteikt sliktākā gadījuma scenāriju.
+  + Analizēt ievadi vai ievades secību, kas prasītu maksimālo soļu skaitu,
+    lai Tjūringa mašīna pabeigtu savu aprēķinu.
+  + Apsvērt ievades, kas maksimizē iterāciju skaitu vai liek mašīnai izpētīt
+    visas iespējamās aprēķinu zaru versijas.
++ Izteikt darbības laiku atkarībā no ievades izmēra.
+  + Definēt funkciju, kas attēlo Tjūringa mašīnas veikto soļu vai pāreju
+    skaitu kā funkciju no ievad izmēra.
+  + Piemēram, ja ievades izmērs ir $n$, darbības laika funkciju varētu apzīmēt
+    kā $f(n)$.
++ Vienkāršot darbības laika funkciju un izsakot to, izmantojot lielā $O$
+  notāciju.
+  + Lielā $O$ notācija nodrošina augšējo robežu darbības laika funkcijas
+    pieauguma ātrumam, palielinoties ievaddatu izmēram.
+  + Noņemt konstantes faktorus un zemākas kārtas locekļus no darbības laika
+    funkcijas, lai koncentrētos uz dominējošo locekli, kas atspoguļo pieauguma
+    ātrumu.
++ Izteikt vienkāršoto darbības laika funkciju, izmantojot atbilstošo lielā $O$
+  notāciju, piemēram, $O(n)$, $O(n log n)$, $O(n^2)$, $O(2^n)$ utt.
 
 == Piemērs
 Vai ieejas virknē ir vienāds skaits $a$ un $b$?
