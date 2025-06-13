@@ -9,12 +9,12 @@
 
 #let teo(title: "Teorēma", ..args) = memo(title: title, ..args)
 
-#let TM = $T M$
-#let rej = $q_"rej"$
-#let acc = $q_"acc"$
-#let halt = $H A L T I N G$
-#let halt2 = $halt 2$
-
+#let TM = `TM`
+#let qrej = $q_"rej"$
+#let qacc = $q_"acc"$
+#let halt = `HALTING`
+#let halt2 = `HALTING2`
+#let NP = `NP`
 
 = Tjūringa Mašīnas
 == Info
@@ -44,21 +44,21 @@ Vai ieejas virknē $a^n b^n c^n$, kur $n>0$
 
 #context [
   $(q_1, a) -> (q_2, *, ->)$ \
-  $(q_1, b slash c) -> rej$ \
+  $(q_1, b slash c) -> qrej$ \
   $(q_1, *) -> (q_1, *, ->)$ \
-  $(q_1, \_) -> acc$ \
+  $(q_1, \_) -> qacc$ \
 
   $(q_2, a) -> (q_2, a, ->)$ \
   $(q_2, b) -> (q_3, *, ->)$ \
-  $(q_2, c) -> rej$ \
+  $(q_2, c) -> qrej$ \
   $(q_2, *) -> (q_2, *, ->)$ \
 
-  $(q_3, a) -> rej$ \
+  $(q_3, a) -> qrej$ \
   $(q_3, b) -> (q_3, b, ->)$ \
   $(q_3, c) -> (q_4, *, ->)$ \
   $(q_3, *) -> (q_3, *, ->)$ \
 
-  $(q_4, a slash b) -> rej$ \
+  $(q_4, a slash b) -> qrej$ \
   $(q_4, c) -> (q_4, c, ->)$ \
   $(q_4, \_) -> (q_5, \_, <-)$ \
 
@@ -84,12 +84,12 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
   $(q_2, \#, \_) -> (q_3, \#, \_, ->, ->)$ \
 
   $(q_3, 0, 0) -> (q_3, 0, 0, ->, ->)$ \
-  $(q_3, 0, 1) -> rej$ \
-  $(q_3, 1, 0) -> rej$ \
+  $(q_3, 0, 1) -> qrej$ \
+  $(q_3, 1, 0) -> qrej$ \
   $(q_3, 1, 1) -> (q_3, 1, 1 ->, ->)$ \
-  $(q_3, 0 slash 1, \_) -> rej$ \
-  $(q_3, \_, 0 slash 1) -> rej$ \
-  $(q_3, \_, \_) -> acc$ \
+  $(q_3, 0 slash 1, \_) -> qrej$ \
+  $(q_3, \_, 0 slash 1) -> qrej$ \
+  $(q_3, \_, \_) -> qacc$ \
 ]
 
 - Nokopē simbolus līdz $\#$ uz otras lentes.
@@ -312,8 +312,8 @@ $A$ -- daļēji atrisināma, ja ir Tjūringa mašīna $T$:
 - Kopa $A$ ir sanumurējama, ja $A={x_1, x_2, ...}$
 - Kopa $A$ ir algoritmiski sanumurējama, ja ir Tjūringa mašīna, kas izdod virkni
   $x_1, x_2, ...$, kurai $A={x_1, x_2, ...}$
-#let DL = $D L$
-#let IL = $I L$
+#let DL = `DL`
+#let IL = `IL`
 Divu lenšu #TM, kur viena ir klasiska darba lente (#DL) un otra ir izvada
 lente (#IL) (tikai rakstīšanai).
 
@@ -383,5 +383,150 @@ Kopējais soļu skaits:
 - Ne vairāk kā $(n/2+1) 2n = n^2 + 2n$ soļi.
 - Ja $n$ nav ļoti mazs, $n^2$ būs vairāk nekā $2n$ un soļu skaits $O(n^2)$.
 
-= NP (neatrisināmas problēmas)
+= #NP (neatrisināmas problēmas)
+
+#let acc = `ACCEPTING`
+#let eqans = `EQUAL_ANSWERS`
+#let one = `ONE`
+#let infinite = `INFINITE`
+#let equiv = `EQUIV`
+#let hamcycle = `HAMCYCLE`
+#let linineq = `LIN-INEQ`
+#let M1 = $M 1$
+#let M2 = $M 2$
+
+== Info
+- $halt(M\# x)=1$, ja $M$ apstājas, ja ieejas virkne $=x$.
+- $acc(M\# x)=1$, ja $M$ uz ieejas virknes izdod atbildi $1$.
+- $eqans(M\# x \# y)=1$, ja $M$ uz ieejas virknēm $x$ un $y$ izdod vienādas atbildes.
+- $one(M)=1$, ja eksistē ieejas virkne $x$, uz kuras $M$ izdod atbildi $1$.
+- $infinite(M)=1$, ja eksistē bezgalīgi daudzas ieejas virknes $x$, uz kurām $M$ izdod atbildi $1$.
+- $equiv(M 1, M 2)=1$, ja $M1(x)=M2(x)$
+- $hamcycle(G)=1$, ja grafā $G$ ir cikls (šķautņu virkne
+  $v_1 v_2,v_2 v_3, ..., v_n v_1$), kurā katra virsotne ir tieši $1$ reizi.
+- $linineq(S)=1$, ja sistēmai ir atrisinājums $x_1, x_2, ..., x_n in {0,1}$
+
+#info[Ja var atrisināt #acc, tad var atrisināt arī #halt.]
+#info[Ja var atrisināt #eqans / #one / #infinite / #equiv, tad var atrisināt arī #acc.]
+
+== Soļi
++ Skaidri definē problēmu, kuru vēlas pierādīt kā #NP -- norādot, kas ir derīga
+  ievade un kādus rezultātus programmai paredzēts izvadīt.
++ Pieņem, ka eksistē algoritms vai #TM, kas spēj atrisināt problēmu visiem
+  iespējamiem ievaddatiem.
+  Šī pieņēmuma mērķis ir rādīt pretrunu.
++ Definē citu problēmu, kas var tikt samazināta līdz sākotnējai problēmai.
+  Tas nozīmē, ka, ja var atrisināt sākotnējo problēmu, var atrisināt arī
+  saistīto problēmu.
++ Izveido transformācijas vai redukcijas algoritmu, kas ņem saistītās problēmas
+  instanci un pārveido to par sākotnējās problēmas instanci. Šai redukcijai
+  vajadzētu saglabāt atbildi uz saistīto problēmu.
++ Pierāda, ka, ja sākotnējai problēmai ir risinājums, tad arī saistītajai
+  problēmai ir risinājums.
+  Šajā solī parasti ir jāpierāda, ka redukcijas algoritms ir pareizs un pareizi
+  pārveido instances.
++ Pierāda, ka, ja saistītajai problēmai ir risinājums, tad arī sākotnējai
+  problēmai ir risinājums.
+  Šis solis parasti ietver pierādījumu, ka redukcijas algoritmu var atgriezt
+  atpakaļ, lai iegūtu risinājumu sākotnējai problēmai.
++ Apvieno iepriekšējos soļus, lai parādītu, ka, ja sākotnējai problēmai ir
+  risinājums, tad arī saistītajai problēmai ir risinājums.
+  Šeit jārodas pretrunai.
+#context [
+  #set par(justify: false)
+  == Piemēri
+  === #halt / #acc
+  - #underline("Teorēma"): Ja var atrisināt #acc, tad var atrisināt arī #halt
+  - #underline("Pierādījums"): Attēlojums $R:M->M'$ ar īpašību $halt(M\#x) = acc(M'\#x)$.
+  - Tad $halt(M\#x)$ var atrisināt sekojoši:
+  - izrēķina $M'=R(M)$, izrēķinām, vai $acc(M'\#x)$.
+  - $M'$ -- programma, ko iegūst no $M$, visur aizstājot #qrej ar #qacc.
+  - Ja $M$ akceptē/noraida, tad $M'$ akceptē (izdos $1$).
+  - Ja $M$ neapstājas, $M'$ arī neapstājas.
+
+  === #eqans/ #acc
+  - #underline("Zinām"): #acc nav atrisināma
+  - #underline("Pierādām"): Ja var atrisināt #eqans, tad var atrisināt arī #acc.
+  - #underline("Secinām"): #eqans nevar atrisināt.
+  - Dots: $M, x$
+  - Jādefinē: $M', y: eqans(M' \# x \# y) = acc(M\# x)$.
+  - $y$ -- virkne no viena simbola $s$, kas nav vārdā $x$.
+  - Ja $M'$ redz simbolu $s$, $M'$ akceptē, citādi darbina $M$.
+  - $M'(quote.angle.l.double s quote.angle.r.double)=1$, $M'(x)=M(x)$, ja $x$ nesatur $s$.
+  - $eqans(M'\# x \# quote.angle.l.double s quote.angle.r.double)=acc(M\#x)$.
+
+  === #one/ #acc
+  - #underline("Pierādām"): Ja var atrisināt #one, tad var atrisināt arī #acc.
+  - Dots: $M, x$
+  - Jādefinē: $M': one(M') = acc(M\# x)$.
+  - $M'$: nodzēš no lentes ieejas virkni $y$, uzraksta $x$, palaiž $M$ programmu.
+  - Jebkurai $y, M'(y)=M(x)$.
+
+  === #infinite/ #acc
+  - #underline("Pierādām"): Ja var atrisināt #infinite, tad var atrisināt arī #acc.
+  - Dots: $M, x$
+  - Jādefinē: $M': infinite(M') = acc(M\# x)$.
+  - Jebkurai $y, M'(y)=M(x)$.
+  - Ja $M(x)=1$, tad $M'(y)=1$ jebkurai $y$.
+
+  === #equiv / #acc
+  - #underline("Pierādām"): Ja var atrisināt #equiv, tad var atrisināt arī #acc.
+  - Dots: $M, x$
+  - Jādefinē: $M_1, M_2: equiv(M_1, M_2) = acc(M\# x)$.
+  - Ja $M$ akceptē $x, M_1, M_2$ jābūt ekvivalentām.
+  - Ja $M$ neakceptē $x, M_1, M_2$ nav jābūt ekvivalentām.
+  - $M_1$: nodzēš ieejas virkni $y$, uzraksta $x$, darbina $M$.
+  - $M_2$: uzreiz pāriet uz akceptējoši stāvokli.
+  - Ja $acc(M\#x)=1$, tad $M_1(y)=1$ visiem $y$.
+  Tā kā $M_2(y)=1$, tad $equiv(M_1, M_2)=1$.
+
+  === #halt -- pierādījums no pretējā
+  - Pieņemsism, ka ir #TM $M_H$, kas risina #halt.
+  - Definē $M'$ šādā veidā:
+    - Ieejas dati: $x$.
+    - Atrod $x$ atbilstošo Tjūringa mašīnas programmu $M$.
+    - Ja $M_H(M\#x)=1$, tad caur universālo #TM darbina $M$ uz $x$, izdod pretējo atbildi.
+    - Ja $M_H(M\#x)=0$, tad izdod $1$.
+
+  Jebkuram $x:M'(x) != M(x)$, kur $M$ -- #TM, kas atbilst $x$.
+
+  === #acc -- pierādījums no pretējā
+  - Pieņem, ka #acc ir atrisināma.
+  - $M(x)$:
+    - Atrod ieejas virknei $x$ atbilstošo $M_i$.
+    - Ja $acc(M_i \# x)=1$, $M$ izdod $0$.
+    - Ja $acc(M_i \# x)=0$, $M$ izdod $1$.
+
+  Jebkurai $M_i$, būs $x$, kuram $M(x) != M_i(x)$.
+
+  === $A(M)=1$, ja $M$ -- #TM programma un, darbinot $M$ uz tukšas ieejas virknes, tā apstājas un izdod $1$
+  Pieņemsim, ka eksistē algoritms $D$ problēmai $A(M)$.
+  $D$ ir algoritms, kas spēj noteikt, vai Tjūringa mašīna, $M$, apstājas un
+  atgriež $1$ ar tukšu ievades virkni.
+
+  Tagad konstruēsim jaunu #TM, $N$:
+  + Palaiž $M$ ar tukšu ievades virkni.
+  + Ja $M$ apstājas un atgriež $1$, $N$ apstājas un atgriež $1$.
+  + Ja $M$ apstājas, bet neatgriež $1$, $N$ ieiet bezgalīgā ciklā.
+  + Ja $M$ neapstājas, $N$ apstājas un atgriež $0$.
+
+  Dodot algoritmam $D$ ievadi $N$ notiks sekojošais:
+  - Ja $D$ atgriež $1$, tas nozīmē, ka $M$ apstājas un atgriež $1$ ar tukšu
+    ievades virkni (atbilstoši $A(M)$ definīcijai).
+    Šajā gadījumā $N$ apstāsies un atgriezīs $1$, un $D$ būs devis pareizu
+    atbildi.
+  - Ja $D$ atgriež $0$, tas nozīmē, ka vai nu $M$ neapstājas, vai $M$ apstājas,
+    bet neatgriež $1$ ar tukšu ievades virkni.
+    Pirmajā gadījumā $N$ apstāsies un atgriezīs $0$, kas atbilst $D$ dotajai
+    atbildei.
+    Tomēr otrajā gadījumā $N$ ieies bezgalīgā ciklā, un $D$ būs devis nepareizu
+    atbildi.
+
+  Tā kā $D$ uz $N$ sniedz nepareizu atbildi vienā no gadījumiem, mēs varam
+  secināt, ka problēma $A(M)$ ir #NP.
+  Tāpēc neeksistē algoritms, kas spētu noteikt, vai dotā Tjūringa mašīna
+  apstājas un atgriež $1$ ar tukšu ievades virkni visām iespējamām Tjūringa
+  mašīnām.
+]
+
 = Sarežģītības klases
