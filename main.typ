@@ -29,7 +29,7 @@ $(q, a_1, a_2) -> (q', b_1, b_2, d_1, d_2)$ -- $a_1$, $b_1$, $d_1$ pirmai lentei
 un $a_2$, $b_2$, $d_2$ otrai lentei.
 
 === Stāvēšana uz vietas
-Nosimulēt stāvēšanu uz vietas jeb $d=0$ var sādi:
+Nosimulēt stāvēšanu uz vietas jeb $d=0$ var šādi:
 - $(q, a) -> (q_"new", a', ->)$
 - $(q_"new", a slash b slash c slash * ) -> (q_"new", a slash b slash c slash *, <-)$
 
@@ -135,8 +135,6 @@ funkcija un $g(x)$ ir $o$, tad vienādība izpildās.
 Ievietojot vērtības $ lim_(n->oo) (n log^4 n)/n^1.5=0 $
 Tātad vienādojums ir
 patiess.
-
-#colbreak()
 
 == Piemērs
 $ 2^n n^2 =^? o(n^3) $
@@ -501,7 +499,7 @@ Kopējais soļu skaits:
 
   === $A(M)=1$, ja $M$ -- #TM programma un, darbinot $M$ uz tukšas ieejas virknes, tā apstājas un izdod $1$
   Pieņemsim, ka eksistē algoritms $D$ problēmai $A(M)$.
-  $D$ ir algoritms, kas spēj noteikt, vai Tjūringa mašīna, $M$, apstājas un
+  $D$ ir algoritms, kas spēj noteikt, vai Tjūringa mašīna $M$, apstājas un
   atgriež $1$ ar tukšu ievades virkni.
 
   Tagad konstruēsim jaunu #TM, $N$:
@@ -530,3 +528,28 @@ Kopējais soļu skaits:
 ]
 
 = Sarežģītības klases
+#let time = `TIME`
+== Info
+$n, n log n, n^2, n^3, 2^n$
+
+$time(f(n))$ -- problēmas $L$, kurām eksistē Tjūringa mašīna $M$, kas pareizi
+risina $L$ un izmanto $O(f(n))$ soļus.
+
+#info(
+  title: "Vispārīgāk",
+)[Ja $a<b$, tad $n^3 in o(n^b)$, jo $n^a/n^b=1/n^(b-a)->0$.]
+
+$ lim n/2^n=lim (n)'/(2^n)'=lim 1/(2^n ln 2) $
+
+Augot $n$, $2^n->oo$, tātad $1/n^2->0$.
+
+$ n^2/2^n=(n/2^(n slash 2))^2 $
+Mēs zinām, ka $n/2^(n slash 2)->0$.
+
+$ lim (log n)/n = lim (log n)'/(n)' = lim (1 slash n)/1 = lim 1/n $
+
+$ lim (log^17 n)/n = lim (m^17)/c^m = lim (m/c^(m slash 17))^17 -> 0 $
+
+- $time(n)$ -- `2x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
+- $time(n^2)$ -- `4x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
+- $time(n^3)$ -- `8x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
