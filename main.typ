@@ -13,6 +13,7 @@
 #let rej = $q_"rej"$
 #let acc = $q_"acc"$
 #let halt = $H A L T I N G$
+#let halt2 = $halt 2$
 
 
 = Tjūringa Mašīnas
@@ -36,7 +37,7 @@ Nosimulēt stāvēšanu uz vietas jeb $d=0$ var sādi:
 + Izdomāt, kā aizstājot simbolus ar $*$ var pārbaudīt virknes derību.
 + Atcerēties par secību -- aiz $a$ var sekot tikai $b slash c$, aiz $b$ var sekot tikai $c$, utt.
 + Doties katrā no virzieniem var doties arī līdz galam jeb tukšumam $\_$.
-+ Vairāklenšu $TM$ pārraksta pirmo daļu līdz $\#$ uz otras lentes un salīdzina.
++ Vairāklenšu #TM pārraksta pirmo daļu līdz $\#$ uz otras lentes un salīdzina.
 
 == Piemērs
 Vai ieejas virknē $a^n b^n c^n$, kur $n>0$
@@ -233,17 +234,17 @@ Pielietojot apgriezto funkciju uz $n$, varam atgūt sākotnējo pāri $(k_1, k_2
 Tādējādi funkcija $f$ ir surjektīva.
 
 = Redukcijas
-Given a problem $halt 2(M, x, y) = 1$ where turing machine $M$ halts on at least
+Given a problem $halt2(M, x, y) = 1$ where turing machine $M$ halts on at least
 one of the inputs $x$ or $y$, prove and show that it can or can't be reduced to
 $halt(halt <= halt 2)$.
 
-To prove that the problem $halt 2(M, x, y)$ can be reduced to $halt$, we need to
-show that we can construct a Turing machine that solves $halt 2$ using a
-subroutine for solving $halt$.
+To prove that the problem $halt2(M, x, y)$ can be reduced to #halt, we need to
+show that we can construct a Turing machine that solves #halt2 using a
+subroutine for solving #halt.
 
-Let's assume we have a Turing machine $H$ that solves the $halt$ problem.
-We will construct a new Turing machine $H 2$ that solves the $halt 2$ problem
-using H as a subroutine.
+Let's assume we have a Turing machine $H$ that solves the #halt problem.
+We will construct a new Turing machine $H 2$ that solves the #halt2 problem
+using $H$ as a subroutine.
 
 The Turing machine $H 2$ works as follows:
 + Given inputs $M$, $x$, and $y$.
@@ -260,21 +261,21 @@ If $H$ rejects both $(M, x)$ and $(M, y)$, $H 2$ will also reject and halt.
 
 Now, let's analyze the reduction:
 
-- If $halt 2(M, x, y) = 1$, it means that Turing machine $M$ halts on at least
+- If $halt2(M, x, y) = 1$, it means that Turing machine $M$ halts on at least
   one of the inputs $x$ or $y$.
   In this case, $H 2$ will also halt and accept, because it successfully
   simulates $H$ on both inputs and accepts if $H$ accepts either of them.
-  Thus, $halt 2$ is reduced to $halt$.
-- If $halt 2(M, x, y) = 0$, it means that Turing machine $M$ does not halt on
+  Thus, #halt2 is reduced to #halt.
+- If $halt2(M, x, y) = 0$, it means that Turing machine $M$ does not halt on
   both inputs $x$ and $y$.
   In this case, $H 2$ will also not halt and will reject, because it simulates
   $H$ on both inputs and rejects if $H$ rejects both of them.
-  Thus, $halt 2$ is reduced to $halt$.
+  Thus, #halt2 is reduced to #halt.
 
-Therefore, we have shown that the problem $halt 2$ can be reduced to $halt$ by
+Therefore, we have shown that the problem #halt2 can be reduced to #halt by
 constructing a Turing machine $H 2$ that uses $H$ as a subroutine.
-This reduction demonstrates that $halt 2$ is computationally no harder than
-$halt$, implying that $halt 2$ is at least as undecidable as $halt$.
+This reduction demonstrates that #halt2 is computationally no harder than
+#halt, implying that #halt2 is at least as undecidable as #halt.
 
 = Daļēja atrisināmība
 == Info
@@ -307,6 +308,40 @@ $A$ -- daļēji atrisināma, ja ir Tjūringa mašīna $T$:
 #teo[$A$ -- daļēji atrisināma tad un tikai tad, ja $A$ -- algoritmiski sanumurējama.]
 
 = Algoritmiskā sanumurējamība
-= TM darbības laiks
+== Info
+- Kopa $A$ ir sanumurējama, ja $A={x_1, x_2, ...}$
+- Kopa $A$ ir algoritmiski sanumurējama, ja ir Tjūringa mašīna, kas izdod virkni
+  $x_1, x_2, ...$, kurai $A={x_1, x_2, ...}$
+#let DL = $D L$
+#let IL = $I L$
+Divu lenšu #TM, kur viena ir klasiska darba lente (#DL) un otra ir izvada
+lente (#IL) (tikai rakstīšanai).
+
+== Piemērs
+Pamatot, ka kopa ${a^k b^k mid(|) k>=0}$ ir algoritmiski sanumurējama.
+
++ Uzraksta uz izejas lentes tukšu vārdu.
++ Uzraksta vienu $a$ uz darba lentes.
++ Atkārto:
+  + Uz ieejas lentes uzrakstām tikpat $a$, cik bija uz #DL;
+  + Uz izejas lentes uzrakstām tikpat $b$, cik $a$ bija uz #DL;
+  + Uz izejas lentes uzrakstām $\_$;
+  + Uz darba lentes pierakstām klāt vienu $a$.
++ Izejas lente $=epsilon, a b, a a b b, a a a b b b,...$
+
+== Piemērs
+Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
+
++ Uz darba lentes iet cauri visiem $x$.
++ Katram $x$ uz izejas lentes uzraksta $x \# x$.
++ Uz izejas lentes uzraksta $\#\_$.
++ Uz darba lentes uzraksta $a$.
++ Atkārto:
+  + Pārraksta darba lentes saturu $x$ uz izejas lenti;
+  + Uzraksta $\#$ uz #IL, vēlreiz pārraksta $x$ uz #IL, uzrakstām $\_$ uz #IL.
+  + Uz #DL nomaina $x$ pret nākošo vārdu.
+
+
+= #TM darbības laiks
 = NP (neatrisināmas problēmas)
 = Sarežģītības klases
