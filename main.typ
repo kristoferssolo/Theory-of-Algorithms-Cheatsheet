@@ -341,7 +341,47 @@ Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
   + Uzraksta $\#$ uz #IL, vēlreiz pārraksta $x$ uz #IL, uzrakstām $\_$ uz #IL.
   + Uz #DL nomaina $x$ pret nākošo vārdu.
 
-
 = #TM darbības laiks
+== Info
+- Laiks ir soļu skaits un ir atkarīgs no ieejas virknes $x_1, x_2, ..., x_n$.
+- Ja ir algoritms ar sarežģītību $n^2$, tad bieži ir arī algoritms ar
+  sarežģītību $n^2/2, n^2/3,...$
+
+== Soļi
++ Identify the key operations or steps performed by the Turing machine for each
+  input.
+  + This could include reading symbols from the tape, writing symbols to the
+    tape, moving the tape head, performing computations, or making decisions
+    based on the current state and input symbol.
++ Determine the worst-case scenario.
+  + Analyze the input or sequence of inputs that would require the maximum
+    number of steps for the Turing machine to complete its computation.
+  + Consider inputs that maximize the number of iterations or force the machine
+    to explore all possible branches of computation.
++ Express the runtime in terms of the input size.
+  + Define a function that represents the number of steps or transitions taken
+    by the Turing machine as a function of the input size.
+  + For example, if the input size is $n$, the runtime function could be denoted
+    as $f(n)$.
++ Simplify the runtime function and express it using Big $O$ notation.
+  + Big $O$ notation provides an upper bound on the growth rate of the runtime
+    function as the input size increases.
+  + Remove constant factors and lower-order terms from the runtime function to
+    focus on the dominant term that represents the growth rate.
+  + Express the simplified runtime function using the appropriate Big $O$ notation,
+    such as $O(n)$, $O(n log n)$, $O(n^2)$, $O(2^n)$, etc.
+
+== Piemērs
+Vai ieejas virknē ir vienāds skaits $a$ un $b$?
+
++ Virzās no kreisās puses uz labo, aizstājot vienu $a$ un vienu $b$ ar $x$;
++ Ja neatrod nedz $a$, nedz $b$, akceptē;
++ Ja neatrod vienu no $a$ vai $b$, noraida;
++ Ja atrod gan $a$, gan $b$, virzās atpakaļ uz pirmo simbolu un atkārto.
+
+Kopējais soļu skaits:
+- Ne vairāk kā $(n/2+1) 2n = n^2 + 2n$ soļi.
+- Ja $n$ nav ļoti mazs, $n^2$ būs vairāk nekā $2n$ un soļu skaits $O(n^2)$.
+
 = NP (neatrisināmas problēmas)
 = Sarežģītības klases
