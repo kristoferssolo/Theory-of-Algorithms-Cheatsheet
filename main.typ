@@ -12,7 +12,7 @@
 #let acc = $q_"acc"$
 
 = Tjūringa Mašīnas
-== Informācija
+== Info
 Var būt 3 veida uzdevumi: stāvokļu, tekstuāls, vairāklenšu.
 
 === Viena lente
@@ -90,3 +90,67 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 - Nokopē simbolus līdz $\#$ uz otras lentes.
 - Sasniedzot $\#$, uz otras lentes iet atpakaļ līdz pirmajam simbolam.
 - Salīdzina pirmās lentes simbolus pēc $\#$ ar otro lenti.
+
+= Lietais $O$ un mazais $o$
+== Info
+- Tiek dota funkcija un jānosaka vai tā atrisināma dotajā lielā $O$ vai mazā $o$
+  laikā.
+- Ja funkcija aug straujāk par lielo $O$, tad apgalvotā vienādība būs patiesa.
+- Ja funkcija aug straujāk par mazo $o$, tad apgalvotā vienādība būs nepatiesa.
+
+== Soļi
+- Ja funkcija pielīdzināta lielajam $O$:
+  + Salīdzina funkcijas augstāko pakāpi ar doto $O$ pakāpi.
+  + Ja funkcijas pakāpe ir lielāka, tad vienādojums būs patiess, jo funkcija aug
+    straujāk.
+- Ja funkcija pielīdzināta mazajam $o$:
+  + Jāievieto dotais robežā $lim_(x->oo)f(x)/g(x)$, kur $f(x)$ ir funkcija un
+    $g(x)$ ir $o$.
+  + Ja rezultāts sanāk tuvu $0$, tad vienādojums būs patiess, jo funkcija aug
+    lēnāk.
+
+#columns(
+  2,
+  [
+    == Piemērs
+    $ 2n^4 + 6n^2 + 17 =^? O(n^4) $
+
+    Izteiksme ir patiesa, tā kā kreisās puses izteiksmes augstākā pakāpe jeb kārta
+    ir $4$ un iekš $O$ tā arī ir $4$.
+
+    == Piemērs
+    $ 2n^4 + 6n^2 + 17 =^? O(n^3) $
+
+    Izteiksme ir aplama, jo kreisajā pusē augstākā pakāpe ir $4$, kamēr labajā ir norādīta $3$, un $4$ pakāpes izteiksmi nevar izpildīt $O(n^3)$.
+
+
+    == Piemērs <small-o-example-3>
+    $ n log^4 n =^? o(n^1.5) $
+
+    Ir zināms, ka mazajā $O$ notācijai, ja $lim_(x->oo)f(x)/g(x)$, kur $f(x)$ ir
+    funkcija un $g(x)$ ir $o$, tad vienādība izpildās.
+    Ievietojot vērtības $ lim_(n->oo) (n log^4 n)/n^1.5=0 $
+    Tātad vienādojums ir
+    patiess.
+
+    #colbreak()
+
+    == Piemērs
+    $ 2^n n^2 =^? o(n^3) $
+
+    Pēc tās pašas aprakstītās īpašības, kā @small-o-example-3, sanāktu
+    $ lim_(n->oo) (2^n n^2)/3^n $
+    un tā kā $3^n$ aug ātrāk kā $2^n$, šī robeža būs $0$ un sākotnējais
+    vienādojums būs patiess.
+
+    == Piemērs
+    $ n^3 + 17n + 4 in^? O(n^3) $
+
+    Jā, $n^3 + 17n + 4 <= n^3 + 17n^3 + 4n^3 = 22n^3$.
+
+    == Piemērs
+    $ n^4 + 17n + 4 in^? O(n^3) $
+
+    Nē $n^4 + 17n + 4 > n^4 = n dot n^3$
+  ],
+)
