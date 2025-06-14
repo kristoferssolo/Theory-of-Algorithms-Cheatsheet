@@ -14,11 +14,11 @@
 #let qrej = $q_"rej"$
 #let qacc = $q_"acc"$
 #let halt = `HALTING`
-#let halt2 = `HALTING2`
+#let halt2 = `HALTING_2`
 #let NP = `NP`
 
 = Tjūringa Mašīnas
-== Info
+== Variācijas 
 Var būt 3 veida uzdevumi: stāvokļu, tekstuāls, vairāklenšu.
 
 #info(title: "Čērča-Tjūringa tēze")[
@@ -28,26 +28,40 @@ Var būt 3 veida uzdevumi: stāvokļu, tekstuāls, vairāklenšu.
   šim nav atrasts pretpiemērs.
 ]
 
-=== Viena lente
+=== Viena lente<one_tape>
 $(q, a) -> (q', a', d)$ -- stāvoklī $q$ redzot $a$, ieraksta $a'$
 un iet virzienā $d space (<- "vai" ->)$.
 
 === Divas lentes
-$(q, a_1, a_2) -> (q', b_1, b_2, d_1, d_2)$ -- $a_1$, $b_1$, $d_1$ pirmai lentei
-un $a_2$, $b_2$, $d_2$ otrai lentei.
+$(q, a_1, a_2) -> (q', b_1, b_2, d_1, d_2)$ -- $a_1$, $b_1$, $d_1$ pirmai
+lentei un $a_2$, $b_2$, $d_2$ otrai lentei. Svarīga atšķirība ir ka
+vairlāklenšu TM  papildus $<-$ un $->$ virzieniem ir $arrow.b$ (stāvēšana uz
+vietas).
 
 === Stāvēšana uz vietas
 Nosimulēt stāvēšanu uz vietas jeb $d=0$ var šādi:
 - $(q, a) -> (q_"new", a', ->)$
 - $(q_"new", a slash b slash c slash * ) -> (q_"new", a slash b slash c slash *, <-)$
 
-== Soļi
+=== Modelis, ko pamatā izmanto šajā kursā!
+
+Šajā kursā fokusējas uz TM, kas ir:
+  + Vienas lentes (skat. @one_tape); 
+  + Bezgalīga vienā virzienā -- pa labi; 
+  + Pirmais simbols ir tukšais simbols (`_`); 
+  + Pēc pirmā simbola ir ievade;
+  + Pēc ievades ir bezgalīgs tukšu simbolu skaits;
+  + Sāk uz pirmā ievades simbola (viens pēc pirmā tukšuma).
+
+== Risinājuma shēma 
 + Izdomāt, kā aizstājot simbolus ar $*$ var pārbaudīt virknes derību.
 + Atcerēties par secību -- aiz $a$ var sekot tikai $b slash c$, aiz $b$ var sekot tikai $c$, utt.
 + Doties katrā no virzieniem var doties arī līdz galam jeb tukšumam $\_$.
 + Vairāklenšu #TM pārraksta pirmo daļu līdz $\#$ uz otras lentes un salīdzina.
 
-== Piemērs
+Tas ir bieži sastopamais formāts, bet var gadīties arī cits.
+
+== Piemērs $(a^n b^n c^n", kur" n > 0)$
 Vai ieejas virknē $a^n b^n c^n$, kur $n>0$
 
 #context [
@@ -79,7 +93,7 @@ Vai ieejas virknē $a^n b^n c^n$, kur $n>0$
   $c$ var sekot tikai $c$).
 - Ja kādu simbolu nevar atrast, noraida.
 
-== Piemērs
+== Piemērs (vai virkne atkārt. pēc `#`)
 Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 
 #context [
@@ -105,36 +119,92 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 - Salīdzina pirmās lentes simbolus pēc $\#$ ar otro lenti.
 
 = Lielais $O$ un mazais $o$
-== Info
-- Tiek dota funkcija un jānosaka vai tā atrisināma dotajā lielā $O$ vai mazā $o$
-  laikā.
-- Ja funkcija aug straujāk par lielo $O$, tad apgalvotā vienādība būs patiesa.
-- Ja funkcija aug straujāk par mazo $o$, tad apgalvotā vienādība būs nepatiesa.
 
-== Soļi
+Notācija, kas tiek izmantota, lai raksturotu *funkciju* sarežģītību
+asimptotiski.
+
+== Lielais-O (formālā definīcija)
+
+$f(n) in O(g(n))$, ja:
+
+$exists C > 0, exists n_0 > 0:$ $(forall n >= n_0: f(n) <= c * g(n))$
+
+Tas nozīmē, ka funkcija $f(n)$ asimptotiski nepārsniedz konstanti $c$ reizinātu
+$g(n)$.
+
+/*
+=== Piemērs
+
+$f(n) = 17n^2 + 23n + 4$  
+$g(n) = n^2$
+
+Tad $f(n) in O(n^2)$, jo:
+
+$17n^2 + 23n + 4 \leq 17n^2 + 23n^2 + 4n^2 = 44n^2$  
+tātad $C = 44$.
+*/
+
+== Mazais-o (formālā definīcija)
+
+$f(n) in o(g(n))$, ja:
+
+$
+lim_(i -> infinity) f(n) / g(n) = 0
+$
+
+Tas nozīmē, ka funkcija $f(n)$ kļūst nenozīmīga attiecībā pret $g(n)$, $n$
+tiecoties uz bezgalību.
+
+/*
+=== Piemērs
+
+$log(n) \in o(n)$  
+jo jebkuram $epsilon > 0$ pietiekami lieliem $n$:  
+$log(n) <= epsilon * n$.
+*/
+
+== *$f(n) in O(g(n))$* pamatojuma triks 
+
+Ja ir pierādījums, ka $f(n) in o(g(n))$, tad automātiski var secināt, ka $f(n)
+in O(g(n))$. *Tikai pozitīvajā gadījumā!* Jo mazais $o$ ir stingrāka prasība
+par lielo $O$.
+
+== Pamatojuma soļi 
+
 - Ja funkcija pielīdzināta lielajam $O$:
   + Salīdzina funkcijas augstāko pakāpi ar doto $O$ pakāpi.
   + Ja funkcijas pakāpe ir lielāka, tad vienādojums būs patiess, jo funkcija aug
     straujāk.
+  + Korektam risinājumam jāpamato kāpēc definīcijas nevienādība ir patiesa
+    visiem $n >= n_0$ un iespējams jāparāda piemēra $c$.
 - Ja funkcija pielīdzināta mazajam $o$:
-  + Jāievieto dotais robežā $lim_(x->oo)f(x)/g(x)$, kur $f(x)$ ir funkcija un
-    $g(x)$ ir $o$.
-  + Ja rezultāts sanāk tuvu $0$, tad vienādojums būs patiess, jo funkcija aug
-    lēnāk.
+  + Jāievieto dotais robežā $lim_(x->oo)f(x)/g(x)$;
+  + Rezultāts ir 0, patiess, citādi -- nepatiess.
 
-== Piemērs
+== Piemērs (lielais-O)
+
 $ 2n^4 + 6n^2 + 17 =^? O(n^4) $
 
 Izteiksme ir patiesa, tā kā kreisās puses izteiksmes augstākā pakāpe jeb kārta
 ir $4$ un iekš $O$ tā arī ir $4$.
 
-== Piemērs
+== Piemērs (lielais-O)
 $ 2n^4 + 6n^2 + 17 =^? O(n^3) $
 
-Izteiksme ir aplama, jo kreisajā pusē augstākā pakāpe ir $4$, kamēr labajā ir norādīta $3$, un $4$ pakāpes izteiksmi nevar izpildīt $O(n^3)$.
+Izteiksme ir aplama, jo kreisajā pusē augstākā pakāpe ir $4$, kamēr labajā ir
+norādīta $3$, un $4$ pakāpes izteiksmi nevar izpildīt $O(n^3)$.
 
+== Piemērs (lielais-O)
+$ n^3 + 17n + 4 in^? O(n^3) $
 
-== Piemērs <small-o-example-3>
+Jā, $n^3 + 17n + 4 <= n^3 + 17n^3 + 4n^3 = 22n^3$.
+
+== Piemērs (lielais-O)
+$ n^4 + 17n + 4 in^? O(n^3) $
+
+Nē $n^4 + 17n + 4 > n^4 = n dot n^3$
+
+== Piemērs (mazais-O) <small-o-example-3>
 $ n log^4 n =^? o(n^1.5) $
 
 Ir zināms, ka mazajā $O$ notācijai, ja $lim_(x->oo)f(x)/g(x)$, kur $f(x)$ ir
@@ -143,7 +213,7 @@ Ievietojot vērtības $ lim_(n->oo) (n log^4 n)/n^1.5=0 $
 Tātad vienādojums ir
 patiess.
 
-== Piemērs
+== Piemērs (mazais-O)
 $ 2^n n^2 =^? o(n^3) $
 
 Pēc tās pašas aprakstītās īpašības, kā @small-o-example-3, sanāktu
@@ -151,25 +221,15 @@ $ lim_(n->oo) (2^n n^2)/3^n $
 un tā kā $3^n$ aug ātrāk kā $2^n$, šī robeža būs $0$ un sākotnējais
 vienādojums būs patiess.
 
-== Piemērs
-$ n^3 + 17n + 4 in^? O(n^3) $
-
-Jā, $n^3 + 17n + 4 <= n^3 + 17n^3 + 4n^3 = 22n^3$.
-
-== Piemērs
-$ n^4 + 17n + 4 in^? O(n^3) $
-
-Nē $n^4 + 17n + 4 > n^4 = n dot n^3$
-
 = Sanumurējamība
-== Info
+== Definīcija 
 - Bezgalīgas kopas $A$, $B$ ir vienāda izmēra, ja ir bijekcija ($1:1$ attiecība)
   $F: A->B$.
 - $A$ ir sanumurējama ar atkārtojumiem, ja ir attēlojums $F:N->A$, kas par katru
   $a$ $E$ $A$ attēlo vismaz vienu $x$ $E$ $N$.
 #teo[$A$ ir sanumurējama ar atkārtojumiem tad un tikai tad, ja $A$ ir sanumurējama.]
 
-== Soļi
+== Sanumerātības pierādījums 
 - Kopa ir sanumurējama, ja tajā eksistē viennozīmīga atbilstība (bijekcija)
   starp kopas elementiem un naturāliem skaitļiem.
   Citos vārdos sakot, katram kopas elementam var piešķirt unikālu naturālu
@@ -199,7 +259,7 @@ Pieņem, ka kopa ir saskaitāma un tad rodas pretruna.
 To var izdarīt, parādot, ka kaut kādas kopas īpašības vai kardinalitāte ir
 pretrunā ar sanumurējamības pieņēmumu.
 
-== Piemērs
+== Piemērs $(ZZ "sanumurētība")$
 Vai visu veselo skaitļu kopa $ZZ={..., -1, 0, 1, ...}$ ir sanumurējama? \
 Vai ir $F:{F(1), F(2), ..., F(n), ...}=ZZ$? \
 
@@ -239,17 +299,35 @@ Pielietojot apgriezto funkciju uz $n$, varam atgūt sākotnējo pāri $(k_1, k_2
 Tādējādi funkcija $f$ ir surjektīva.
 
 = Redukcijas
-Dota problēma $halt2(M, x, y) = 1$, kur Tjūringa mašīna $M$ apstājas vismaz uz
-vienas no ievadēm $x$ vai $y$.
-Pierādīt, ka to var vai nevar reducēt uz $halt(halt <= halt 2)$.
 
-Lai pierādītu, ka problēmu $halt2(M, x, y)$ var reducēt uz #halt, mums jāparāda,
-ka varam konstruēt Tjūringa mašīnu, kas atrisina #halt2, izmantojot #halt
-atrisināšanas apakšprogrammu.
+== Definīcija
+
+- $A <= B$, ja ir ar Tjūringa mašīnu izrēķināms pārveidojums 
+  - $R$: (ieejas dati $A$) -> (ieejas dati $B$),
+  - $B(R(x)) = A(x)$.
+
+Ja $A <= B$ -- ja var atrisināt $B$, tad var atrisināt $A$. $A$ ir reducējuma
+par $B$.
+
+Ja $A <= B and A >= B$, tad $A$ un $B$ ir ekvivalentas.
+
+== Piemērs (var vai nevar reducēt)
+
+// Jorens: Originally šeit bija sajaukta secība, bet uzdevums ir kinda valīds
+// abās pusēs, kopumā risinājums ir nedaudz problemātisks.
+
+#quote[
+  Dota problēma $halt2(M, x, y) = 1$, kur Tjūringa mašīna $M$ apstājas vismaz uz
+  vienas no ievadēm $x$ vai $y$. Pierādīt, ka to var vai nevar reducēt uz
+  $halt$, tas ir parādīt $(halt 2 <= halt)$.
+]
+
+Lai pierādītu, ka problēmu $halt2(M, x, y)$ var noreducēt uz #halt, mums
+jāparāda, ka varam konstruēt Tjūringa mašīnu, kas atrisina #halt2, izmantojot
+#halt kā atrisinātu problēmu (jeb kā apakšprogrammu).
 
 Pieņemsim, ka mums ir Tjūringa mašīna $H$, kas atrisina #halt problēmu.
-Konstruēsim jaunu Tjūringa mašīnu $H 2$, kas atrisina #halt2 problēmu,
-izmantojot $H$ kā apakšprogrammu.
+Konstruēsim jaunu Tjūringa mašīnu $H 2$, kas atrisina #halt2 problēmu:
 
 Tjūringa mašīna $H 2$ darbojas sekojoši:
 - Doti ievades dati $M$, $x$ un $y$.
@@ -259,55 +337,49 @@ Tjūringa mašīna $H 2$ darbojas sekojoši:
 - Ja $H$ akceptē $(M, y)$, apstājas un akceptē.
 - Ja $H$ noraida $(M, y)$, apstājas un noraida.
 
+// Jorens:Nav "vai nu", bet "vai". Citādi paliek abi pozitīvi, kas nav
+// apskatīti.
 Konstruējot $H 2$ šādā veidā, mēs simulējam $H$ darbību uz abām ievadēm $x$ un
-$y$.
-Ja $H$ akceptē vai nu $(M, x)$ vai $(M, y)$, arī $H 2$ akceptēs un apstāsies.
-Ja $H$ noraida gan $(M, x)$, gan $(M, y)$, arī $H 2$ noraidīs un apstāsies.
+$y$:
+- Ja $H$ akceptē $(M, x)$ vai $(M, y)$, $H 2$ akceptēs un apstāsies.
+- Ja $H$ noraida gan $(M, x)$, gan $(M, y)$, $H 2$ noraidīs un apstāsies.
+
+// Jorens: Tas jau ir nedaudz liekvārdīgi, izņēmu dažas lietas.
+
+_Tālākais teksts nav obligāts risinājumā._
 
 Redukcijas analīze:
-- Ja $halt2(M, x, y) = 1$, tas nozīmē, ka Tjūringa mašīna $M$ apstājas vismaz uz
-  vienas no ievadēm $x$ vai $y$.
-  Šajā gadījumā $H 2$ arī apstāsies un akceptēs, jo tā veiksmīgi simulē $H$ uz
-  abām ievadēm un akceptē, ja $H$ akceptē kādu no tām.
-  Tādējādi #halt2 tiek reducēta uz #halt.
+- Ja $halt2(M, x, y) = 1$, tas nozīmē, ka Tjūringa mašīna $M$ apstājas vismaz
+  uz vienas no ievadēm $x$ vai $y$. Šajā gadījumā $H 2$ arī apstāsies un
+  akceptēs, jo tā veiksmīgi simulē $H$ uz abām ievadēm un akceptē, ja $H$
+  akceptē kādu no tām. Tādējādi #halt2 tiek reducēta uz #halt.
 - Ja $halt2(M, x, y) = 0$, tas nozīmē, ka Tjūringa mašīna $M$ neapstājas ne uz
-  $x$, ne uz $y$.
-  Šajā gadījumā #halt2 arī neapstāsies un noraidīs, jo tā simulē $H$ uz abām
-  ievadēm un noraida, ja $H$ norada abas.
-  Tādējādi #halt2 tiek reducēta uz #halt.
+  $x$, ne uz $y$. Šajā gadījumā #halt2 arī neapstāsies un noraidīs, jo tā
+  simulē $H$ uz abām ievadēm un noraida, ja $H$ norada abas.
 
-Tātad esam pierādījuši, ka problēmu #halt2 var reducēt uz #halt, konstruējot
-Tjūringa mašīnu $H 2$, kas izmanto $H$ kā apakšprogrammu.
-Šī redukcija parāda, ka #halt2 skaitļošanas ziņā nav sarežģītāka par #halt, kas
-nozīmē, ka #halt2 ir vismaz tikpat neizsķirama kā #halt.
+Tādējādi #halt2 tiek reducēta uz #halt.
 
 = Daļēja atrisināmība
-== Info
-Problēma tiek uzskatīta par daļēji atrisināmu (vai algoritmiski sanumurējamu),
-ja tā nav izšķirama, kas nozīmē, ka nav algoritma, kas varētu pareizi noteikt
-"jā" vai "nē" atbildi katram problēmas ievades gadījumam.
+== Definīcija 
 
-Tjūringa mašīnu un algoritmu teorijas kontekstā, problēma ir daļēji atrisināma,
-ja eksistē Tjūringa mašīna, kas apstājas un dod "jā" atbildi katram gadījumam,
-kas pieder problēmai, bet var vai nu darboties bezgalīgi, vai noraidīt
-gadījumus, kas nepieder problēmai.
-Citiem vārdiem sakot, ir algoritms, kas var atpazīt gadījumus, kas atbilst
-problēmas kritērijiem, bet var neapstāties uz gadījumiem, kas neatbilst.
+// Jorens: Tas teksta blāķis, kas šeit bija var apjucināt cilvēkus, viss kas
+// vajadzīgs ir sarakstāms īsāk.
 
-Tas, ka problēma ir daļēji atrisināma, nozīmē, ka nav konkrēta algoritma, kas
-vienmēr varētu sniegt pareizu "nē" atbildi gadījumiem ārpus problēmas.
-Var būt iespējams konstruēt Tjūringa mašīnu, kas apstājas un sniedz "nē" atbildi
-noteiktiem gadījumiem ārpus problēmas, bet tas nav garantēts visiem gadījumiem
+- $A$ –- daļēji atrisināma, ja ir Tjūringa mašīna $T$:
+  - Ja $A(x) = 1$, tad $T(x) = 1$.
+  - Ja $A(x) = 0$, tad $T(x) = 0$ vai $T(x)$ neapstājas.
 
-#teo(
-  title: "Raisa teorēma",
-)[Ja $F$ nav triviāla (ir $M:F(M)=0$ un $M':F(M')=1$), tad $F$ -- neatrisināma.]
+Tas, ka problēma ir daļēji atrisināma, nozīmē, ka nav konkrēta un *vispārīga*
+algoritma, kas vienmēr varētu sniegt pareizu "nē" atbildi gadījumiem ārpus
+problēmas. 
 
-$A$ -- daļēji atrisināma, ja ir Tjūringa mašīna $T$:
-- Ja $A(x)=1$, tad $T(x)=1$.
-- Ja $A(x)=0$, tad $T(x)=0$ vai $T(x)$ neapstājas.
+Var būt iespējams konstruēt Tjūringa mašīnu, kas apstājas un sniedz
+"nē" atbildi noteiktiem gadījumiem ārpus problēmas, bet tas nav garantēts
+visiem gadījumiem (_un īsti nav apskatīts šajā kursā_).
 
 #teo[$A$ -- daļēji atrisināma tad un tikai tad, ja $A$ -- algoritmiski sanumurējama.]
+
+Cits nosaukums daļējai atrisināmībai ir atpazīstamība (angl. recognizability).
 
 = Algoritmiskā sanumurējamība
 == Info
@@ -319,7 +391,7 @@ $A$ -- daļēji atrisināma, ja ir Tjūringa mašīna $T$:
 Divu lenšu #TM, kur viena ir klasiska darba lente (#DL) un otra ir izvada
 lente (#IL) (tikai rakstīšanai).
 
-== Piemērs
+== Piemērs $(a^k b^k mid(|) k>=0) "ir sanum.?"$
 Pamatot, ka kopa ${a^k b^k mid(|) k>=0}$ ir algoritmiski sanumurējama.
 
 + Uzraksta uz izejas lentes tukšu vārdu.
@@ -331,7 +403,7 @@ Pamatot, ka kopa ${a^k b^k mid(|) k>=0}$ ir algoritmiski sanumurējama.
   + Uz darba lentes pierakstām klāt vienu $a$.
 + Izejas lente $=epsilon, a b, a a b b, a a a b b b,...$
 
-== Piemērs
+== Piemērs (atkārt. pēc \# ir sanum\.?)
 Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
 
 + Uz darba lentes iet cauri visiem $x$.
@@ -398,7 +470,7 @@ Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
 + Izteikt vienkāršoto darbības laika funkciju, izmantojot atbilstošo lielā $O$
   notāciju, piemēram, $O(n)$, $O(n log n)$, $O(n^2)$, $O(2^n)$ utt.
 
-== Piemērs
+== Piemērs ($|a| = |b|"?"$)
 Vai ieejas virknē ir vienāds skaits $a$ un $b$?
 
 + Virzās no kreisās puses uz labo, aizstājot vienu $a$ un vienu $b$ ar $x$;
@@ -410,7 +482,7 @@ Kopējais soļu skaits:
 - Ne vairāk kā $(n/2+1) 2n = n^2 + 2n$ soļi.
 - Ja $n$ nav ļoti mazs, $n^2$ būs vairāk nekā $2n$ un soļu skaits $O(n^2)$.
 
-= #NP (neatrisināmas problēmas)
+= Neatrisināmas prob. (non-decidable)
 
 #let acc = `ACCEPTING`
 #let eqans = `EQUAL_ANSWERS`
@@ -423,7 +495,21 @@ Kopējais soļu skaits:
 #let M2 = $M 2$
 #let SAT = `SAT`
 
-== Info
+== Definīcija
+
+Neatrisināma problēma ir problēma ir problēma, kurai neeksistē TM, kas
+atrisinātu šo problēmu.
+
+== Raisa teorēma
+
+#teo(
+  title: "Raisa teorēma",
+)[Ja $F$ nav triviāla (ir $M:F(M)=0$ un $M':F(M')=1$), tad $F$ -- neatrisināma.]
+
+Teorēma pasaka mums priekšā, ka jebkuru netriviālu *funkcionālu* īpašību var
+parādīt kā redukciju no HALTING.
+
+== Uzskaitījums 
 - $halt(M\# x)=1$, ja $M$ apstājas, ja ieejas virkne $=x$.
 - $acc(M\# x)=1$, ja $M$ uz ieejas virknes izdod atbildi $1$.
 - $eqans(M\# x \# y)=1$, ja $M$ uz ieejas virknēm $x$ un $y$ izdod vienādas atbildes.
@@ -437,13 +523,13 @@ Kopējais soļu skaits:
 #info[Ja var atrisināt #acc, tad var atrisināt arī #halt.]
 #info[Ja var atrisināt #eqans / #one / #infinite / #equiv, tad var atrisināt arī #acc.]
 
-== Soļi
+== Pierādījums no redukcijas (Soļi)
 + Skaidri definē problēmu, kuru vēlas pierādīt kā #NP -- norādot, kas ir derīga
   ievade un kādus rezultātus programmai paredzēts izvadīt.
 + Pieņem, ka eksistē algoritms vai #TM, kas spēj atrisināt problēmu visiem
   iespējamiem ievaddatiem.
   Šī pieņēmuma mērķis ir rādīt pretrunu.
-+ Definē citu problēmu, kas var tikt samazināta līdz sākotnējai problēmai.
++ Definē citu problēmu, kas var tikt noreducēta līdz sākotnējai problēmai.
   Tas nozīmē, ka, ja var atrisināt sākotnējo problēmu, var atrisināt arī
   saistīto problēmu.
 + Izveido transformācijas vai redukcijas algoritmu, kas ņem saistītās problēmas
@@ -462,7 +548,7 @@ Kopējais soļu skaits:
   Šeit jārodas pretrunai.
 #context [
   #set par(justify: false)
-  == Piemēri
+  == Piemēri (prob. ir neatr)
   === #halt / #acc
   - #underline("Teorēma"): Ja var atrisināt #acc, tad var atrisināt arī #halt
   - #underline("Pierādījums"): Attēlojums $R:M->M'$ ar īpašību $halt(M\#x) = acc(M'\#x)$.
@@ -570,7 +656,20 @@ Kopējais soļu skaits:
 Pēc tās, lai pierādītu, ka cita problēma $L$ ir NP-pilna, pietiek parādīt,
 ka $L in NP$ un ka $SAT <_p L$ (vai jebkura cita zināma NP-pilna problēma).
 
+= Nekustīgā punkta teorēma
+
+Lai $phi_x$ ir daļēji definēta funkcija, ko aprēķina Tjūringa mašīna ar
+programmu $x$.  Lai $F: Sigma^* -> Sigma^*$ ir jebkurš visur definēts
+aprēķināms pārveidojums uz programmām.
+
+Tad: $"eksistē"(x): phi_{F(x)} = phi_x$
+
+- $phi_x$: funkcija, ko aprēķina programma $x$.
+- $F$: jebkura visur definēta aprēķināma funkcija virknēm (programmām).
+- $Sigma^*$: visu galīgo virkņu kopa pār alfabētu $Sigma$.
+
 = Sarežģītības klases
+
 #let time = `TIME`
 == Info
 $n, n log n, n^2, n^3, 2^n$
@@ -597,7 +696,164 @@ $ lim (log^17 n)/n = lim (m^17)/c^m = lim (m/c^(m slash 17))^17 -> 0 $
 - $time(n^2)$ -- `4x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
 - $time(n^3)$ -- `8x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
 
+== Asimptotiskas augšanas hierarhija
+
+Sekojošas funkcijas pieaugums pie $x -> infinity$:
+
+$log(x) << x << x \cdot log(x) << x^k << a^x << x! << x^x$
+
+- $x$: mainīgais (parasti $n$).
+- $k$: jebkurš vesles pozitīvs skaitlis ($k in NN$).
+- $a$: reāla konstante lielāka par $1$ ($a > 1$).
+
+Šo hierarhiju var izmantot intuīcijai par to vai funkcija pieder klasei
+sarežģītības klasei, bet kā pamatojums tas nederētu.
+
+_Source; Mathematics for Computer Science, 2018, Eric Lehman, Google Inc._
+
+= NP-pilnas probēmas un to redukcijas
+
+== NP problēmas
+
+NP (nederminēti-polinomiālas) problēmas 
+ir problēmas (2 ekvivalentas definīcijas):
+
++ $L in NP$, ja eksistē pārbaudes algoritms - $O(n^c)$ laika Tjūringa mašīna $M$:
+  + Ja $L(x) = 1$, tad eksistē y: $M(x, y) = 1$.
+  + Ja $L(x) = 0$, tad visiem y: $M(x, y) = 0$.  
++ NP = problēmas $L$, ko var atrisināt ar nedeterminētu mašīnu $O(n^c)$ laikā.
+
+Ekvivalence ir pierādīta ar abpusēju pārveidojumu no pārbaudītāja uz nedet. TM
+un atpakaļ.
+
+== Polinomiāla redukcija $(<=_("poly"))$
+
+- $A <= B$ – A var atrisināt, noreducējot to uz B.
+- $A <=_("poly") B$, ja ir $O(n^c)$ laika algoritms (Tjūringa mašīna) $P$:
+  - $M$ pārveido $A$ ieejas datus par $B$ ieejas datiem;
+  - $A(x) = B(M(x))$.
+
+== NP-pilnīgums
+
+- A – NP-pilna, ja:
+  - $A in "NP"$;
+  - Ja $B in NP$, tad $B <=_("poly") A$.
+
+== 3-SAT problēma 
+
+Vai formulai 3-CNF formā var piemeklēt katra mainīgā vērtības tā, lai formula
+būtu 1 (patiess).
+
+== CIRCUIT-SAT problēma 
+
+Dota funkcija $F(x_1, ..., x_n)$, kas sastāv no vārtiem (AND, OR, NOT).
+
+#figure(
+  image("assets/img/circuit_sat.png", width: 50%),
+  caption: "CIRCUIT-SAT visual",
+)
+
+Vai var atrast mainīgo vērtības tā lai gala izvade būtu 1 (patiess).
+
+== CLIQUE problēma
+
+$exists C subset.eq V: (|C| = k) and (forall (u, v in C): (u, v) in E)$
+
+Vārdiski. Vai eksistē virsotņu kopa $S$ lielumā $k$, kurā katra virsotne ir
+savienota ar katru otro no kopas $S$.
+
+== IND-SET problēma
+
+$exists S subset.eq V: (|S| = k) and (forall (u, v in S): (u, v) in.not E)$
+
+Vārdiski. Vai grafā $G=(V, E)$ eksistē virsotņu kopa $S$ lielumā $k$, kurā
+katra no virsotnēm nav savienota ar nevienu citu virsotni no šīs
+kopas.
+
+== LIN-INEQ
+
+Vai dotā lineāru nevienādību sistēma ar bināriem mainīgajiem ir atrisināma.
+
+== CIRCUIT-SAT ≤ₚ 3-SAT
+
+- Katram starprezultātam (kas nav pirmajā ievadē, i.e., $x_1$, $x_2$, $dots$,
+  $x_n$) ievieš jaunus mainīgos $y_i$.
+- Katriem vārtiem formulē atbilstošas izteiksmes.
+
+Piemērs AND vārtiem. Nosaucam ievades kā x, y un izvadi kā z: $z = x and y$
+
+#table(
+  columns: 4,
+  [*$x$*],[*$y$*],[*$z$*],[*$z = x and z$?*],
+  [$0$],[$0$],[$0$],[jā],
+  [$0$],[$0$],[$1$],[nē],
+  [$0$],[$1$],[$0$],[jā],
+  [$0$],[$1$],[$1$],[nē],
+  [$1$],[$0$],[$0$],[jā],
+  [$1$],[$0$],[$1$],[nē],
+  [$1$],[$1$],[$0$],[nē],
+  [$1$],[$1$],[$1$],[jā],
+)
+
+Izveidojam pretrunas katrai rindai. Tas ir, konjunkciju katrai rindai ar "nē".
+
+Piemēram, 2\. rindai (0, 0, 1): $x or y or not z$.
+
+Tad uzbūvējam konjunkciju vārtiem:
+
+$
+(x or y or not z) and (x or not y or not z) and \
+ and (not x or y or not z) and (not x or not y or z)
+$
+
+Veido konjunkciju no visiem vārtiem shēmā. Tā kā 3-SAT sagaida 3 mainīgos katrā
+iekavā. Tiem, kas satur 1 vai 2 (identitātes vārti un not vārti attiecīgi),
+pārveido tos par 3-CNF konjunkciju pievienojot jaunu mainīgo, kas vienā
+formulā ir pozitīvs un otrā -- negācija.
+
+$
+(x or not b) = (x or not b or a) and (x or not b or not a)
+$
+
+Analoģiski iekavām ar vienu elementu. Rezultātā ir 3-CNF formula, ko var
+izmantot ar 3-SAT algoritmu.
+
+== 3-SAT ≤ₚ IND-SET
+
+Katrai iekavai no formulas veido $3$ virsotnes (grafa komponenti), kas apzīmē
+mainīgo (ar NOT, ja ir negācija). Katra virsotne (literālis) no komponentes ir
+savā starpā savienota ar pārējām. Starp pretrunīgiem literāliem starp
+komponentēm pievieno šķautni.
+
+Piemērs formulai $(x or y or not z) and (not x or y or z)$:
+
+#figure(
+  image("assets/img/3_sat_indset.png", width: 50%),
+  caption: "3-SAT -> INDSET visual",
+)
+
+Tagad varam pielietot $"IND-SET"\(G, m\)$ ar izveidoto grafu un $m$ kā iekavu
+skaitu originālajā formulā.
+
+== IND-SET ≤ₚ CLIQUE
+
+- Veido grafa papildinājumu (komplementu) $G' = (V, E')$:
+
+$E' := {(u, v) in V times V | (u, v) in.not E}$
+
+Vārdiski. Jauns grafs $G$, kurā ir visas virsotnes no $V$, bet 
+visas šķautnes, kas ir $G$ nav $G'$ un pretēji -- visas šķautnes 
+kā nav $G$ ir $G'$.
+
+#figure(
+  image("assets/img/graph_complement.png", width: 50%),
+  caption: "Papildgrafa piemērs",
+)
+
+Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
+
 = Extras
+
 == Logaritmu īpašības
 
 #context [
@@ -627,3 +883,30 @@ $ lim (log^17 n)/n = lim (m^17)/c^m = lim (m/c^(m slash 17))^17 -> 0 $
     $,
   ))
 ]
+
+== Atvasinājumu tabula
+
+#context [
+  #set text(size: 11pt)
+  #show math.equation: set text(weight: 400, size: 11pt)
+
+  #table(
+    columns: 3,
+    inset: (top: .8em, bottom: .9em), // vert. padding
+    [*Funkcija*], [*Atvasinājums*], [*Piezīmes*],
+
+    [$x^n$], [$n x^(n-1)$], [],
+    [$e^x$], [$e^x$], [],
+    [$a^x$], [$a^x ln(a)$], [$a > 0$],
+    [$ln(x)$], [$1 / x$], [],
+    [$1 / x$], [$-1 / x^2$], [],
+    [$1 / x^n$], [$-n / x^(n+1)$], [],
+    [$sqrt(x)$], [$1 / (2 sqrt(x))$], [],
+    [$1 / sqrt(x)$], [$-1 / (2 x^(3/2))$], [],
+  )
+
+  \* Ja $x = g(x)$ (kompleksa funkcija), tad pie atvasinājuma 
+  piereizina $g(x)'$.
+]
+
+
