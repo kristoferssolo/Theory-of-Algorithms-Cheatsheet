@@ -10,12 +10,13 @@
 
 #let teo(title: "Teorēma", ..args) = memo(title: title, ..args)
 
-#let TM = `TM`
+#let TM = $"TM"$
 #let qrej = $q_"rej"$
 #let qacc = $q_"acc"$
-#let halt = `HALTING`
-#let halt2 = `HALTING_2`
-#let NP = `NP`
+#let halt = $"HALTING"$
+#let halt2 = $"HALTING"_2$
+#let NP = $"NP"$
+#let hline = $\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_$
 
 = Tjūringa Mašīnas
 == Variācijas 
@@ -63,8 +64,11 @@ Nosimulēt stāvēšanu uz vietas jeb $d=0$ var šādi:
 
 Tas ir bieži sastopamais formāts, bet var gadīties arī cits.
 
-== Piemērs $(a^n b^n c^n", kur" n > 0)$
-Vai ieejas virknē $a^n b^n c^n$, kur $n>0$
+// Shit, the original wrong here too. It should be "n>=0"
+
+== Piemērs $(a^n b^n c^n", kur" n >= 0)$
+
+Vai ieejas virknē $a^n b^n c^n$, kur $n>=0$
 
 #context [
   $(q_1, a) -> (q_2, *, ->)$ \
@@ -72,28 +76,27 @@ Vai ieejas virknē $a^n b^n c^n$, kur $n>0$
   $(q_1, *) -> (q_1, *, ->)$ \
   $(q_1, \_) -> qacc$ \
 
+  $hline$
+
   $(q_2, a) -> (q_2, a, ->)$ \
   $(q_2, b) -> (q_3, *, ->)$ \
   $(q_2, c) -> qrej$ \
   $(q_2, *) -> (q_2, *, ->)$ \
+  $(q_2, \_) -> qrej$ \
+
+  $hline$
 
   $(q_3, a) -> qrej$ \
   $(q_3, b) -> (q_3, b, ->)$ \
-  $(q_3, c) -> (q_4, *, ->)$ \
+  $(q_3, c) -> (q_4, *, <-)$ \
   $(q_3, *) -> (q_3, *, ->)$ \
+  $(q_3, \_) -> qrej$ \
 
-  $(q_4, a slash b) -> qrej$ \
-  $(q_4, c) -> (q_4, c, ->)$ \
-  $(q_4, \_) -> (q_5, \_, <-)$ \
+  $hline$
 
-  $(q_5, a slash b slash c slash *) -> (q_5, a slash b slash c slash *, <-)$ \
-  $(q_5, \_) -> (q_1, \_, ->)$ \
+  $(q_4, a slash b slash c slash *) -> (q_4, a slash b slash c slash *, <-)$ \
+  $(q_4, \_) -> (q_1, \_, ->)$ \
 ]
-
-- Aizstāj $a$ ar $*$, $b$ ar $*$, $c$ ar $*$.
-- Kontrolē secību (pēc $a$ jāseko $a$ vai $b$, pēc $b$ jāseko $b$ vai $c$, pēc
-  $c$ var sekot tikai $c$).
-- Ja kādu simbolu nevar atrast, noraida.
 
 == Piemērs (vai virkne atkārt. pēc `#`)
 Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
@@ -101,24 +104,25 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 #context [
   $(q_1, 0, \_) -> (q_1, 0, 0, ->, ->)$ \
   $(q_1, 1, \_) -> (q_1, 1, 1, ->, ->)$ \
-  $(q_1, \#, \_) -> (q_2, \#, \_, 0, <-)$ \
+  $(q_1, \#, \_) -> (q_2, \#, \_, arrow.b, <-)$ \
 
-  $(q_2, 0, 0) -> (q_2, 0, 0, <-)$ \
-  $(q_2, 1, 1) -> (q_2, 1, 0, <-)$ \
+  $hline$
+
+  $(q_2, \#, 1) -> (q_2, \#, 1, arrow.b, <-)$ \
+  $(q_2, \#, 0) -> (q_2, \#, 0, arrow.b, <-)$ \
   $(q_2, \#, \_) -> (q_3, \#, \_, ->, ->)$ \
 
+  $hline$
+
   $(q_3, 0, 0) -> (q_3, 0, 0, ->, ->)$ \
+  $(q_3, 1, 1) -> (q_3, 1, 1 ->, ->)$ \
   $(q_3, 0, 1) -> qrej$ \
   $(q_3, 1, 0) -> qrej$ \
-  $(q_3, 1, 1) -> (q_3, 1, 1 ->, ->)$ \
   $(q_3, 0 slash 1, \_) -> qrej$ \
   $(q_3, \_, 0 slash 1) -> qrej$ \
   $(q_3, \_, \_) -> qacc$ \
-]
 
-- Nokopē simbolus līdz $\#$ uz otras lentes.
-- Sasniedzot $\#$, uz otras lentes iet atpakaļ līdz pirmajam simbolam.
-- Salīdzina pirmās lentes simbolus pēc $\#$ ar otro lenti.
+]
 
 = Sanumurējamība
 == Definīcija 
@@ -151,8 +155,8 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 - Kopa $A$ ir sanumurējama, ja $A={x_1, x_2, ...}$
 - Kopa $A$ ir algoritmiski sanumurējama, ja ir Tjūringa mašīna, kas izdod virkni
   $x_1, x_2, ...$, kurai $A={x_1, x_2, ...}$
-#let DL = `DL`
-#let IL = `IL`
+#let DL = $"DL"$
+#let IL = $"IL"$
 Divu lenšu #TM, kur viena ir klasiska darba lente (#DL) un otra ir izvada
 lente (#IL) (tikai rakstīšanai).
 
@@ -181,7 +185,7 @@ Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
   + Uz #DL nomaina $x$ pret nākošo vārdu.
 
 === Diagonālinācija (pret sanumurējāmību) <diagonalization>
-Paņēmienu -- ir saraksts (pieņem, ka ir iegūts saraksts) vai uzskaitījums ar
+Paņēmiens -- ir saraksts (pieņem, ka ir iegūts saraksts) vai uzskaitījums ar
 visiem kopas elementiem un tiek konstruēts jauns elements, kas neatrodas šajā
 sarakstā. Tas demonstrē, ka kopa ir nesanumurējama, jo vienmēr var izveidot
 jaunu elementu, kas nav iekļauts uzskaitē (piemēram, reālos skaitļos).
@@ -199,7 +203,7 @@ Vai ir $F:{F(1), F(2), ..., F(n), ...}=ZZ$? \
 $ F(1)=0, F(2)=-1, F(3)=1, F(4)=-2, ... $
 
 Viens no veidiem, kā izveidot bijekciju pāra kopai, ir izmantot metodi, ko sauc
-par Kantoro pārošanas funkciju.
+par Kantora pārošanas funkciju.
 Kantora pārošanas funkcija ir definēta sekojoši:
 $f(k_1, k_2) := 1/2(k_1 + k_2)(k_1 + k_2 + 1) + k_2$, kur $k_1,k_2 in NN = {0, 1, 2, ...}$
 
@@ -213,20 +217,18 @@ kā unikālu naturālo skaitli.
 Tā nodrošina, ka katram pārim tiek piešķirts unikāls skaitlis un tiek aptverti
 visi iespējamie pāri bez atkārtojumiem.
 
-Lai pierādītu, ka naturālo skaitļu pāru $(k_1, k_2)$ kopa ir saskaitāma, mēs
-varam parādīt, ka funkcija $f(k_1, k_2)$ nodrošina bijekciju starp naturālo
-skaitļu pāru kopu un naturālo skaitļu kopu. 
+Pamatojam bijekciju, balsototies uz faktu, ka $"bijekcija" = "injekcija" and
+"surjekcija"$.
 
-$"Injektivitāte" + "Surjektivitāte" = "Bijektivitāte"$
+=== Injektivitāte<injectivity>
 
-=== Injektivitāte
 Pieņemsim, ka $f(k_1, k_2) = f(k_3, k_4)$, kur $(k_1, k_2)$ un $(k_3, k_4)$
 ir atšķirīgi pāri no naturālo skaitļu kopas.
 Vienkāršojot un nolīdzinot izteiksmes, varam parādīt, ka
 $k_1 = k_3$ un $k_2 = k_4$.
 Tātad funkcija $f$ ir injektīva.
 
-=== Surjektivitāte
+=== Surjektivitāte<surjectivity>
 Jebkuram naturālam skaitlim $n$ varam atrast pāri $(k_1, k_2)$, kas tiek
 attēlots uz $n$, izmantojot Kantora pārošanas funkcijas apgriezto funkciju.
 Pielietojot apgriezto funkciju uz $n$, varam atgūt sākotnējo pāri $(k_1, k_2)$.
@@ -295,25 +297,41 @@ Tādējādi #halt2 tiek reducēta uz #halt.
 
 = Neatrisināmas (non-decidable) problēmas 
 
-#let acc = `ACCEPTING`
-#let eqans = `EQUAL_ANSWERS`
-#let one = `ONE`
-#let infinite = `INFINITE`
-#let equiv = `EQUIV`
-#let hamcycle = `HAMCYCLE`
-#let linineq = `LIN-INEQ`
-#let M1 = $M 1$
-#let M2 = $M 2$
-#let SAT = `SAT`
+#let acc = $"ACCEPTING"$
+#let eqans = $"EQUAL-ANSWERS"$
+#let one = $"ONE"$
+#let infinite = $"INFINITE"$
+#let equiv = $"EQUIV"$
+#let hamcycle = $"HAMCYCLE"$
+#let linineq = $"LIN-INEQ"$
+#let M1 = $M_1$
+#let M2 = $M_2$
+#let SAT = $"SAT"$
 
 == Definīcija
 
 Neatrisināma problēma ir problēma ir problēma, kurai neeksistē TM, kas
 atrisinātu šo problēmu.
 
-== Funkcionālas un nefunkcionālas īpašības
+== Funkcionālās īpašības
 
-TODO.
+- $F(M)$, $M$ – Tjūringa mašīnas programma;
+- $F$ var definēt caur $M$ atbildēm uz dažādām ieejas virknēm $x$.
+
+Piemēram:
+- $"ONE"(M) = 1$, ja $exists x: M(x) = 1$
+- $"INFINITE"(M) = 1$, ja $exists^infinity x: M(x) = 1$
+
+Citiem vārdiem, ja $forall x: M_1(x) = M_2(x)$, tad $F(M_1) = F(M_2)$.
+
+== Nefunkcionālās īpašības
+
+- $A(M) = 1$, ja $exists x: M$ apstājas pēc $<= 17$ soļiem.
+- $B(M) = 1$, ja Tjūringa mašīnā $M$ ir stāvoklis $q$, kurš netiek sasniegts
+  nevienai ieejas virknei $x$.
+
+Papildus Tjūringa mašīnas funkcionālam aprakstam, mums ir papildus informācija
+par mašīnu, par tās struktūru etc.
 
 == Raisa teorēma
 
@@ -321,8 +339,8 @@ TODO.
   title: "Raisa teorēma",
 )[Ja $F$ nav triviāla (ir $M:F(M)=0$ un $M':F(M')=1$), tad $F$ -- neatrisināma.]
 
-Teorēma pasaka mums priekšā, ka jebkuru netriviālu *funkcionālu* īpašību var
-parādīt kā redukciju no HALTING.
+Teorēma "pasaka" mums priekšā, ka jebkuru netriviālu *funkcionālu* īpašību
+nevar atrisināt.
 
 == Uzskaitījums 
 - $halt(M\# x)=1$, ja $M$ apstājas, ja ieejas virkne $=x$.
@@ -331,13 +349,12 @@ parādīt kā redukciju no HALTING.
 - $one(M)=1$, ja eksistē ieejas virkne $x$, uz kuras $M$ izdod atbildi $1$.
 - $infinite(M)=1$, ja eksistē bezgalīgi daudzas ieejas virknes $x$, uz kurām $M$ izdod atbildi $1$.
 - $equiv(M 1, M 2)=1$, ja $M1(x)=M2(x)$
-- $linineq(S)=1$, ja sistēmai ir atrisinājums $x_1, x_2, ..., x_n in {0,1}$
-- $"pcp"(S)=1$ (Post-correspondance problem), ja divām galībām kopām $A = [a_1,
+- $"PCP"(S_1, S_2)=1$ (Post-correspondance problem), ja divām galībām kopām $A = [a_1,
   a_2, ..., a_n]$ un $B = [b_1, b_2, dots, b_n]$ var izvēlēties indeksu secības
   $a_("i1") a_("i2") ... a_("ik")$ = $b_("i1") b_("i2") ... b_("ik")$ (tā lai
   konkatenācijas būtu vienādas); domino kauliņi ar augšu un apakšu, ko saliekot
   kopā, globālai augšai un apakšai jāsakrīt. 
-- $"mortal-matrix"(S)=1$, vai no matricām $M_1, M_2, ..., M_n$ var izveidot
+- $"MORTAL-MATRIX"(S)=1$, vai no matricām $M_1, M_2, ..., M_n$ var izveidot
   secību (ar atkārtojumiem), ka matricu reizinājums būtu 0.
 // LININEQ, HAMCYCLE are DECIDABLE!
 // - $"hilbert's-10th"(S)=1$, ...?
@@ -498,7 +515,16 @@ visiem gadījumiem (_un īsti nav apskatīts šajā kursā_).
 
 #teo[$A$ -- daļēji atrisināma tad un tikai tad, ja $A$ -- algoritmiski sanumurējama.]
 
-Cits nosaukums daļējai atrisināmībai ir atpazīstamība (angl. recognizability/recognizable).
+Cits nosaukums daļējai atrisināmībai ir atpazīstamība (angl.
+recognizability/recognizable).
+
+=== Piemērs (daļēji neatrisināma)
+
+Problēma $A$, kurai neviena no $A$, $overline(A)$ nav daļēji atrisināma?
+
+- $"EQUIV"(M_1, M_2) = 1$, ja $forall x: M_1(x) = M_2(x)$.
+- $overline("EQUIV")(M_1, M_2) = 1$, ja $exists x: M_1(x) != M_2(x)$.
+
 
 = Nekustīgo punktu teorija 
 
@@ -516,7 +542,33 @@ Tad: $"eksistē"(x): phi_{F(x)} = phi_x$
 
 == NPT pielietošanas piemērs
 
-TODO.
+"Pierādīt, ka eksistē programma, kas pieņem tikai savu aprakstu."
+
+Definējam skaitļojamu $F(x)$ ar ievadi -- aprakstu $x$, kas
+pārveido to uz programmu, kas darbojas sekojoši:
+
++ Iegūst mašīnas ievadi $y$;
++ Programmai ir pieejams programmas apraksts $x$;
++ Iet cauri simboliem no $x$ un $y$ līdz nonāk līdz tukšumam:
+  + Ja simboli sakrīt un simboli nav tukšumi, iet tālāk.
+  + Ja abi simboli ir tukšumi, akceptē.
+  + Ja simboli nesakrīt, apstājas un neakceptē.
+
+$F(x)$ ir vienmēr izskaitļojama, jo ja mums ir pieejama $x$ programmas
+apraksts, ir iespējams uzbūvēt programmu, kas salīdzina ar brīvi izvēlamu
+ievadi $y$.
+
+Pēc nekustīgā punkta teorēmas eksistē $x$, ka 
+
+$
+phi_(F(x)) = phi_x.
+$
+
++ Tātad eksistē tāds $x$, ka $x$ ir funkcionāli ekvivalenta $F(x)$.
++ Tā kā funkcijas $F(x)$ rezultāts ir iepriekš aprakstītā programma, $x$ sakrīt
+  ar uzdevumā prasīto uzvedību.
+
+QED.
 
 = Sarežģītības teorija
 
@@ -626,39 +678,14 @@ vienādojums būs patiess.
 
 == Sarežģītības klases
 
-#let time = `TIME`
+#let time = $"TIME"$
 
 === Laiks (TIME)
 
 $time(f(n))$ -- problēmas $L$, kurām eksistē Tjūringa mašīna $M$, kas pareizi
 risina $L$ un izmanto $O(f(n))$ soļus.
 
-/* random piemērs -> relocate? */
-
-/*
-$ lim n/2^n=lim (n)'/(2^n)'=lim 1/(2^n ln 2) $
-
-Augot $n$, $2^n->oo$, tātad $1/n^2->0$.
-
-$ n^2/2^n=(n/2^(n slash 2))^2 $
-Mēs zinām, ka $n/2^(n slash 2)->0$.
-
-$ lim (log n)/n = lim (log n)'/(n)' = lim (1 slash n)/1 = lim 1/n $
-
-$ lim (log^17 n)/n = lim (m^17)/c^m = lim (m/c^(m slash 17))^17 -> 0 $
-
-- $time(n)$ -- `2x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
-- $time(n^2)$ -- `4x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
-- $time(n^3)$ -- `8x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
-*/
-
 ==== #TM darbības laiks
-
-/*
-- Laiks ir soļu skaits un ir atkarīgs no ieejas virknes $x_1, x_2, ..., x_n$.
-- Ja ir algoritms ar sarežģītību $n^2$, tad bieži ir arī algoritms ar
-  sarežģītību $n^2/2, n^2/3,...$
-*/
 
 + Identificēt galvenās operācijas vai soļus, ko Tjūringa mašīna veic katrai
   ievadei.
@@ -685,6 +712,20 @@ $ lim (log^17 n)/n = lim (m^17)/c^m = lim (m/c^(m slash 17))^17 -> 0 $
 + Izteikt vienkāršoto darbības laika funkciju, izmantojot atbilstošo lielā $O$
   notāciju, piemēram, $O(n)$, $O(n log n)$, $O(n^2)$, $O(2^n)$ utt.
 
+==== Programmas darbības laiks
+
+Īstām programmām rindiņas var izpildīties atšķirīgā laikā -- tas ir atkarīgs
+apakšprogrammu izsaukumi, procesora operācijām. Taču šajā tas tiek abstrahēts un
+katra koda rindiņa tiek uzskatīta par vienu soli. 
+
+Lai atrastu koda izpildes laiku:
++ Novērtē katras rindiņas "globālo laiku" -- cik tā izpildās ņemot vērā visus
+  ciklus, izmantojot summu funkcijas.
++ Novērtē kādos gadījumos tā izpildās, ja vispār izpildās.
++ Izvērtē to kāds gadījums (ievade) būtu vissliktākā un aprēķina tam funkciju
+  no $n$ (skat. @time_analysis_expressions).
++ Novērtē šīs funkcijas klasi izmantojot lielā-O notāciju. 
+
 ===== Piemērs ($|a| = |b|"?"$)
 Vai ieejas virknē ir vienāds skaits $a$ un $b$?
 
@@ -697,13 +738,57 @@ Kopējais soļu skaits:
 - Ne vairāk kā $(n/2+1) 2n = n^2 + 2n$ soļi.
 - Ja $n$ nav ļoti mazs, $n^2$ būs vairāk nekā $2n$ un soļu skaits $O(n^2)$.
 
-=== Vieta (SPACE)
+=== Telpa/Vieta (SPACE)
 
-TODO.
+==== SPACE Definīcija (Precīzs modelis)
 
-=== Laika-Vietas sakarības
+- Ieejas lente - $x_1 ,..., x_n$, var tikai lasīt.
+- Darba lente – sākumā tukša, var arī rakstīt. 
+- $S(x_1, ..., x_N)$ – šūnu skaits, kas tiek apmeklētas uz darba lentes.
+- $S(N) = max S(x_1, ..., x_N)$. 
 
-TODO.
+$
+"SPACE"(f(N)) = \ 
+= {L | L "var atrisināt ar Tjūringa" \
+        "mašīnu, kurai" S(N) <= C f(N)}. \
+$
+
+==== NSPACE Definīcija
+
+$
+"NSPACE"(f(N)) = \ 
+= {L | L "ir determinēta" M, "visiem" x, L(x)=M(x), \
+        "un" M "izmanto " <= c f(N) "šūnas uz darba lentes"}. \
+$
+
+#teo(
+  title: "Savča teorēma", 
+  [$"NSPACE"(f(N)) subset.eq "SPACE" (f^2(N))$]
+)
+
+==== LOGSPACE Definīcija
+
+$
+"LOGSPACE" = "SPACE" (log N).
+$
+
+$
+"LOGSPACE" subset.eq U_c "TIME"(c^(log N)) = \
+U_c "TIME" (N^c) = P
+$
+
+
+=== Laika-Telpas sakarības
+
+#teo[
+  Ja $f(n) >= log N$, tad 
+  $
+  "TIME"(f(N)) subset.eq "SPACE"(f(N)) subset.eq \
+  subset.eq U_c "TIME" (c^(f(N)))
+  $
+]
+
+Laiks $O(f(N)) ->$ atmiņa $O(f(N))$.
 
 === Asimptotiskas augšanas hierarhija
 
@@ -926,4 +1011,27 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
   piereizina $g(x)'$.
 ]
 
+== Noderīgas izteiksmes laika analīzē<time_analysis_expressions>
 
+$
+sum_(i=1)^(n) i = (n(n+1))/(2) \
+
+sum_(i=1)^(n) i^2 = (n(n+1)(2n+1))/(6)\
+
+sum_(i=1)^(n) i^3 = ( (n(n+1))/(2))^2 \
+
+// Geometric series (ratio r \neq 1)
+r > 1: sum_(i=0)^(n) a*r^i = a * (r^(n+1)-1)/(r-1) quad \
+r < 1: sum_(i=0)^(infinity) a*r^i = (a)/(1-r) \
+
+// Logarithmic sum
+sum_(i=1)^(n) log i = log(n!) approx  \
+approx n log n - n + O(log n) \
+
+// Useful approximation for factorial (Stirling)
+"Stirling's approximation": \
+n! approx sqrt(2 pi n) ( (n)/(e) )^n \
+
+// Exponential sum (appears in brute-force algorithms)
+sum_(i=0)^(n) 2^i = 2^(n+1) - 1 \
+$
