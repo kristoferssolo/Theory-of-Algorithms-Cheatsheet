@@ -5,7 +5,7 @@
 #import "layout.typ": indent-par, project
 
 #show: project.with(title: [Theory of Algorithms Cheatsheet], authors: (
-  "Kristofers Solo",
+  "Kristofers Solo", "jorenchik"
 ))
 
 #let teo(title: "Teorēma", ..args) = memo(title: title, ..args)
