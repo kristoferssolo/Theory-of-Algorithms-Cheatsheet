@@ -129,7 +129,7 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 - Bezgalīgas kopas $A$, $B$ ir vienāda izmēra, ja ir bijekcija ($1:1$ attiecība)
   $F: A->B$.
 - $A$ ir sanumurējama ar atkārtojumiem, ja ir attēlojums $F:N->A$, kas par katru
-  $a$ $E$ $A$ attēlo vismaz vienu $x$ $E$ $N$.
+  $a in A$ attēlo vismaz vienu $x in NN$.
 #teo[$A$ ir sanumurējama ar atkārtojumiem tad un tikai tad, ja $A$ ir sanumurējama.]
 
 == Sanumerātības pierādījums 
@@ -160,7 +160,7 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 Divu lenšu #TM, kur viena ir klasiska darba lente (#DL) un otra ir izvada
 lente (#IL) (tikai rakstīšanai).
 
-==== Piemērs $(a^k b^k mid(|) k>=0) "ir sanum.?"$
+==== Piemērs $(a^k b^k mid(|) k>=0)$ alg. sanum.
 Pamatot, ka kopa ${a^k b^k mid(|) k>=0}$ ir algoritmiski sanumurējama.
 
 + Uzraksta uz izejas lentes tukšu vārdu.
@@ -175,7 +175,8 @@ Pamatot, ka kopa ${a^k b^k mid(|) k>=0}$ ir algoritmiski sanumurējama.
 ==== Piemērs (atkārt. pēc \# ir sanum\.?)
 Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
 
-+ Uz darba lentes iet cauri visiem $x$.
++ Uz darba lentes iet cauri visiem $x$ (šeit būtu jāparāda/jāpaskaidro, kā to
+  izdara).
 + Katram $x$ uz izejas lentes uzraksta $x \# x$.
 + Uz izejas lentes uzraksta $\#\_$.
 + Uz darba lentes uzraksta $a$.
@@ -185,10 +186,10 @@ Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
   + Uz #DL nomaina $x$ pret nākošo vārdu.
 
 === Diagonālinācija (pret sanumurējāmību) <diagonalization>
-Paņēmiens -- ir saraksts (pieņem, ka ir iegūts saraksts) vai uzskaitījums ar
-visiem kopas elementiem un tiek konstruēts jauns elements, kas neatrodas šajā
-sarakstā. Tas demonstrē, ka kopa ir nesanumurējama, jo vienmēr var izveidot
-jaunu elementu, kas nav iekļauts uzskaitē (piemēram, reālos skaitļos).
+Ir saraksts (pieņem, ka ir iegūts saraksts) vai uzskaitījums ar visiem kopas
+elementiem un tiek konstruēts jauns elements, kas neatrodas šajā sarakstā. Tas
+demonstrē, ka kopa ir nesanumurējama, jo vienmēr var izveidot jaunu elementu,
+kas nav iekļauts uzskaitē (piemēram, reālos skaitļos).
 
 === Pretruna (pret sanumurējāmību) <contradiction>
 Pieņem, ka kopa ir saskaitāma un tad rodas pretruna. To var izdarīt, parādot,
@@ -196,43 +197,23 @@ ka kaut kādas kopas īpašības vai kardinalitāte ir pretrunā ar sanumurējam
 pieņēmumu.
 
 == Piemērs $(ZZ "sanumurētība")$
-Vai visu veselo skaitļu kopa $ZZ={..., -1, 0, 1, ...}$ ir sanumurējama? \
-Vai ir $F:{F(1), F(2), ..., F(n), ...}=ZZ$? \
+Vai visu veselo skaitļu kopa $ZZ={..., -1, 0, 1, ...}$ ir sanumurējama?
+Vai ir $F:{F(1), F(2), ..., F(n), ...}=ZZ$?
 
+$F(n) = n/2 ", ja pāra un" -(n-1)/2 "ja nepāra"$.
 
-$ F(1)=0, F(2)=-1, F(3)=1, F(4)=-2, ... $
+Sākumā tiek iegūta nulle.
 
-Viens no veidiem, kā izveidot bijekciju pāra kopai, ir izmantot metodi, ko sauc
-par Kantora pārošanas funkciju.
-Kantora pārošanas funkcija ir definēta sekojoši:
-$f(k_1, k_2) := 1/2(k_1 + k_2)(k_1 + k_2 + 1) + k_2$, kur $k_1,k_2 in NN = {0, 1, 2, ...}$
+Iterējot par $n$:
++ Funkcijas vērtības skaitļa modulis palielinās par 1, tiek iegūts pozitīvais
+  skaitlis;
++ Tiek iegūts negatīvais skaitlis;
 
-#figure(
-  image("assets/img/cantors-pairing-function.png", width: 50%),
-  caption: "Cantor's pairing function",
-)
+$F(1)=0, F(2)=1, F(3)=-1, F(4)=2, F(5)=-2...$
 
-Šī funkcija kā ievadi pieņem naturālo skaitļu pāri $(k_1, k_2)$ un to attēlo
-kā unikālu naturālo skaitli.
-Tā nodrošina, ka katram pārim tiek piešķirts unikāls skaitlis un tiek aptverti
-visi iespējamie pāri bez atkārtojumiem.
+Injekcija: ja $F(n_1) = F(n_2)$ no formulas seko, ka $n_1 = n_2$.
 
-Pamatojam bijekciju, balsototies uz faktu, ka $"bijekcija" = "injekcija" and
-"surjekcija"$.
-
-=== Injektivitāte<injectivity>
-
-Pieņemsim, ka $f(k_1, k_2) = f(k_3, k_4)$, kur $(k_1, k_2)$ un $(k_3, k_4)$
-ir atšķirīgi pāri no naturālo skaitļu kopas.
-Vienkāršojot un nolīdzinot izteiksmes, varam parādīt, ka
-$k_1 = k_3$ un $k_2 = k_4$.
-Tātad funkcija $f$ ir injektīva.
-
-=== Surjektivitāte<surjectivity>
-Jebkuram naturālam skaitlim $n$ varam atrast pāri $(k_1, k_2)$, kas tiek
-attēlots uz $n$, izmantojot Kantora pārošanas funkcijas apgriezto funkciju.
-Pielietojot apgriezto funkciju uz $n$, varam atgūt sākotnējo pāri $(k_1, k_2)$.
-Tādējādi funkcija $f$ ir surjektīva.
+Surjekcija: katram $z in ZZ$ eksistē $n in NN$, ka $F(n) = z$.
 
 = Redukcijas
 
@@ -388,7 +369,7 @@ nevar atrisināt.
 #context [
   #set par(justify: false)
   == Piemēri (prob. ir neatr)
-  === #halt / #acc
+  === #halt <= #acc
   - #underline("Teorēma"): Ja var atrisināt #acc, tad var atrisināt arī #halt
   - #underline("Pierādījums"): Attēlojums $R:M->M'$ ar īpašību $halt(M\#x) = acc(M'\#x)$.
   - Tad $halt(M\#x)$ var atrisināt sekojoši:
@@ -397,7 +378,7 @@ nevar atrisināt.
   - Ja $M$ akceptē/noraida, tad $M'$ akceptē (izdos $1$).
   - Ja $M$ neapstājas, $M'$ arī neapstājas.
 
-  === #eqans/ #acc
+  === #acc <= #eqans
   - #underline("Zinām"): #acc nav atrisināma
   - #underline("Pierādām"): Ja var atrisināt #eqans, tad var atrisināt arī #acc.
   - #underline("Secinām"): #eqans nevar atrisināt.
@@ -1025,12 +1006,7 @@ r > 1: sum_(i=0)^(n) a*r^i = a * (r^(n+1)-1)/(r-1) quad \
 r < 1: sum_(i=0)^(infinity) a*r^i = (a)/(1-r) \
 
 // Logarithmic sum
-sum_(i=1)^(n) log i = log(n!) approx  \
-approx n log n - n + O(log n) \
-
-// Useful approximation for factorial (Stirling)
-"Stirling's approximation": \
-n! approx sqrt(2 pi n) ( (n)/(e) )^n \
+sum_(i=1)^(n) log i = log(n!)  approx n log n - n + O(log n) \
 
 // Exponential sum (appears in brute-force algorithms)
 sum_(i=0)^(n) 2^i = 2^(n+1) - 1 \
