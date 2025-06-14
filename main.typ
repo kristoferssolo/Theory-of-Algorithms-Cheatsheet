@@ -389,21 +389,21 @@ nevar atrisināt.
   - $M'(quote.angle.l.double s quote.angle.r.double)=1$, $M'(x)=M(x)$, ja $x$ nesatur $s$.
   - $eqans(M'\# x \# quote.angle.l.double s quote.angle.r.double)=acc(M\#x)$.
 
-  === #one/ #acc
+  === #acc <= #one
   - #underline("Pierādām"): Ja var atrisināt #one, tad var atrisināt arī #acc.
   - Dots: $M, x$
   - Jādefinē: $M': one(M') = acc(M\# x)$.
   - $M'$: nodzēš no lentes ieejas virkni $y$, uzraksta $x$, palaiž $M$ programmu.
   - Jebkurai $y, M'(y)=M(x)$.
 
-  === #infinite/ #acc
+  === #acc <= #infinite
   - #underline("Pierādām"): Ja var atrisināt #infinite, tad var atrisināt arī #acc.
   - Dots: $M, x$
   - Jādefinē: $M': infinite(M') = acc(M\# x)$.
   - Jebkurai $y, M'(y)=M(x)$.
   - Ja $M(x)=1$, tad $M'(y)=1$ jebkurai $y$.
 
-  === #equiv / #acc
+  === #acc <= #equiv 
   - #underline("Pierādām"): Ja var atrisināt #equiv, tad var atrisināt arī #acc.
   - Dots: $M, x$
   - Jādefinē: $M_1, M_2: equiv(M_1, M_2) = acc(M\# x)$.
