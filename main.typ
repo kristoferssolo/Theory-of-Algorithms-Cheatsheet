@@ -505,8 +505,8 @@ recognizability/recognizable).
 
 Problēma $A$, kurai neviena no $A$, $overline(A)$ nav daļēji atrisināma?
 
-- $"EQUIV"(M_1, M_2) = 1$, ja $forall x: M_1(x) = M_2(x)$.
-- $overline("EQUIV")(M_1, M_2) = 1$, ja $exists x: M_1(x) != M_2(x)$.
+- $equiv(M_1, M_2) = 1$, ja $forall x: M_1(x) = M_2(x)$.
+- $overline(equiv)(M_1, M_2) = 1$, ja $exists x: M_1(x) != M_2(x)$.
 
 
 = Nekustīgo punktu teorija
