@@ -1,5 +1,5 @@
 #import "@preview/finite:0.5.0": automaton
-#import "@preview/fletcher:0.5.7" as fletcher: diagram, edge, node
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 #import "@preview/gentle-clues:1.2.0": *
 #import "@preview/tablex:0.0.9": tablex
 #import "layout.typ": indent-par, project
@@ -15,6 +15,7 @@
 #let TM = $"TM"$
 #let qrej = $q_"rej"$
 #let qacc = $q_"acc"$
+#let qnew = $q_"new"$
 #let halt = $"HALTING"$
 #let halt2 = $"HALTING"_2$
 #let NP = $"NP"$
@@ -38,14 +39,14 @@ un iet virzienā $d space (<- "vai" ->)$.
 === Divas (vai vairākas fiksētas) lentes
 $(q, a_1, a_2) -> (q', b_1, b_2, d_1, d_2)$ -- $a_1$, $b_1$, $d_1$ pirmai
 lentei un $a_2$, $b_2$, $d_2$ otrai lentei.
-Svarīga atšķirība ir ka vairlāklenšu #TM papildus $<-$ un $->$ virzieniem ir
+Svarīga atšķirība ir ka vairāklenšu #TM papildus $<-$ un $->$ virzieniem ir
 $arrow.b$ (stāvēšana uz vietas). #footnote[Derīgs ar uzdevumiem, kur palīdz
   kopēšana/salīdzināšana.]
 
 === Stāvēšana uz vietas
 Nosimulēt stāvēšanu uz vietas jeb $d=0$ var šādi:
-- $(q, a) -> (q_"new", a', ->)$
-- $(q_"new", a slash b slash c slash * ) -> (q_"new", a slash b slash c slash *, <-)$
+- $(q, a) -> (qnew, a', ->)$
+- $(qnew, a slash b slash c slash * ) -> (qnew, a slash b slash c slash *, <-)$
 
 === Modelis, ko pamatā izmanto šajā kursā!
 
@@ -245,9 +246,9 @@ jāparāda, ka varam konstruēt Tjūringa mašīnu, kas atrisina #halt2, izmanto
 #halt kā atrisinātu problēmu (jeb kā apakšprogrammu).
 
 Pieņemsim, ka mums ir Tjūringa mašīna $H$, kas atrisina #halt problēmu.
-Konstruēsim jaunu Tjūringa mašīnu $H 2$, kas atrisina #halt2 problēmu:
+Konstruēsim jaunu Tjūringa mašīnu $H_2$, kas atrisina #halt2 problēmu:
 
-Tjūringa mašīna $H 2$ darbojas sekojoši:
+Tjūringa mašīna $H_2$ darbojas sekojoši:
 - Doti ievades dati $M$, $x$ un $y$.
 - Palaiž $H$ ar ievaddatiem $(M, x)$.
 - Ja $H$ akceptē $(M, x)$, apstājas un akceptē.
@@ -257,10 +258,10 @@ Tjūringa mašīna $H 2$ darbojas sekojoši:
 
 // Jorens:Nav "vai nu", bet "vai". Citādi paliek abi pozitīvi, kas nav
 // apskatīti.
-Konstruējot $H 2$ šādā veidā, mēs simulējam $H$ darbību uz abām ievadēm $x$ un
+Konstruējot $H_2$ šādā veidā, mēs simulējam $H$ darbību uz abām ievadēm $x$ un
 $y$:
-- Ja $H$ akceptē $(M, x)$ vai $(M, y)$, $H 2$ akceptēs un apstāsies.
-- Ja $H$ noraida gan $(M, x)$, gan $(M, y)$, $H 2$ noraidīs un apstāsies.
+- Ja $H$ akceptē $(M, x)$ vai $(M, y)$, $H_2$ akceptēs un apstāsies.
+- Ja $H$ noraida gan $(M, x)$, gan $(M, y)$, $H_2$ noraidīs un apstāsies.
 
 // Jorens: Tas jau ir nedaudz liekvārdīgi, izņēmu dažas lietas.
 
@@ -268,7 +269,7 @@ _Tālākais teksts nav obligāts risinājumā._
 
 Redukcijas analīze:
 - Ja $halt2(M, x, y) = 1$, tas nozīmē, ka Tjūringa mašīna $M$ apstājas vismaz
-  uz vienas no ievadēm $x$ vai $y$. Šajā gadījumā $H 2$ arī apstāsies un
+  uz vienas no ievadēm $x$ vai $y$. Šajā gadījumā $H_2$ arī apstāsies un
   akceptēs, jo tā veiksmīgi simulē $H$ uz abām ievadēm un akceptē, ja $H$
   akceptē kādu no tām. Tādējādi #halt2 tiek reducēta uz #halt.
 - Ja $halt2(M, x, y) = 0$, tas nozīmē, ka Tjūringa mašīna $M$ neapstājas ne uz
@@ -301,8 +302,8 @@ atrisinātu šo problēmu.
 - $F$ var definēt caur $M$ atbildēm uz dažādām ieejas virknēm $x$.
 
 Piemēram:
-- $"ONE"(M) = 1$, ja $exists x: M(x) = 1$
-- $"INFINITE"(M) = 1$, ja $exists^infinity x: M(x) = 1$
+- $one(M) = 1$, ja $exists x: M(x) = 1$
+- $infinite(M) = 1$, ja $exists^oo x: M(x) = 1$
 
 Citiem vārdiem, ja $forall x: M_1(x) = M_2(x)$, tad $F(M_1) = F(M_2)$.
 
@@ -313,7 +314,7 @@ Citiem vārdiem, ja $forall x: M_1(x) = M_2(x)$, tad $F(M_1) = F(M_2)$.
   nevienai ieejas virknei $x$.
 
 Papildus Tjūringa mašīnas funkcionālam aprakstam, mums ir papildus informācija
-par mašīnu, par tās struktūru etc.
+par mašīnu, par tās struktūru utt.
 
 == Raisa teorēma
 
@@ -708,7 +709,7 @@ Lai atrastu koda izpildes laiku:
   no $n$ (skat. @time_analysis_expressions).
 + Novērtē šīs funkcijas klasi izmantojot lielā-O notāciju.
 
-===== Piemērs ($|a| =^? |b|$)
+===== Piemērs ($abs(a) =^? abs(b)$)
 Vai ieejas virknē ir vienāds skaits $a$ un $b$?
 
 + Virzās no kreisās puses uz labo, aizstājot vienu $a$ un vienu $b$ ar $x$;
@@ -731,7 +732,7 @@ Kopējais soļu skaits:
 
 $
   "SPACE"(f(N)) = \
-  = {L | L "var atrisināt ar Tjūringa" \
+  = {L mid(|) L "var atrisināt ar Tjūringa" \
     "mašīnu, kurai" S(N) <= C f(N)}. \
 $
 
@@ -739,7 +740,7 @@ $
 
 $
   "NSPACE"(f(N)) = \
-  = {L | L "ir determinēta" M, "visiem" x, L(x)=M(x), \
+  = {L mid(|) L "ir determinēta" M, "visiem" x, L(x)=M(x), \
     "un" M "izmanto " <= c f(N) "šūnas uz darba lentes"}. \
 $
 
@@ -805,7 +806,7 @@ Ekvivalence ir pierādīta ar abpusēju pārveidojumu no pārbaudītāja uz nede
 
 == NP-pilnas probēmas un to redukcijas
 
-=== Polinomiāla redukcija $(<=_("poly"))$
+=== Polinomiāla redukcija $(<=#sub("poly"))$
 
 - $A <= B$ – A var atrisināt, noreducējot to uz B.
 - $A <=_("poly") B$, ja ir $O(n^c)$ laika algoritms (Tjūringa mašīna) $P$:
@@ -816,7 +817,7 @@ Ekvivalence ir pierādīta ar abpusēju pārveidojumu no pārbaudītāja uz nede
 
 - A – NP-pilna, ja:
   - $A in "NP"$;
-  - Ja $B in NP$, tad $B <=_("poly") A$.
+  - Ja $B in NP$, tad $B <=#sub("poly") A$.
 
 === 3-SAT problēma
 
@@ -825,10 +826,33 @@ būtu 1 (patiess).
 
 === CIRCUIT-SAT problēma
 
-Dota funkcija $F(x_1, ..., x_n)$, kas sastāv no vārtiem (AND, OR, NOT).
+Dota funkcija $F(x_1, ..., x_n)$, kas sastāv no vārtiem (`AND`, `OR`, `NOT`).
 
 #figure(
-  image("assets/img/circuit_sat.png", width: 50%),
+  diagram(
+    cell-size: 1mm,
+    node-stroke: 0.5pt,
+    node-shape: circle,
+    spacing: 1em,
+    node((0, 0), `OR`, name: <or-1>, radius: 1em),
+    node((-1, 1), `AND`, name: <and-1>, radius: 1em),
+    node((1, 1), `AND`, name: <and-2>, radius: 1em),
+    node((-2, 2), $x_1$, stroke: none, name: <x1>, radius: 1em),
+    node((0, 2), `OR`, name: <or-2>, radius: 1em),
+    node((1, 2), `NOT`, name: <not>, radius: 1em),
+    node((-1, 3), $x_2$, stroke: none, name: <x2>, radius: 1em),
+    node((1, 3), $x_3$, stroke: none, name: <x3>, radius: 1em),
+
+    edge((0, -1), <or-1>),
+    edge(<or-1>, <and-1>),
+    edge(<or-1>, <and-2>),
+    edge(<and-1>, <x1>),
+    edge(<and-1>, <or-2>),
+    edge(<and-2>, <not>),
+    edge(<or-2>, <x2>),
+    edge(<or-2>, <x3>),
+    edge(<not>, <x3>),
+  ),
   caption: "CIRCUIT-SAT visual",
 )
 
@@ -836,14 +860,14 @@ Vai var atrast mainīgo vērtības tā lai gala izvade būtu 1 (patiess).
 
 === CLIQUE problēma
 
-$exists C subset.eq V: (|C| = k) and (forall (u, v in C): (u, v) in E)$
+$exists C subset.eq V: (abs(C) = k) and (forall (u, v in C): (u, v) in E)$
 
 Vārdiski. Vai eksistē virsotņu kopa $S$ lielumā $k$, kurā katra virsotne ir
 savienota ar katru otro no kopas $S$.
 
 === IND-SET problēma
 
-$exists S subset.eq V: (|S| = k) and (forall (u, v in S): (u, v) in.not E)$
+$exists S subset.eq V: (abs(S) = k) and (forall (u, v in S): (u, v) in.not E)$
 
 Vārdiski. Vai grafā $G=(V, E)$ eksistē virsotņu kopa $S$ lielumā $k$, kurā
 katra no virsotnēm nav savienota ar nevienu citu virsotni no šīs
@@ -853,7 +877,7 @@ kopas.
 
 Vai dotā lineāru nevienādību sistēma ar bināriem mainīgajiem ir atrisināma.
 
-=== CIRCUIT-SAT ≤ₚ 3-SAT
+=== CIRCUIT-SAT $<=#sub("p")$ 3-SAT
 
 - Katram starprezultātam (kas nav pirmajā ievadē, i.e., $x_1$, $x_2$, $dots$,
   $x_n$) ievieš jaunus mainīgos $y_i$.
@@ -898,36 +922,97 @@ $
 Analoģiski iekavām ar vienu elementu. Rezultātā ir 3-CNF formula, ko var
 izmantot ar 3-SAT algoritmu.
 
-=== 3-SAT ≤ₚ IND-SET
+=== 3-SAT $<=#sub("p")$ IND-SET
 
 Katrai iekavai no formulas veido $3$ virsotnes (grafa komponenti), kas apzīmē
-mainīgo (ar NOT, ja ir negācija). Katra virsotne (literālis) no komponentes ir
+mainīgo (ar `NOT`, ja ir negācija). Katra virsotne (literālis) no komponentes ir
 savā starpā savienota ar pārējām. Starp pretrunīgiem literāliem starp
 komponentēm pievieno šķautni.
 
 Piemērs formulai $(x or y or not z) and (not x or y or z)$:
 
+
+#let dot-node(pos, name) = node(pos, name: name, fill: black, radius: 2pt)
 #figure(
-  image("assets/img/3_sat_indset.png", width: 50%),
-  caption: "3-SAT -> INDSET visual",
+  diagram(
+    cell-size: 1mm,
+    node-stroke: 0pt,
+    spacing: 1em,
+    node-shape: circle,
+    // phantom location nodes
+    dot-node((0, 0), <y1>),
+    dot-node((1, -1), <x>),
+    dot-node((1, 1), <not-z>),
+    dot-node((4, -1), <not-x>),
+    dot-node((4, 1), <y2>),
+    dot-node((5, 0), <z>),
+
+    // label nodes
+    node((rel: (-0.7em, 0em), to: <y1>), $y$),
+    node((rel: (0em, 0.7em), to: <x>), $x$),
+    node((rel: (0em, 0.7em), to: <not-x>), $not x$),
+    node((rel: (0.7em, 0em), to: <z>), $z$),
+    node((rel: (0em, -0.7em), to: <not-z>), $not z$),
+    node((rel: (0em, -0.7em), to: <y2>), $y$),
+
+    edge(<x>, <y1>),
+    edge(<x>, <not-x>),
+    edge(<x>, <not-z>),
+    edge(<y1>, <not-z>),
+    edge(<z>, <not-z>),
+    edge(<z>, <not-x>),
+    edge(<z>, <y2>),
+    edge(<y2>, <not-x>),
+  ),
+  caption: [3-SAT $->$ INDSET visual],
 )
 
-Tagad varam pielietot $"IND-SET"\(G, m\)$ ar izveidoto grafu un $m$ kā iekavu
+Tagad varam pielietot $"IND-SET"(G, m)$ ar izveidoto grafu un $m$ kā iekavu
 skaitu originālajā formulā.
 
-=== IND-SET ≤ₚ CLIQUE
+=== IND-SET $<=#sub("p")$ CLIQUE
 
 - Veido grafa papildinājumu (komplementu) $G' = (V, E')$:
 
-$E' := {(u, v) in V times V | (u, v) in.not E}$
+$ E' := {(u, v) in V times V mid(|) (u, v) in.not E} $
 
 Vārdiski. Jauns grafs $G$, kurā ir visas virsotnes no $V$, bet
 visas šķautnes, kas ir $G$ nav $G'$ un pretēji -- visas šķautnes
 kā nav $G$ ir $G'$.
 
-#figure(
-  image("assets/img/graph_complement.png", width: 50%),
-  caption: "Papildgrafa piemērs",
+#figure(diagram(
+  cell-size: 1mm,
+  node-stroke: 0pt,
+  spacing: 1em,
+  node-shape: circle,
+  // phantom location nodes
+  dot-node((0, 0), <b1>),
+  dot-node((-2, 1), <a1>),
+  dot-node((0, 2), <c1>),
+
+  dot-node((0, 4), <b2>),
+  dot-node((-2, 5), <a2>),
+  dot-node((0, 6), <c2>),
+
+  // label nodes
+  node((rel: (0.7em, 0.7em), to: <b1>), $B$),
+  node((rel: (-0.7em, 0em), to: <a1>), $A$),
+  node((rel: (0.7em, 0.7em), to: <c1>), $C$),
+  node((1, 1), text(green, $G$)),
+
+  node((rel: (0.7em, 0.7em), to: <b2>), $B$),
+  node((rel: (-0.7em, 0em), to: <a2>), $A$),
+  node((rel: (0.7em, 0.7em), to: <c2>), $C$),
+  node((1.6, 5), text(green, $G "papildinājums"$)),
+
+  edge(<a1>, <b1>),
+  edge(<c1>, <b1>, "--", stroke: yellow),
+  edge(<c1>, <a1>),
+  edge(<a2>, <b2>, "--", stroke: yellow),
+  edge(<c2>, <b2>),
+  edge(<c2>, <a2>, "--", stroke: yellow),
+)),
+caption: "Papildgrafa piemērs",
 )
 
 Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
@@ -965,29 +1050,26 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
 ]
 
 == Atvasinājumu tabula
-
 #context [
   #set text(size: 11pt)
   #show math.equation: set text(weight: 400, size: 11pt)
 
   #table(
     columns: 3,
-    inset: (top: .8em, bottom: .9em),
     // vert. padding
-    [*Funkcija*], [*Atvasinājums*], [*Piezīmes*],
+    [*Funkcija*],
+    [*Atvasinājums #footnote[Ja $x = g(x)$ (kompleksa funkcija), tad pie atvasinājuma piereizina $g(x)'$.]*],
+    [*Piezīmes*],
 
-    [$x^n$], [$n x^(n-1)$], [],
-    [$e^x$], [$e^x$], [],
-    [$a^x$], [$a^x ln(a)$], [$a > 0$],
-    [$ln(x)$], [$1 / x$], [],
-    [$1 / x$], [$-1 / x^2$], [],
-    [$1 / x^n$], [$-n / x^(n+1)$], [],
-    [$sqrt(x)$], [$1 / (2 sqrt(x))$], [],
-    [$1 / sqrt(x)$], [$-1 / (2 x^(3/2))$], [],
+    $ x^n $, $ n x^(n-1) $, "",
+    $ e^x $, $ e^x $, "",
+    $ a^x $, $ a^x ln(a) $, $ a > 0 $,
+    $ ln(x) $, $ 1 / x $, "",
+    $ 1 / x $, $ -1 / x^2 $, "",
+    $ 1 / x^n $, $ -n / x^(n+1) $, "",
+    $ sqrt(x) $, $ 1 / (2 sqrt(x)) $, "",
+    $ 1 / sqrt(x) $, $ -1 / (2 x^(3/2)) $, "",
   )
-
-  \* Ja $x = g(x)$ (kompleksa funkcija), tad pie atvasinājuma
-  piereizina $g(x)'$.
 ]
 
 == Noderīgas izteiksmes laika analīzē<time_analysis_expressions>
