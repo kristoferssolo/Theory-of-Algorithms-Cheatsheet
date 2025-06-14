@@ -55,6 +55,8 @@
   // Headings
   set heading(numbering: "1.1.")
 
+  set footnote(numbering: "*")
+
   // Start page numbering
   set page(numbering: "1", number-align: center)
 

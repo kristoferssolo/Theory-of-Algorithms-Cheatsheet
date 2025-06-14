@@ -5,10 +5,12 @@
 #import "layout.typ": indent-par, project
 
 #show: project.with(title: [Theory of Algorithms Cheatsheet], authors: (
-  "Kristofers Solo", "jorenchik"
+  "Kristofers Solo",
+  "jorenchik",
 ))
 
 #let teo(title: "Teorēma", ..args) = memo(title: title, ..args)
+#let uzd(title: "Uzdevums", ..args) = question(title: title, ..args)
 
 #let TM = $"TM"$
 #let qrej = $q_"rej"$
@@ -16,10 +18,10 @@
 #let halt = $"HALTING"$
 #let halt2 = $"HALTING"_2$
 #let NP = $"NP"$
-#let hline = $\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_$
+#let hline = line(length: 50%, stroke: 0.5pt)
 
 = Tjūringa Mašīnas
-== Variācijas 
+== Variācijas
 Var būt 3 veida uzdevumi: stāvokļu, tekstuāls, vairāklenšu.
 
 #info(title: "Čērča-Tjūringa tēze")[
@@ -29,17 +31,16 @@ Var būt 3 veida uzdevumi: stāvokļu, tekstuāls, vairāklenšu.
   šim nav atrasts pretpiemērs.
 ]
 
-=== Viena lente<one_tape>
+=== Viena lente <one_tape>
 $(q, a) -> (q', a', d)$ -- stāvoklī $q$ redzot $a$, ieraksta $a'$
 un iet virzienā $d space (<- "vai" ->)$.
 
 === Divas (vai vairākas fiksētas) lentes
 $(q, a_1, a_2) -> (q', b_1, b_2, d_1, d_2)$ -- $a_1$, $b_1$, $d_1$ pirmai
-lentei un $a_2$, $b_2$, $d_2$ otrai lentei. Svarīga atšķirība ir ka
-vairlāklenšu TM  papildus $<-$ un $->$ virzieniem ir $arrow.b$ (stāvēšana uz
-vietas).
-
-\* Derīgs ar uzdevumiem, kur palīdz kopēšana/salīdzināšana.
+lentei un $a_2$, $b_2$, $d_2$ otrai lentei.
+Svarīga atšķirība ir ka vairlāklenšu #TM papildus $<-$ un $->$ virzieniem ir
+$arrow.b$ (stāvēšana uz vietas). #footnote[Derīgs ar uzdevumiem, kur palīdz
+  kopēšana/salīdzināšana.]
 
 === Stāvēšana uz vietas
 Nosimulēt stāvēšanu uz vietas jeb $d=0$ var šādi:
@@ -49,14 +50,14 @@ Nosimulēt stāvēšanu uz vietas jeb $d=0$ var šādi:
 === Modelis, ko pamatā izmanto šajā kursā!
 
 Šajā kursā fokusējas uz TM, kas ir:
-  + Vienas lentes (skat. @one_tape); 
-  + Bezgalīga vienā virzienā -- pa labi; 
-  + Pirmais simbols ir tukšais simbols (`_`); 
-  + Pēc pirmā simbola ir ievade;
-  + Pēc ievades ir bezgalīgs tukšu simbolu skaits;
-  + Sāk uz pirmā ievades simbola (viens pēc pirmā tukšuma).
++ Vienas lentes (skat. @one_tape);
++ Bezgalīga vienā virzienā -- pa labi;
++ Pirmais simbols ir tukšais simbols (`_`);
++ Pēc pirmā simbola ir ievade;
++ Pēc ievades ir bezgalīgs tukšu simbolu skaits;
++ Sāk uz pirmā ievades simbola (viens pēc pirmā tukšuma).
 
-== Risinājuma shēma 
+== Risinājuma shēma
 + Izdomāt, kā aizstājot simbolus ar $*$ var pārbaudīt virknes derību.
 + Atcerēties par secību -- aiz $a$ var sekot tikai $b slash c$, aiz $b$ var sekot tikai $c$, utt.
 + Doties katrā no virzieniem var doties arī līdz galam jeb tukšumam $\_$.
@@ -125,14 +126,14 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 ]
 
 = Sanumurējamība
-== Definīcija 
+== Definīcija
 - Bezgalīgas kopas $A$, $B$ ir vienāda izmēra, ja ir bijekcija ($1:1$ attiecība)
   $F: A->B$.
 - $A$ ir sanumurējama ar atkārtojumiem, ja ir attēlojums $F:N->A$, kas par katru
   $a in A$ attēlo vismaz vienu $x in NN$.
 #teo[$A$ ir sanumurējama ar atkārtojumiem tad un tikai tad, ja $A$ ir sanumurējama.]
 
-== Sanumerātības pierādījums 
+== Sanumerātības pierādījums
 - Kopa ir sanumurējama, ja tajā eksistē bijekcija starp kopas elementiem un
   naturāliem skaitļiem. Citos vārdos sakot, katram kopas elementam var piešķirt
   unikālu naturālu skaitli.
@@ -219,8 +220,8 @@ Surjekcija: katram $z in ZZ$ eksistē $n in NN$, ka $F(n) = z$.
 
 == Definīcija
 
-- $A <= B$, ja ir ar Tjūringa mašīnu izrēķināms pārveidojums 
-  - $R$: (ieejas dati $A$) -> (ieejas dati $B$),
+- $A <= B$, ja ir ar Tjūringa mašīnu izrēķināms pārveidojums
+  - $R$: (ieejas dati $A$) $->$ (ieejas dati $B$),
   - $B(R(x)) = A(x)$.
 
 Ja $A <= B$ -- ja var atrisināt $B$, tad var atrisināt $A$. $A$ ir reducējuma
@@ -233,7 +234,7 @@ Ja $A <= B and A >= B$, tad $A$ un $B$ ir ekvivalentas.
 // Jorens: Originally šeit bija sajaukta secība, bet uzdevums ir kinda valīds
 // abās pusēs, kopumā risinājums ir nedaudz problemātisks.
 
-#quote[
+#uzd[
   Dota problēma $halt2(M, x, y) = 1$, kur Tjūringa mašīna $M$ apstājas vismaz uz
   vienas no ievadēm $x$ vai $y$. Pierādīt, ka to var vai nevar reducēt uz
   $halt$, tas ir parādīt $(halt 2 <= halt)$.
@@ -276,7 +277,7 @@ Redukcijas analīze:
 
 Tādējādi #halt2 tiek reducēta uz #halt.
 
-= Neatrisināmas (non-decidable) problēmas 
+= Neatrisināmas (non-decidable) problēmas
 
 #let acc = $"ACCEPTING"$
 #let eqans = $"EQUAL-ANSWERS"$
@@ -323,7 +324,7 @@ par mašīnu, par tās struktūru etc.
 Teorēma "pasaka" mums priekšā, ka jebkuru netriviālu *funkcionālu* īpašību
 nevar atrisināt.
 
-== Uzskaitījums 
+== Uzskaitījums
 - $halt(M\# x)=1$, ja $M$ apstājas, ja ieejas virkne $=x$.
 - $acc(M\# x)=1$, ja $M$ uz ieejas virknes izdod atbildi $1$.
 - $eqans(M\# x \# y)=1$, ja $M$ uz ieejas virknēm $x$ un $y$ izdod vienādas atbildes.
@@ -331,10 +332,10 @@ nevar atrisināt.
 - $infinite(M)=1$, ja eksistē bezgalīgi daudzas ieejas virknes $x$, uz kurām $M$ izdod atbildi $1$.
 - $equiv(M 1, M 2)=1$, ja $M1(x)=M2(x)$
 - $"PCP"(S_1, S_2)=1$ (Post-correspondance problem), ja divām galībām kopām $A = [a_1,
-  a_2, ..., a_n]$ un $B = [b_1, b_2, dots, b_n]$ var izvēlēties indeksu secības
+    a_2, ..., a_n]$ un $B = [b_1, b_2, dots, b_n]$ var izvēlēties indeksu secības
   $a_("i1") a_("i2") ... a_("ik")$ = $b_("i1") b_("i2") ... b_("ik")$ (tā lai
   konkatenācijas būtu vienādas); domino kauliņi ar augšu un apakšu, ko saliekot
-  kopā, globālai augšai un apakšai jāsakrīt. 
+  kopā, globālai augšai un apakšai jāsakrīt.
 - $"MORTAL-MATRIX"(S)=1$, vai no matricām $M_1, M_2, ..., M_n$ var izveidot
   secību (ar atkārtojumiem), ka matricu reizinājums būtu 0.
 // LININEQ, HAMCYCLE are DECIDABLE!
@@ -369,7 +370,7 @@ nevar atrisināt.
 #context [
   #set par(justify: false)
   == Piemēri (prob. ir neatr)
-  === #halt <= #acc
+  === $halt <= acc$
   - #underline("Teorēma"): Ja var atrisināt #acc, tad var atrisināt arī #halt
   - #underline("Pierādījums"): Attēlojums $R:M->M'$ ar īpašību $halt(M\#x) = acc(M'\#x)$.
   - Tad $halt(M\#x)$ var atrisināt sekojoši:
@@ -378,7 +379,7 @@ nevar atrisināt.
   - Ja $M$ akceptē/noraida, tad $M'$ akceptē (izdos $1$).
   - Ja $M$ neapstājas, $M'$ arī neapstājas.
 
-  === #acc <= #eqans
+  === $acc <= eqans$
   - #underline("Zinām"): #acc nav atrisināma
   - #underline("Pierādām"): Ja var atrisināt #eqans, tad var atrisināt arī #acc.
   - #underline("Secinām"): #eqans nevar atrisināt.
@@ -389,21 +390,21 @@ nevar atrisināt.
   - $M'(quote.angle.l.double s quote.angle.r.double)=1$, $M'(x)=M(x)$, ja $x$ nesatur $s$.
   - $eqans(M'\# x \# quote.angle.l.double s quote.angle.r.double)=acc(M\#x)$.
 
-  === #acc <= #one
+  === $acc <= one$
   - #underline("Pierādām"): Ja var atrisināt #one, tad var atrisināt arī #acc.
   - Dots: $M, x$
   - Jādefinē: $M': one(M') = acc(M\# x)$.
   - $M'$: nodzēš no lentes ieejas virkni $y$, uzraksta $x$, palaiž $M$ programmu.
   - Jebkurai $y, M'(y)=M(x)$.
 
-  === #acc <= #infinite
+  === $acc <= infinite$
   - #underline("Pierādām"): Ja var atrisināt #infinite, tad var atrisināt arī #acc.
   - Dots: $M, x$
   - Jādefinē: $M': infinite(M') = acc(M\# x)$.
   - Jebkurai $y, M'(y)=M(x)$.
   - Ja $M(x)=1$, tad $M'(y)=1$ jebkurai $y$.
 
-  === #acc <= #equiv 
+  === $acc <= equiv$
   - #underline("Pierādām"): Ja var atrisināt #equiv, tad var atrisināt arī #acc.
   - Dots: $M, x$
   - Jādefinē: $M_1, M_2: equiv(M_1, M_2) = acc(M\# x)$.
@@ -488,7 +489,7 @@ ka $L in NP$ un ka $SAT <_p L$ (vai jebkura cita zināma NP-pilna problēma).
 
 Tas, ka problēma ir daļēji atrisināma, nozīmē, ka nav konkrēta un *vispārīga*
 algoritma, kas vienmēr varētu sniegt pareizu "nē" atbildi gadījumiem ārpus
-problēmas. 
+problēmas.
 
 Var būt iespējams konstruēt Tjūringa mašīnu, kas apstājas un sniedz
 "nē" atbildi noteiktiem gadījumiem ārpus problēmas, bet tas nav garantēts
@@ -507,7 +508,7 @@ Problēma $A$, kurai neviena no $A$, $overline(A)$ nav daļēji atrisināma?
 - $overline("EQUIV")(M_1, M_2) = 1$, ja $exists x: M_1(x) != M_2(x)$.
 
 
-= Nekustīgo punktu teorija 
+= Nekustīgo punktu teorija
 
 == Nekustīgā punkta teorēma
 
@@ -539,10 +540,10 @@ $F(x)$ ir vienmēr izskaitļojama, jo ja mums ir pieejama $x$ programmas
 apraksts, ir iespējams uzbūvēt programmu, kas salīdzina ar brīvi izvēlamu
 ievadi $y$.
 
-Pēc nekustīgā punkta teorēmas eksistē $x$, ka 
+Pēc nekustīgā punkta teorēmas eksistē $x$, ka
 
 $
-phi_(F(x)) = phi_x.
+  phi_(F(x)) = phi_x.
 $
 
 + Tātad eksistē tāds $x$, ka $x$ ir funkcionāli ekvivalenta $F(x)$.
@@ -570,21 +571,21 @@ $g(n)$.
 /*
 === Piemērs
 
-$f(n) = 17n^2 + 23n + 4$  
+$f(n) = 17n^2 + 23n + 4$
 $g(n) = n^2$
 
 Tad $f(n) in O(n^2)$, jo:
 
-$17n^2 + 23n + 4 \leq 17n^2 + 23n^2 + 4n^2 = 44n^2$  
+$17n^2 + 23n + 4 \leq 17n^2 + 23n^2 + 4n^2 = 44n^2$
 tātad $C = 44$.
 */
 
-=== Mazais-o (formālā definīcija)
+=== Mazais-$o$ (formālā definīcija)
 
 $f(n) in o(g(n))$, ja:
 
 $
-lim_(i -> infinity) f(n) / g(n) = 0
+  lim_(i -> infinity) f(n) / g(n) = 0
 $
 
 Tas nozīmē, ka funkcija $f(n)$ kļūst nenozīmīga attiecībā pret $g(n)$, $n$
@@ -593,18 +594,18 @@ tiecoties uz bezgalību.
 /*
 === Piemērs
 
-$log(n) \in o(n)$  
-jo jebkuram $epsilon > 0$ pietiekami lieliem $n$:  
+$log(n) \in o(n)$
+jo jebkuram $epsilon > 0$ pietiekami lieliem $n$:
 $log(n) <= epsilon * n$.
 */
 
-=== $f(n) in O(g(n))$ pamatojuma triks 
+=== $f(n) in O(g(n))$ pamatojuma triks
 
 Ja ir pierādījums, ka $f(n) in o(g(n))$, tad automātiski var secināt, ka $f(n)
 in O(g(n))$. *Tikai pozitīvajā gadījumā!* Jo mazais $o$ ir stingrāka prasība
 par lielo $O$.
 
-=== Pamatojuma soļi 
+=== Pamatojuma soļi
 
 - Ja funkcija pielīdzināta lielajam $O$:
   + Salīdzina funkcijas augstāko pakāpi ar doto $O$ pakāpi.
@@ -616,30 +617,30 @@ par lielo $O$.
   + Jāievieto dotais robežā $lim_(x->oo)f(x)/g(x)$;
   + Rezultāts ir 0, patiess, citādi -- nepatiess.
 
-=== Piemērs (lielais-O)
+=== Piemērs (lielais-$O$)
 
 $ 2n^4 + 6n^2 + 17 =^? O(n^4) $
 
 Izteiksme ir patiesa, tā kā kreisās puses izteiksmes augstākā pakāpe jeb kārta
 ir $4$ un iekš $O$ tā arī ir $4$.
 
-=== Piemērs (lielais-O)
+=== Piemērs (lielais-$O$)
 $ 2n^4 + 6n^2 + 17 =^? O(n^3) $
 
 Izteiksme ir aplama, jo kreisajā pusē augstākā pakāpe ir $4$, kamēr labajā ir
 norādīta $3$, un $4$ pakāpes izteiksmi nevar izpildīt $O(n^3)$.
 
-=== Piemērs (lielais-O)
+=== Piemērs (lielais-$O$)
 $ n^3 + 17n + 4 in^? O(n^3) $
 
 Jā, $n^3 + 17n + 4 <= n^3 + 17n^3 + 4n^3 = 22n^3$.
 
-=== Piemērs (lielais-O)
+=== Piemērs (lielais-$O$)
 $ n^4 + 17n + 4 in^? O(n^3) $
 
 Nē $n^4 + 17n + 4 > n^4 = n dot n^3$
 
-=== Piemērs (mazais-O) <small-o-example-3>
+=== Piemērs (mazais-$o$) <small-o-example-3>
 $ n log^4 n =^? o(n^1.5) $
 
 Ir zināms, ka mazajā $O$ notācijai, ja $lim_(x->oo)f(x)/g(x)$, kur $f(x)$ ir
@@ -648,7 +649,7 @@ Ievietojot vērtības $ lim_(n->oo) (n log^4 n)/n^1.5=0 $
 Tātad vienādojums ir
 patiess.
 
-=== Piemērs (mazais-O)
+=== Piemērs (mazais-$o$)
 $ 2^n n^2 =^? o(n^3) $
 
 Pēc tās pašas aprakstītās īpašības, kā @small-o-example-3, sanāktu
@@ -697,7 +698,7 @@ risina $L$ un izmanto $O(f(n))$ soļus.
 
 Īstām programmām rindiņas var izpildīties atšķirīgā laikā -- tas ir atkarīgs
 apakšprogrammu izsaukumi, procesora operācijām. Taču šajā tas tiek abstrahēts un
-katra koda rindiņa tiek uzskatīta par vienu soli. 
+katra koda rindiņa tiek uzskatīta par vienu soli.
 
 Lai atrastu koda izpildes laiku:
 + Novērtē katras rindiņas "globālo laiku" -- cik tā izpildās ņemot vērā visus
@@ -705,9 +706,9 @@ Lai atrastu koda izpildes laiku:
 + Novērtē kādos gadījumos tā izpildās, ja vispār izpildās.
 + Izvērtē to kāds gadījums (ievade) būtu vissliktākā un aprēķina tam funkciju
   no $n$ (skat. @time_analysis_expressions).
-+ Novērtē šīs funkcijas klasi izmantojot lielā-O notāciju. 
++ Novērtē šīs funkcijas klasi izmantojot lielā-O notāciju.
 
-===== Piemērs ($|a| = |b|"?"$)
+===== Piemērs ($|a| =^? |b|$)
 Vai ieejas virknē ir vienāds skaits $a$ un $b$?
 
 + Virzās no kreisās puses uz labo, aizstājot vienu $a$ un vienu $b$ ar $x$;
@@ -724,48 +725,45 @@ Kopējais soļu skaits:
 ==== SPACE Definīcija (Precīzs modelis)
 
 - Ieejas lente - $x_1 ,..., x_n$, var tikai lasīt.
-- Darba lente – sākumā tukša, var arī rakstīt. 
+- Darba lente – sākumā tukša, var arī rakstīt.
 - $S(x_1, ..., x_N)$ – šūnu skaits, kas tiek apmeklētas uz darba lentes.
-- $S(N) = max S(x_1, ..., x_N)$. 
+- $S(N) = max S(x_1, ..., x_N)$.
 
 $
-"SPACE"(f(N)) = \ 
-= {L | L "var atrisināt ar Tjūringa" \
-        "mašīnu, kurai" S(N) <= C f(N)}. \
+  "SPACE"(f(N)) = \
+  = {L | L "var atrisināt ar Tjūringa" \
+    "mašīnu, kurai" S(N) <= C f(N)}. \
 $
 
 ==== NSPACE Definīcija
 
 $
-"NSPACE"(f(N)) = \ 
-= {L | L "ir determinēta" M, "visiem" x, L(x)=M(x), \
-        "un" M "izmanto " <= c f(N) "šūnas uz darba lentes"}. \
+  "NSPACE"(f(N)) = \
+  = {L | L "ir determinēta" M, "visiem" x, L(x)=M(x), \
+    "un" M "izmanto " <= c f(N) "šūnas uz darba lentes"}. \
 $
 
-#teo(
-  title: "Savča teorēma", 
-  [$"NSPACE"(f(N)) subset.eq "SPACE" (f^2(N))$]
-)
+#teo(title: "Savča teorēma", [$"NSPACE"(f(N)) subset.eq "SPACE" (f^2(N))$])
 
 ==== LOGSPACE Definīcija
 
 $
-"LOGSPACE" = "SPACE" (log N).
+  "LOGSPACE" = "SPACE" (log N).
 $
 
 $
-"LOGSPACE" subset.eq U_c "TIME"(c^(log N)) = \
-U_c "TIME" (N^c) = P
+  "LOGSPACE" subset.eq U_c "TIME"(c^(log N)) = \
+  U_c "TIME" (N^c) = P
 $
 
 
 === Laika-Telpas sakarības
 
 #teo[
-  Ja $f(n) >= log N$, tad 
+  Ja $f(n) >= log N$, tad
   $
-  "TIME"(f(N)) subset.eq "SPACE"(f(N)) subset.eq \
-  subset.eq U_c "TIME" (c^(f(N)))
+    "TIME"(f(N)) subset.eq "SPACE"(f(N)) subset.eq \
+    subset.eq U_c "TIME" (c^(f(N)))
   $
 ]
 
@@ -775,10 +773,10 @@ Laiks $O(f(N)) ->$ atmiņa $O(f(N))$.
 
 Sekojošas funkcijas pieaugums pie $x -> infinity$:
 
-$log(x) << x << x \cdot log(x) << x^k << a^x << x! << x^x$
+$log(x) << x << x dot log(x) << x^k << a^x << x! << x^x$
 
 - $x$: mainīgais (parasti $n$).
-- $k$: jebkurš vesles pozitīvs skaitlis ($k in NN$).
+- $k$: jebkurš vesels pozitīvs skaitlis ($k in NN$).
 - $a$: reāla konstante lielāka par $1$ ($a > 1$).
 
 Šo hierarhiju var izmantot intuīcijai par to vai funkcija pieder klasei
@@ -790,22 +788,20 @@ _Source; Mathematics for Computer Science, 2018, Eric Lehman, Google Inc._
 
 = Klase P (TODO)
 
-.
-
 = Klase NP
 
 == NP problēmas
 
-NP (nederminēti-polinomiālas) problēmas 
+#NP (nederminēti-polinomiālas) problēmas
 ir problēmas (2 ekvivalentas definīcijas):
 
 + $L in NP$, ja eksistē pārbaudes algoritms - $O(n^c)$ laika Tjūringa mašīna $M$:
   + Ja $L(x) = 1$, tad eksistē y: $M(x, y) = 1$.
-  + Ja $L(x) = 0$, tad visiem y: $M(x, y) = 0$.  
-+ NP = problēmas $L$, ko var atrisināt ar nedeterminētu mašīnu $O(n^c)$ laikā.
+  + Ja $L(x) = 0$, tad visiem y: $M(x, y) = 0$.
++ #NP = problēmas $L$, ko var atrisināt ar nedeterminētu mašīnu $O(n^c)$ laikā.
 
-Ekvivalence ir pierādīta ar abpusēju pārveidojumu no pārbaudītāja uz nedet. TM
-un atpakaļ.
+Ekvivalence ir pierādīta ar abpusēju pārveidojumu no pārbaudītāja uz nedet.
+#TM un atpakaļ.
 
 == NP-pilnas probēmas un to redukcijas
 
@@ -822,12 +818,12 @@ un atpakaļ.
   - $A in "NP"$;
   - Ja $B in NP$, tad $B <=_("poly") A$.
 
-=== 3-SAT problēma 
+=== 3-SAT problēma
 
 Vai formulai 3-CNF formā var piemeklēt katra mainīgā vērtības tā, lai formula
 būtu 1 (patiess).
 
-=== CIRCUIT-SAT problēma 
+=== CIRCUIT-SAT problēma
 
 Dota funkcija $F(x_1, ..., x_n)$, kas sastāv no vārtiem (AND, OR, NOT).
 
@@ -867,35 +863,36 @@ Piemērs AND vārtiem. Nosaucam ievades kā x, y un izvadi kā z: $z = x and y$
 
 #table(
   columns: 4,
-  [*$x$*],[*$y$*],[*$z$*],[*$z = x and z$?*],
-  [$0$],[$0$],[$0$],[jā],
-  [$0$],[$0$],[$1$],[nē],
-  [$0$],[$1$],[$0$],[jā],
-  [$0$],[$1$],[$1$],[nē],
-  [$1$],[$0$],[$0$],[jā],
-  [$1$],[$0$],[$1$],[nē],
-  [$1$],[$1$],[$0$],[nē],
-  [$1$],[$1$],[$1$],[jā],
+  [*$x$*], [*$y$*], [*$z$*], [*$z = x and z$?*],
+  $0$, $0$, $0$, [jā],
+  $0$, $0$, $1$, [nē],
+  $0$, $1$, $0$, [jā],
+  $0$, $1$, $1$, [nē],
+  $1$, $0$, $0$, [jā],
+  $1$, $0$, $1$, [nē],
+  $1$, $1$, $0$, [nē],
+  $1$, $1$, $1$, [jā],
 )
 
 Izveidojam pretrunas katrai rindai. Tas ir, konjunkciju katrai rindai ar "nē".
 
-Piemēram, 2\. rindai (0, 0, 1): $x or y or not z$.
+Piemēram, 2. rindai $(0, 0, 1)$: $x or y or not z$.
 
 Tad uzbūvējam konjunkciju vārtiem:
 
 $
-(x or y or not z) and (x or not y or not z) and \
- and (not x or y or not z) and (not x or not y or z)
+  (x or y or not z) and (x or not y or not z) and \
+  and (not x or y or not z) and (not x or not y or z)
 $
 
 Veido konjunkciju no visiem vārtiem shēmā. Tā kā 3-SAT sagaida 3 mainīgos katrā
-iekavā. Tiem, kas satur 1 vai 2 (identitātes vārti un not vārti attiecīgi),
-pārveido tos par 3-CNF konjunkciju pievienojot jaunu mainīgo, kas vienā
-formulā ir pozitīvs un otrā -- negācija.
+iekavā.
+Tiem, kas satur 1 vai 2 (identitātes vārti un not vārti attiecīgi), pārveido tos
+par 3-CNF konjunkciju pievienojot jaunu mainīgo, kas vienā formulā ir pozitīvs
+un otrā -- negācija.
 
 $
-(x or not b) = (x or not b or a) and (x or not b or not a)
+  (x or not b) = (x or not b or a) and (x or not b or not a)
 $
 
 Analoģiski iekavām ar vienu elementu. Rezultātā ir 3-CNF formula, ko var
@@ -924,8 +921,8 @@ skaitu originālajā formulā.
 
 $E' := {(u, v) in V times V | (u, v) in.not E}$
 
-Vārdiski. Jauns grafs $G$, kurā ir visas virsotnes no $V$, bet 
-visas šķautnes, kas ir $G$ nav $G'$ un pretēji -- visas šķautnes 
+Vārdiski. Jauns grafs $G$, kurā ir visas virsotnes no $V$, bet
+visas šķautnes, kas ir $G$ nav $G'$ un pretēji -- visas šķautnes
 kā nav $G$ ir $G'$.
 
 #figure(
@@ -975,7 +972,8 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
 
   #table(
     columns: 3,
-    inset: (top: .8em, bottom: .9em), // vert. padding
+    inset: (top: .8em, bottom: .9em),
+    // vert. padding
     [*Funkcija*], [*Atvasinājums*], [*Piezīmes*],
 
     [$x^n$], [$n x^(n-1)$], [],
@@ -988,26 +986,21 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
     [$1 / sqrt(x)$], [$-1 / (2 x^(3/2))$], [],
   )
 
-  \* Ja $x = g(x)$ (kompleksa funkcija), tad pie atvasinājuma 
+  \* Ja $x = g(x)$ (kompleksa funkcija), tad pie atvasinājuma
   piereizina $g(x)'$.
 ]
 
 == Noderīgas izteiksmes laika analīzē<time_analysis_expressions>
 
 $
-sum_(i=1)^(n) i = (n(n+1))/(2) \
-
-sum_(i=1)^(n) i^2 = (n(n+1)(2n+1))/(6)\
-
-sum_(i=1)^(n) i^3 = ( (n(n+1))/(2))^2 \
-
-// Geometric series (ratio r \neq 1)
-r > 1: sum_(i=0)^(n) a*r^i = a * (r^(n+1)-1)/(r-1) quad \
-r < 1: sum_(i=0)^(infinity) a*r^i = (a)/(1-r) \
-
-// Logarithmic sum
-sum_(i=1)^(n) log i = log(n!)  approx n log n - n + O(log n) \
-
-// Exponential sum (appears in brute-force algorithms)
-sum_(i=0)^(n) 2^i = 2^(n+1) - 1 \
+  sum_(i=1)^(n) i = (n(n+1))/(2) \
+  sum_(i=1)^(n) i^2 = (n(n+1)(2n+1))/(6)\
+  sum_(i=1)^(n) i^3 = ( (n(n+1))/(2))^2 \
+  // Geometric series (ratio r \neq 1)
+  r > 1: sum_(i=0)^(n) a*r^i = a * (r^(n+1)-1)/(r-1) quad \
+  r < 1: sum_(i=0)^(infinity) a*r^i = (a)/(1-r) \
+  // Logarithmic sum
+  sum_(i=1)^(n) log i = log(n!) approx n log n - n + O(log n) \
+  // Exponential sum (appears in brute-force algorithms)
+  sum_(i=0)^(n) 2^i = 2^(n+1) - 1 \
 $
