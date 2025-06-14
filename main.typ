@@ -32,11 +32,13 @@ Var būt 3 veida uzdevumi: stāvokļu, tekstuāls, vairāklenšu.
 $(q, a) -> (q', a', d)$ -- stāvoklī $q$ redzot $a$, ieraksta $a'$
 un iet virzienā $d space (<- "vai" ->)$.
 
-=== Divas lentes
+=== Divas (vai vairākas fiksētas) lentes
 $(q, a_1, a_2) -> (q', b_1, b_2, d_1, d_2)$ -- $a_1$, $b_1$, $d_1$ pirmai
 lentei un $a_2$, $b_2$, $d_2$ otrai lentei. Svarīga atšķirība ir ka
 vairlāklenšu TM  papildus $<-$ un $->$ virzieniem ir $arrow.b$ (stāvēšana uz
 vietas).
+
+\* Derīgs ar uzdevumiem, kur palīdz kopēšana/salīdzināšana.
 
 === Stāvēšana uz vietas
 Nosimulēt stāvēšanu uz vietas jeb $d=0$ var šādi:
@@ -118,109 +120,6 @@ Vai ieejas virkne $x \# x$, kur $x in {0,1}^*$
 - Sasniedzot $\#$, uz otras lentes iet atpakaļ līdz pirmajam simbolam.
 - Salīdzina pirmās lentes simbolus pēc $\#$ ar otro lenti.
 
-= Lielais $O$ un mazais $o$
-
-Notācija, kas tiek izmantota, lai raksturotu *funkciju* sarežģītību
-asimptotiski.
-
-== Lielais-O (formālā definīcija)
-
-$f(n) in O(g(n))$, ja:
-
-$exists C > 0, exists n_0 > 0:$ $(forall n >= n_0: f(n) <= c * g(n))$
-
-Tas nozīmē, ka funkcija $f(n)$ asimptotiski nepārsniedz konstanti $c$ reizinātu
-$g(n)$.
-
-/*
-=== Piemērs
-
-$f(n) = 17n^2 + 23n + 4$  
-$g(n) = n^2$
-
-Tad $f(n) in O(n^2)$, jo:
-
-$17n^2 + 23n + 4 \leq 17n^2 + 23n^2 + 4n^2 = 44n^2$  
-tātad $C = 44$.
-*/
-
-== Mazais-o (formālā definīcija)
-
-$f(n) in o(g(n))$, ja:
-
-$
-lim_(i -> infinity) f(n) / g(n) = 0
-$
-
-Tas nozīmē, ka funkcija $f(n)$ kļūst nenozīmīga attiecībā pret $g(n)$, $n$
-tiecoties uz bezgalību.
-
-/*
-=== Piemērs
-
-$log(n) \in o(n)$  
-jo jebkuram $epsilon > 0$ pietiekami lieliem $n$:  
-$log(n) <= epsilon * n$.
-*/
-
-== *$f(n) in O(g(n))$* pamatojuma triks 
-
-Ja ir pierādījums, ka $f(n) in o(g(n))$, tad automātiski var secināt, ka $f(n)
-in O(g(n))$. *Tikai pozitīvajā gadījumā!* Jo mazais $o$ ir stingrāka prasība
-par lielo $O$.
-
-== Pamatojuma soļi 
-
-- Ja funkcija pielīdzināta lielajam $O$:
-  + Salīdzina funkcijas augstāko pakāpi ar doto $O$ pakāpi.
-  + Ja funkcijas pakāpe ir lielāka, tad vienādojums būs patiess, jo funkcija aug
-    straujāk.
-  + Korektam risinājumam jāpamato kāpēc definīcijas nevienādība ir patiesa
-    visiem $n >= n_0$ un iespējams jāparāda piemēra $c$.
-- Ja funkcija pielīdzināta mazajam $o$:
-  + Jāievieto dotais robežā $lim_(x->oo)f(x)/g(x)$;
-  + Rezultāts ir 0, patiess, citādi -- nepatiess.
-
-== Piemērs (lielais-O)
-
-$ 2n^4 + 6n^2 + 17 =^? O(n^4) $
-
-Izteiksme ir patiesa, tā kā kreisās puses izteiksmes augstākā pakāpe jeb kārta
-ir $4$ un iekš $O$ tā arī ir $4$.
-
-== Piemērs (lielais-O)
-$ 2n^4 + 6n^2 + 17 =^? O(n^3) $
-
-Izteiksme ir aplama, jo kreisajā pusē augstākā pakāpe ir $4$, kamēr labajā ir
-norādīta $3$, un $4$ pakāpes izteiksmi nevar izpildīt $O(n^3)$.
-
-== Piemērs (lielais-O)
-$ n^3 + 17n + 4 in^? O(n^3) $
-
-Jā, $n^3 + 17n + 4 <= n^3 + 17n^3 + 4n^3 = 22n^3$.
-
-== Piemērs (lielais-O)
-$ n^4 + 17n + 4 in^? O(n^3) $
-
-Nē $n^4 + 17n + 4 > n^4 = n dot n^3$
-
-== Piemērs (mazais-O) <small-o-example-3>
-$ n log^4 n =^? o(n^1.5) $
-
-Ir zināms, ka mazajā $O$ notācijai, ja $lim_(x->oo)f(x)/g(x)$, kur $f(x)$ ir
-funkcija un $g(x)$ ir $o$, tad vienādība izpildās.
-Ievietojot vērtības $ lim_(n->oo) (n log^4 n)/n^1.5=0 $
-Tātad vienādojums ir
-patiess.
-
-== Piemērs (mazais-O)
-$ 2^n n^2 =^? o(n^3) $
-
-Pēc tās pašas aprakstītās īpašības, kā @small-o-example-3, sanāktu
-$ lim_(n->oo) (2^n n^2)/3^n $
-un tā kā $3^n$ aug ātrāk kā $2^n$, šī robeža būs $0$ un sākotnējais
-vienādojums būs patiess.
-
 = Sanumurējamība
 == Definīcija 
 - Bezgalīgas kopas $A$, $B$ ir vienāda izmēra, ja ir bijekcija ($1:1$ attiecība)
@@ -230,17 +129,16 @@ vienādojums būs patiess.
 #teo[$A$ ir sanumurējama ar atkārtojumiem tad un tikai tad, ja $A$ ir sanumurējama.]
 
 == Sanumerātības pierādījums 
-- Kopa ir sanumurējama, ja tajā eksistē viennozīmīga atbilstība (bijekcija)
-  starp kopas elementiem un naturāliem skaitļiem.
-  Citos vārdos sakot, katram kopas elementam var piešķirt unikālu naturālu
-  skaitli.
+- Kopa ir sanumurējama, ja tajā eksistē bijekcija starp kopas elementiem un
+  naturāliem skaitļiem. Citos vārdos sakot, katram kopas elementam var piešķirt
+  unikālu naturālu skaitli.
 - Ja kopa ir galīga, tā ir triviāli sanumurējama, jo katram elementam var
   piešķirt unikālu naturālu skaitli.
-- Ja kopa ir bezgalīga, jāņem vērā divi varianti:
-  - Ja var izveidot bijekciju starp kopu un naturāliem skaitļiem, tad jāpierāda,
-    ka bijekcija nepastāv.
-    Var skaidri definēt funkciju, kas katram kopas elementam piešķir unikālu
-    naturālu skaitli un parādīt, ka tā apvieno visus elementus bez dublēšanās.
+- Ja kopa ir bezgalīga (ar ko bieži vien darbojamies), jāņem vērā divi varianti:
+  - Ja var izveidot bijekciju starp kopu un naturāliem skaitļiem, tad
+    jāpierāda, ka bijekcija pastāv -- Var skaidri definēt funkciju, kas katram
+    kopas elementam piešķir unikālu naturālu skaitli un parādīt, ka tā apvieno
+    visus elementus bez dublēšanās.
   - Ja nevar atrast bijekciju starp kopu un naturāliem skaitļiem, tad jāpierāda,
     ka bijekcija nepastāv.
     Parasti tas tiek darīts, izmantojot pierādīšanas tehnikas, piemēram,
@@ -248,16 +146,50 @@ vienādojums būs patiess.
 - Ja izdodas pierādīt, ka start kopu un naturāliem skaitļiem nav bijekcijas, tad
   kopa ir nesaskaitāma.
 
-=== Diagonālinācija <diagonalization>
-Ietver paņēmienu, ka ir saraksts vai uzskaitījums ar visiem kopas elementiem un
-tiek konstruēts jauns elementu, kas neatrodas šajā sarakstā.
-Tas demonstrē, ka kopa ir nesaskaitāma, jo vienmēr var izveidot jaunu elementu,
-kas nav iekļauts uzskaitē.
+=== Algoritmiska sanumurētība (par sanumerātību)
 
-=== Pretruna <contradiction>
-Pieņem, ka kopa ir saskaitāma un tad rodas pretruna.
-To var izdarīt, parādot, ka kaut kādas kopas īpašības vai kardinalitāte ir
-pretrunā ar sanumurējamības pieņēmumu.
+- Kopa $A$ ir sanumurējama, ja $A={x_1, x_2, ...}$
+- Kopa $A$ ir algoritmiski sanumurējama, ja ir Tjūringa mašīna, kas izdod virkni
+  $x_1, x_2, ...$, kurai $A={x_1, x_2, ...}$
+#let DL = `DL`
+#let IL = `IL`
+Divu lenšu #TM, kur viena ir klasiska darba lente (#DL) un otra ir izvada
+lente (#IL) (tikai rakstīšanai).
+
+==== Piemērs $(a^k b^k mid(|) k>=0) "ir sanum.?"$
+Pamatot, ka kopa ${a^k b^k mid(|) k>=0}$ ir algoritmiski sanumurējama.
+
++ Uzraksta uz izejas lentes tukšu vārdu.
++ Uzraksta vienu $a$ uz darba lentes.
++ Atkārto:
+  + Uz ieejas lentes uzrakstām tikpat $a$, cik bija uz #DL;
+  + Uz izejas lentes uzrakstām tikpat $b$, cik $a$ bija uz #DL;
+  + Uz izejas lentes uzrakstām $\_$;
+  + Uz darba lentes pierakstām klāt vienu $a$.
++ Izejas lente $=epsilon, a b, a a b b, a a a b b b,...$
+
+==== Piemērs (atkārt. pēc \# ir sanum\.?)
+Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
+
++ Uz darba lentes iet cauri visiem $x$.
++ Katram $x$ uz izejas lentes uzraksta $x \# x$.
++ Uz izejas lentes uzraksta $\#\_$.
++ Uz darba lentes uzraksta $a$.
++ Atkārto:
+  + Pārraksta darba lentes saturu $x$ uz izejas lenti;
+  + Uzraksta $\#$ uz #IL, vēlreiz pārraksta $x$ uz #IL, uzrakstām $\_$ uz #IL.
+  + Uz #DL nomaina $x$ pret nākošo vārdu.
+
+=== Diagonālinācija (pret sanumurējāmību) <diagonalization>
+Paņēmienu -- ir saraksts (pieņem, ka ir iegūts saraksts) vai uzskaitījums ar
+visiem kopas elementiem un tiek konstruēts jauns elements, kas neatrodas šajā
+sarakstā. Tas demonstrē, ka kopa ir nesanumurējama, jo vienmēr var izveidot
+jaunu elementu, kas nav iekļauts uzskaitē (piemēram, reālos skaitļos).
+
+=== Pretruna (pret sanumurējāmību) <contradiction>
+Pieņem, ka kopa ir saskaitāma un tad rodas pretruna. To var izdarīt, parādot,
+ka kaut kādas kopas īpašības vai kardinalitāte ir pretrunā ar sanumurējamības
+pieņēmumu.
 
 == Piemērs $(ZZ "sanumurētība")$
 Vai visu veselo skaitļu kopa $ZZ={..., -1, 0, 1, ...}$ ir sanumurējama? \
@@ -283,7 +215,9 @@ visi iespējamie pāri bez atkārtojumiem.
 
 Lai pierādītu, ka naturālo skaitļu pāru $(k_1, k_2)$ kopa ir saskaitāma, mēs
 varam parādīt, ka funkcija $f(k_1, k_2)$ nodrošina bijekciju starp naturālo
-skaitļu pāru kopu un naturālo skaitļu kopu.
+skaitļu pāru kopu un naturālo skaitļu kopu. 
+
+$"Injektivitāte" + "Surjektivitāte" = "Bijektivitāte"$
 
 === Injektivitāte
 Pieņemsim, ka $f(k_1, k_2) = f(k_3, k_4)$, kur $(k_1, k_2)$ un $(k_3, k_4)$
@@ -359,130 +293,7 @@ Redukcijas analīze:
 
 Tādējādi #halt2 tiek reducēta uz #halt.
 
-= Daļēja atrisināmība
-== Definīcija 
-
-// Jorens: Tas teksta blāķis, kas šeit bija var apjucināt cilvēkus, viss kas
-// vajadzīgs ir sarakstāms īsāk.
-
-- $A$ –- daļēji atrisināma, ja ir Tjūringa mašīna $T$:
-  - Ja $A(x) = 1$, tad $T(x) = 1$.
-  - Ja $A(x) = 0$, tad $T(x) = 0$ vai $T(x)$ neapstājas.
-
-Tas, ka problēma ir daļēji atrisināma, nozīmē, ka nav konkrēta un *vispārīga*
-algoritma, kas vienmēr varētu sniegt pareizu "nē" atbildi gadījumiem ārpus
-problēmas. 
-
-Var būt iespējams konstruēt Tjūringa mašīnu, kas apstājas un sniedz
-"nē" atbildi noteiktiem gadījumiem ārpus problēmas, bet tas nav garantēts
-visiem gadījumiem (_un īsti nav apskatīts šajā kursā_).
-
-#teo[$A$ -- daļēji atrisināma tad un tikai tad, ja $A$ -- algoritmiski sanumurējama.]
-
-Cits nosaukums daļējai atrisināmībai ir atpazīstamība (angl. recognizability).
-
-= Algoritmiskā sanumurējamība
-== Info
-- Kopa $A$ ir sanumurējama, ja $A={x_1, x_2, ...}$
-- Kopa $A$ ir algoritmiski sanumurējama, ja ir Tjūringa mašīna, kas izdod virkni
-  $x_1, x_2, ...$, kurai $A={x_1, x_2, ...}$
-#let DL = `DL`
-#let IL = `IL`
-Divu lenšu #TM, kur viena ir klasiska darba lente (#DL) un otra ir izvada
-lente (#IL) (tikai rakstīšanai).
-
-== Piemērs $(a^k b^k mid(|) k>=0) "ir sanum.?"$
-Pamatot, ka kopa ${a^k b^k mid(|) k>=0}$ ir algoritmiski sanumurējama.
-
-+ Uzraksta uz izejas lentes tukšu vārdu.
-+ Uzraksta vienu $a$ uz darba lentes.
-+ Atkārto:
-  + Uz ieejas lentes uzrakstām tikpat $a$, cik bija uz #DL;
-  + Uz izejas lentes uzrakstām tikpat $b$, cik $a$ bija uz #DL;
-  + Uz izejas lentes uzrakstām $\_$;
-  + Uz darba lentes pierakstām klāt vienu $a$.
-+ Izejas lente $=epsilon, a b, a a b b, a a a b b b,...$
-
-== Piemērs (atkārt. pēc \# ir sanum\.?)
-Pamatot, ka kopa ${x \# x mid(|) x in {a, b}^* }$ ir algoritmiski sanumurējama.
-
-+ Uz darba lentes iet cauri visiem $x$.
-+ Katram $x$ uz izejas lentes uzraksta $x \# x$.
-+ Uz izejas lentes uzraksta $\#\_$.
-+ Uz darba lentes uzraksta $a$.
-+ Atkārto:
-  + Pārraksta darba lentes saturu $x$ uz izejas lenti;
-  + Uzraksta $\#$ uz #IL, vēlreiz pārraksta $x$ uz #IL, uzrakstām $\_$ uz #IL.
-  + Uz #DL nomaina $x$ pret nākošo vārdu.
-
-= #TM darbības laiks
-== Info
-- Laiks ir soļu skaits un ir atkarīgs no ieejas virknes $x_1, x_2, ..., x_n$.
-- Ja ir algoritms ar sarežģītību $n^2$, tad bieži ir arī algoritms ar
-  sarežģītību $n^2/2, n^2/3,...$
-
-== Soļi
-+ Identify the key operations or steps performed by the Turing machine for each
-  input.
-  + This could include reading symbols from the tape, writing symbols to the
-    tape, moving the tape head, performing computations, or making decisions
-    based on the current state and input symbol.
-+ Determine the worst-case scenario.
-  + Analyze the input or sequence of inputs that would require the maximum
-    number of steps for the Turing machine to complete its computation.
-  + Consider inputs that maximize the number of iterations or force the machine
-    to explore all possible branches of computation.
-+ Express the runtime in terms of the input size.
-  + Define a function that represents the number of steps or transitions taken
-    by the Turing machine as a function of the input size.
-  + For example, if the input size is $n$, the runtime function could be denoted
-    as $f(n)$.
-+ Simplify the runtime function and express it using Big $O$ notation.
-  + Big $O$ notation provides an upper bound on the growth rate of the runtime
-    function as the input size increases.
-  + Remove constant factors and lower-order terms from the runtime function to
-    focus on the dominant term that represents the growth rate.
-  + Express the simplified runtime function using the appropriate Big $O$ notation,
-    such as $O(n)$, $O(n log n)$, $O(n^2)$, $O(2^n)$, etc.
-
-+ Identificēt galvenās operācijas vai soļus, ko Tjūringa mašīna veic katrai
-  ievadei.
-  + Tas varētu ietvert simbolu lasīšanu no lentes, simbolu rakstīšanu lentē,
-    lentes galviņas pārvietošanu, aprēķinu veikšanu vai lēmumu pieņemšanu,
-    pamatojoties uz pašreizējo stāvokli un ievades simbolu.
-+ Noteikt sliktākā gadījuma scenāriju.
-  + Analizēt ievadi vai ievades secību, kas prasītu maksimālo soļu skaitu,
-    lai Tjūringa mašīna pabeigtu savu aprēķinu.
-  + Apsvērt ievades, kas maksimizē iterāciju skaitu vai liek mašīnai izpētīt
-    visas iespējamās aprēķinu zaru versijas.
-+ Izteikt darbības laiku atkarībā no ievades izmēra.
-  + Definēt funkciju, kas attēlo Tjūringa mašīnas veikto soļu vai pāreju
-    skaitu kā funkciju no ievad izmēra.
-  + Piemēram, ja ievades izmērs ir $n$, darbības laika funkciju varētu apzīmēt
-    kā $f(n)$.
-+ Vienkāršot darbības laika funkciju un izsakot to, izmantojot lielā $O$
-  notāciju.
-  + Lielā $O$ notācija nodrošina augšējo robežu darbības laika funkcijas
-    pieauguma ātrumam, palielinoties ievaddatu izmēram.
-  + Noņemt konstantes faktorus un zemākas kārtas locekļus no darbības laika
-    funkcijas, lai koncentrētos uz dominējošo locekli, kas atspoguļo pieauguma
-    ātrumu.
-+ Izteikt vienkāršoto darbības laika funkciju, izmantojot atbilstošo lielā $O$
-  notāciju, piemēram, $O(n)$, $O(n log n)$, $O(n^2)$, $O(2^n)$ utt.
-
-== Piemērs ($|a| = |b|"?"$)
-Vai ieejas virknē ir vienāds skaits $a$ un $b$?
-
-+ Virzās no kreisās puses uz labo, aizstājot vienu $a$ un vienu $b$ ar $x$;
-+ Ja neatrod nedz $a$, nedz $b$, akceptē;
-+ Ja neatrod vienu no $a$ vai $b$, noraida;
-+ Ja atrod gan $a$, gan $b$, virzās atpakaļ uz pirmo simbolu un atkārto.
-
-Kopējais soļu skaits:
-- Ne vairāk kā $(n/2+1) 2n = n^2 + 2n$ soļi.
-- Ja $n$ nav ļoti mazs, $n^2$ būs vairāk nekā $2n$ un soļu skaits $O(n^2)$.
-
-= Neatrisināmas prob. (non-decidable)
+= Neatrisināmas (non-decidable) problēmas 
 
 #let acc = `ACCEPTING`
 #let eqans = `EQUAL_ANSWERS`
@@ -500,6 +311,10 @@ Kopējais soļu skaits:
 Neatrisināma problēma ir problēma ir problēma, kurai neeksistē TM, kas
 atrisinātu šo problēmu.
 
+== Funkcionālas un nefunkcionālas īpašības
+
+TODO.
+
 == Raisa teorēma
 
 #teo(
@@ -516,9 +331,16 @@ parādīt kā redukciju no HALTING.
 - $one(M)=1$, ja eksistē ieejas virkne $x$, uz kuras $M$ izdod atbildi $1$.
 - $infinite(M)=1$, ja eksistē bezgalīgi daudzas ieejas virknes $x$, uz kurām $M$ izdod atbildi $1$.
 - $equiv(M 1, M 2)=1$, ja $M1(x)=M2(x)$
-- $hamcycle(G)=1$, ja grafā $G$ ir cikls (šķautņu virkne
-  $v_1 v_2,v_2 v_3, ..., v_n v_1$), kurā katra virsotne ir tieši $1$ reizi.
 - $linineq(S)=1$, ja sistēmai ir atrisinājums $x_1, x_2, ..., x_n in {0,1}$
+- $"pcp"(S)=1$ (Post-correspondance problem), ja divām galībām kopām $A = [a_1,
+  a_2, ..., a_n]$ un $B = [b_1, b_2, dots, b_n]$ var izvēlēties indeksu secības
+  $a_("i1") a_("i2") ... a_("ik")$ = $b_("i1") b_("i2") ... b_("ik")$ (tā lai
+  konkatenācijas būtu vienādas); domino kauliņi ar augšu un apakšu, ko saliekot
+  kopā, globālai augšai un apakšai jāsakrīt. 
+- $"mortal-matrix"(S)=1$, vai no matricām $M_1, M_2, ..., M_n$ var izveidot
+  secību (ar atkārtojumiem), ka matricu reizinājums būtu 0.
+// LININEQ, HAMCYCLE are DECIDABLE!
+// - $"hilbert's-10th"(S)=1$, ...?
 
 #info[Ja var atrisināt #acc, tad var atrisināt arī #halt.]
 #info[Ja var atrisināt #eqans / #one / #infinite / #equiv, tad var atrisināt arī #acc.]
@@ -656,7 +478,31 @@ parādīt kā redukciju no HALTING.
 Pēc tās, lai pierādītu, ka cita problēma $L$ ir NP-pilna, pietiek parādīt,
 ka $L in NP$ un ka $SAT <_p L$ (vai jebkura cita zināma NP-pilna problēma).
 
-= Nekustīgā punkta teorēma
+
+== Daļēja atrisināmība
+
+// Jorens: Tas teksta blāķis, kas šeit bija var apjucināt cilvēkus, viss kas
+// vajadzīgs ir sarakstāms īsāk.
+
+- $A$ –- daļēji atrisināma, ja ir Tjūringa mašīna $T$:
+  - Ja $A(x) = 1$, tad $T(x) = 1$.
+  - Ja $A(x) = 0$, tad $T(x) = 0$ vai $T(x)$ neapstājas.
+
+Tas, ka problēma ir daļēji atrisināma, nozīmē, ka nav konkrēta un *vispārīga*
+algoritma, kas vienmēr varētu sniegt pareizu "nē" atbildi gadījumiem ārpus
+problēmas. 
+
+Var būt iespējams konstruēt Tjūringa mašīnu, kas apstājas un sniedz
+"nē" atbildi noteiktiem gadījumiem ārpus problēmas, bet tas nav garantēts
+visiem gadījumiem (_un īsti nav apskatīts šajā kursā_).
+
+#teo[$A$ -- daļēji atrisināma tad un tikai tad, ja $A$ -- algoritmiski sanumurējama.]
+
+Cits nosaukums daļējai atrisināmībai ir atpazīstamība (angl. recognizability/recognizable).
+
+= Nekustīgo punktu teorija 
+
+== Nekustīgā punkta teorēma
 
 Lai $phi_x$ ir daļēji definēta funkcija, ko aprēķina Tjūringa mašīna ar
 programmu $x$.  Lai $F: Sigma^* -> Sigma^*$ ir jebkurš visur definēts
@@ -668,19 +514,128 @@ Tad: $"eksistē"(x): phi_{F(x)} = phi_x$
 - $F$: jebkura visur definēta aprēķināma funkcija virknēm (programmām).
 - $Sigma^*$: visu galīgo virkņu kopa pār alfabētu $Sigma$.
 
-= Sarežģītības klases
+== NPT pielietošanas piemērs
+
+TODO.
+
+= Sarežģītības teorija
+
+== Lielais $O$ un mazais $o$
+
+Notācija, kas tiek izmantota, lai raksturotu *funkciju* sarežģītību
+asimptotiski.
+
+=== Lielais-O (formālā definīcija)
+
+$f(n) in O(g(n))$, ja:
+
+$exists C > 0, exists n_0 > 0:$ $(forall n >= n_0: f(n) <= c * g(n))$
+
+Tas nozīmē, ka funkcija $f(n)$ asimptotiski nepārsniedz konstanti $c$ reizinātu
+$g(n)$.
+
+/*
+=== Piemērs
+
+$f(n) = 17n^2 + 23n + 4$  
+$g(n) = n^2$
+
+Tad $f(n) in O(n^2)$, jo:
+
+$17n^2 + 23n + 4 \leq 17n^2 + 23n^2 + 4n^2 = 44n^2$  
+tātad $C = 44$.
+*/
+
+=== Mazais-o (formālā definīcija)
+
+$f(n) in o(g(n))$, ja:
+
+$
+lim_(i -> infinity) f(n) / g(n) = 0
+$
+
+Tas nozīmē, ka funkcija $f(n)$ kļūst nenozīmīga attiecībā pret $g(n)$, $n$
+tiecoties uz bezgalību.
+
+/*
+=== Piemērs
+
+$log(n) \in o(n)$  
+jo jebkuram $epsilon > 0$ pietiekami lieliem $n$:  
+$log(n) <= epsilon * n$.
+*/
+
+=== $f(n) in O(g(n))$ pamatojuma triks 
+
+Ja ir pierādījums, ka $f(n) in o(g(n))$, tad automātiski var secināt, ka $f(n)
+in O(g(n))$. *Tikai pozitīvajā gadījumā!* Jo mazais $o$ ir stingrāka prasība
+par lielo $O$.
+
+=== Pamatojuma soļi 
+
+- Ja funkcija pielīdzināta lielajam $O$:
+  + Salīdzina funkcijas augstāko pakāpi ar doto $O$ pakāpi.
+  + Ja funkcijas pakāpe ir lielāka, tad vienādojums būs patiess, jo funkcija aug
+    straujāk.
+  + Korektam risinājumam jāpamato kāpēc definīcijas nevienādība ir patiesa
+    visiem $n >= n_0$ un iespējams jāparāda piemēra $c$.
+- Ja funkcija pielīdzināta mazajam $o$:
+  + Jāievieto dotais robežā $lim_(x->oo)f(x)/g(x)$;
+  + Rezultāts ir 0, patiess, citādi -- nepatiess.
+
+=== Piemērs (lielais-O)
+
+$ 2n^4 + 6n^2 + 17 =^? O(n^4) $
+
+Izteiksme ir patiesa, tā kā kreisās puses izteiksmes augstākā pakāpe jeb kārta
+ir $4$ un iekš $O$ tā arī ir $4$.
+
+=== Piemērs (lielais-O)
+$ 2n^4 + 6n^2 + 17 =^? O(n^3) $
+
+Izteiksme ir aplama, jo kreisajā pusē augstākā pakāpe ir $4$, kamēr labajā ir
+norādīta $3$, un $4$ pakāpes izteiksmi nevar izpildīt $O(n^3)$.
+
+=== Piemērs (lielais-O)
+$ n^3 + 17n + 4 in^? O(n^3) $
+
+Jā, $n^3 + 17n + 4 <= n^3 + 17n^3 + 4n^3 = 22n^3$.
+
+=== Piemērs (lielais-O)
+$ n^4 + 17n + 4 in^? O(n^3) $
+
+Nē $n^4 + 17n + 4 > n^4 = n dot n^3$
+
+=== Piemērs (mazais-O) <small-o-example-3>
+$ n log^4 n =^? o(n^1.5) $
+
+Ir zināms, ka mazajā $O$ notācijai, ja $lim_(x->oo)f(x)/g(x)$, kur $f(x)$ ir
+funkcija un $g(x)$ ir $o$, tad vienādība izpildās.
+Ievietojot vērtības $ lim_(n->oo) (n log^4 n)/n^1.5=0 $
+Tātad vienādojums ir
+patiess.
+
+=== Piemērs (mazais-O)
+$ 2^n n^2 =^? o(n^3) $
+
+Pēc tās pašas aprakstītās īpašības, kā @small-o-example-3, sanāktu
+$ lim_(n->oo) (2^n n^2)/3^n $
+un tā kā $3^n$ aug ātrāk kā $2^n$, šī robeža būs $0$ un sākotnējais
+vienādojums būs patiess.
+
+
+== Sarežģītības klases
 
 #let time = `TIME`
-== Info
-$n, n log n, n^2, n^3, 2^n$
+
+=== Laiks (TIME)
 
 $time(f(n))$ -- problēmas $L$, kurām eksistē Tjūringa mašīna $M$, kas pareizi
 risina $L$ un izmanto $O(f(n))$ soļus.
 
-#info(
-  title: "Vispārīgāk",
-)[Ja $a<b$, tad $n^3 in o(n^b)$, jo $n^a/n^b=1/n^(b-a)->0$.]
+/* random piemērs -> relocate? */
 
+/*
 $ lim n/2^n=lim (n)'/(2^n)'=lim 1/(2^n ln 2) $
 
 Augot $n$, $2^n->oo$, tātad $1/n^2->0$.
@@ -695,8 +650,62 @@ $ lim (log^17 n)/n = lim (m^17)/c^m = lim (m/c^(m slash 17))^17 -> 0 $
 - $time(n)$ -- `2x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
 - $time(n^2)$ -- `4x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
 - $time(n^3)$ -- `8x` lielākā laikā var atrisināt problēmu `2x` lielākam $n$.
+*/
 
-== Asimptotiskas augšanas hierarhija
+==== #TM darbības laiks
+
+/*
+- Laiks ir soļu skaits un ir atkarīgs no ieejas virknes $x_1, x_2, ..., x_n$.
+- Ja ir algoritms ar sarežģītību $n^2$, tad bieži ir arī algoritms ar
+  sarežģītību $n^2/2, n^2/3,...$
+*/
+
++ Identificēt galvenās operācijas vai soļus, ko Tjūringa mašīna veic katrai
+  ievadei.
+  + Tas varētu ietvert simbolu lasīšanu no lentes, simbolu rakstīšanu lentē,
+    lentes galviņas pārvietošanu, aprēķinu veikšanu vai lēmumu pieņemšanu,
+    pamatojoties uz pašreizējo stāvokli un ievades simbolu.
++ Noteikt sliktākā gadījuma scenāriju.
+  + Analizēt ievadi vai ievades secību, kas prasītu maksimālo soļu skaitu,
+    lai Tjūringa mašīna pabeigtu savu aprēķinu.
+  + Apsvērt ievades, kas maksimizē iterāciju skaitu vai liek mašīnai izpētīt
+    visas iespējamās aprēķinu zaru versijas.
++ Izteikt darbības laiku atkarībā no ievades izmēra.
+  + Definēt funkciju, kas attēlo Tjūringa mašīnas veikto soļu vai pāreju
+    skaitu kā funkciju no ievad izmēra.
+  + Piemēram, ja ievades izmērs ir $n$, darbības laika funkciju varētu apzīmēt
+    kā $f(n)$.
++ Vienkāršot darbības laika funkciju un izsakot to, izmantojot lielā $O$
+  notāciju.
+  + Lielā $O$ notācija nodrošina augšējo robežu darbības laika funkcijas
+    pieauguma ātrumam, palielinoties ievaddatu izmēram.
+  + Noņemt konstantes faktorus un zemākas kārtas locekļus no darbības laika
+    funkcijas, lai koncentrētos uz dominējošo locekli, kas atspoguļo pieauguma
+    ātrumu.
++ Izteikt vienkāršoto darbības laika funkciju, izmantojot atbilstošo lielā $O$
+  notāciju, piemēram, $O(n)$, $O(n log n)$, $O(n^2)$, $O(2^n)$ utt.
+
+===== Piemērs ($|a| = |b|"?"$)
+Vai ieejas virknē ir vienāds skaits $a$ un $b$?
+
++ Virzās no kreisās puses uz labo, aizstājot vienu $a$ un vienu $b$ ar $x$;
++ Ja neatrod nedz $a$, nedz $b$, akceptē;
++ Ja neatrod vienu no $a$ vai $b$, noraida;
++ Ja atrod gan $a$, gan $b$, virzās atpakaļ uz pirmo simbolu un atkārto.
+
+Kopējais soļu skaits:
+- Ne vairāk kā $(n/2+1) 2n = n^2 + 2n$ soļi.
+- Ja $n$ nav ļoti mazs, $n^2$ būs vairāk nekā $2n$ un soļu skaits $O(n^2)$.
+
+=== Vieta (SPACE)
+
+TODO.
+
+=== Laika-Vietas sakarības
+
+TODO.
+
+=== Asimptotiskas augšanas hierarhija
 
 Sekojošas funkcijas pieaugums pie $x -> infinity$:
 
@@ -709,9 +718,15 @@ $log(x) << x << x \cdot log(x) << x^k << a^x << x! << x^x$
 Šo hierarhiju var izmantot intuīcijai par to vai funkcija pieder klasei
 sarežģītības klasei, bet kā pamatojums tas nederētu.
 
+_$x^epsilon$ ir izņemts laukā, lai nejauktu galvu_
+
 _Source; Mathematics for Computer Science, 2018, Eric Lehman, Google Inc._
 
-= NP-pilnas probēmas un to redukcijas
+= Klase P (TODO)
+
+.
+
+= Klase NP
 
 == NP problēmas
 
@@ -726,25 +741,27 @@ ir problēmas (2 ekvivalentas definīcijas):
 Ekvivalence ir pierādīta ar abpusēju pārveidojumu no pārbaudītāja uz nedet. TM
 un atpakaļ.
 
-== Polinomiāla redukcija $(<=_("poly"))$
+== NP-pilnas probēmas un to redukcijas
+
+=== Polinomiāla redukcija $(<=_("poly"))$
 
 - $A <= B$ – A var atrisināt, noreducējot to uz B.
 - $A <=_("poly") B$, ja ir $O(n^c)$ laika algoritms (Tjūringa mašīna) $P$:
   - $M$ pārveido $A$ ieejas datus par $B$ ieejas datiem;
   - $A(x) = B(M(x))$.
 
-== NP-pilnīgums
+=== NP-pilnīgums
 
 - A – NP-pilna, ja:
   - $A in "NP"$;
   - Ja $B in NP$, tad $B <=_("poly") A$.
 
-== 3-SAT problēma 
+=== 3-SAT problēma 
 
 Vai formulai 3-CNF formā var piemeklēt katra mainīgā vērtības tā, lai formula
 būtu 1 (patiess).
 
-== CIRCUIT-SAT problēma 
+=== CIRCUIT-SAT problēma 
 
 Dota funkcija $F(x_1, ..., x_n)$, kas sastāv no vārtiem (AND, OR, NOT).
 
@@ -755,14 +772,14 @@ Dota funkcija $F(x_1, ..., x_n)$, kas sastāv no vārtiem (AND, OR, NOT).
 
 Vai var atrast mainīgo vērtības tā lai gala izvade būtu 1 (patiess).
 
-== CLIQUE problēma
+=== CLIQUE problēma
 
 $exists C subset.eq V: (|C| = k) and (forall (u, v in C): (u, v) in E)$
 
 Vārdiski. Vai eksistē virsotņu kopa $S$ lielumā $k$, kurā katra virsotne ir
 savienota ar katru otro no kopas $S$.
 
-== IND-SET problēma
+=== IND-SET problēma
 
 $exists S subset.eq V: (|S| = k) and (forall (u, v in S): (u, v) in.not E)$
 
@@ -770,11 +787,11 @@ Vārdiski. Vai grafā $G=(V, E)$ eksistē virsotņu kopa $S$ lielumā $k$, kurā
 katra no virsotnēm nav savienota ar nevienu citu virsotni no šīs
 kopas.
 
-== LIN-INEQ
+=== LIN-INEQ problēma
 
 Vai dotā lineāru nevienādību sistēma ar bināriem mainīgajiem ir atrisināma.
 
-== CIRCUIT-SAT ≤ₚ 3-SAT
+=== CIRCUIT-SAT ≤ₚ 3-SAT
 
 - Katram starprezultātam (kas nav pirmajā ievadē, i.e., $x_1$, $x_2$, $dots$,
   $x_n$) ievieš jaunus mainīgos $y_i$.
@@ -818,7 +835,7 @@ $
 Analoģiski iekavām ar vienu elementu. Rezultātā ir 3-CNF formula, ko var
 izmantot ar 3-SAT algoritmu.
 
-== 3-SAT ≤ₚ IND-SET
+=== 3-SAT ≤ₚ IND-SET
 
 Katrai iekavai no formulas veido $3$ virsotnes (grafa komponenti), kas apzīmē
 mainīgo (ar NOT, ja ir negācija). Katra virsotne (literālis) no komponentes ir
@@ -835,7 +852,7 @@ Piemērs formulai $(x or y or not z) and (not x or y or z)$:
 Tagad varam pielietot $"IND-SET"\(G, m\)$ ar izveidoto grafu un $m$ kā iekavu
 skaitu originālajā formulā.
 
-== IND-SET ≤ₚ CLIQUE
+=== IND-SET ≤ₚ CLIQUE
 
 - Veido grafa papildinājumu (komplementu) $G' = (V, E')$:
 
