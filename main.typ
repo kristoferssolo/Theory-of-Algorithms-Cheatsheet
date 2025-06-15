@@ -799,6 +799,8 @@ ir problēmas (2 ekvivalentas definīcijas):
 + $L in NP$, ja eksistē pārbaudes algoritms - $O(n^c)$ laika Tjūringa mašīna $M$:
   + Ja $L(x) = 1$, tad eksistē y: $M(x, y) = 1$.
   + Ja $L(x) = 0$, tad visiem y: $M(x, y) = 0$.
+  + _Informācija $y$ var saturēt brīvi definētu informāciju._
+  + _Pārbaudes algoritmā tas ir risinājums, ko tas pārbauda._
 + #NP = problēmas $L$, ko var atrisināt ar nedeterminētu mašīnu $O(n^c)$ laikā.
 
 Ekvivalence ir pierādīta ar abpusēju pārveidojumu no pārbaudītāja uz nedet.
