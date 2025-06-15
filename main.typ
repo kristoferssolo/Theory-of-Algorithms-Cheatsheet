@@ -488,14 +488,6 @@ ka $L in NP$ un ka $SAT <_p L$ (vai jebkura cita zināma NP-pilna problēma).
   - Ja $A(x) = 1$, tad $T(x) = 1$.
   - Ja $A(x) = 0$, tad $T(x) = 0$ vai $T(x)$ neapstājas.
 
-Tas, ka problēma ir daļēji atrisināma, nozīmē, ka nav konkrēta un *vispārīga*
-algoritma, kas vienmēr varētu sniegt pareizu "nē" atbildi gadījumiem ārpus
-problēmas.
-
-Var būt iespējams konstruēt Tjūringa mašīnu, kas apstājas un sniedz
-"nē" atbildi noteiktiem gadījumiem ārpus problēmas, bet tas nav garantēts
-visiem gadījumiem (_un īsti nav apskatīts šajā kursā_).
-
 #teo[$A$ -- daļēji atrisināma tad un tikai tad, ja $A$ -- algoritmiski sanumurējama.]
 
 Cits nosaukums daļējai atrisināmībai ir atpazīstamība (angl.
@@ -757,6 +749,9 @@ $
   U_c "TIME" (N^c) = P
 $
 
+Labs mentālais modelis, lai pierādītu, ka algoritms pieder $"LOGSPACE"$ -- ja
+var iztikt ar $O(1)$ mainīgo daudzumu, kur katrs mainīgais ir no $0$ līdz $N$
+vai noteikts fiksētu vērtību skaits. 
 
 === Laika-Telpas sakarības
 
@@ -764,7 +759,7 @@ $
   Ja $f(n) >= log N$, tad
   $
     "TIME"(f(N)) subset.eq "SPACE"(f(N)) subset.eq \
-    subset.eq U_c "TIME" (c^(f(N)))
+    subset.eq union.big_c "TIME" (c^(f(N)))
   $
 ]
 
@@ -787,7 +782,36 @@ _$x^epsilon$ ir izņemts laukā, lai nejauktu galvu_
 
 _Source; Mathematics for Computer Science, 2018, Eric Lehman, Google Inc._
 
-= Klase P (TODO)
+= Klase P
+
+== Definīcija
+
+Klase $P$ ir problēmu kopa, ko var atrisināt ar deterministisku Tjūringa mašīnu
+polinomiālā laikā.
+
+- $P=union.big_k "TIME"(n^k)$
+
+Citiem vārdiem: problēma pieder $P$, ja eksistē deterministiska Tjūringa
+mašīna, kas to atrisina O($n^k$) soļos, kādai konstantei $k$.
+
+Klase $P$ tiek uzskatīta par praktiski atrisināmo problēmu klasi. Visi
+saprātīgie deterministiskie skaitļošanas modeļi ir polinomiāli ekvivalenti
+(vienu var simulēt ar otru polinomiālā laikā).
+
+== Piemērs ($"PATH"$)
+
+- Dots grafs $G$ un divas virsotnes $u$, $v$.
+- Jautājums: vai eksistē ceļš no $u$ uz $v$?
+- Rupjais-spēks: pārbaudīt visus ceļus — eksponenciāls laiks.
+- Efektīvs algoritms: meklēšana plašumā (breadth-first search); laika
+  sarežģītība: $O(|V| + |E|)$.
+
+== Piemērs ($"RELPRIME"$)
+
+- Doti skaitļi $x$, $y$ (binārā kodējumā).
+- Jautājums: vai skaitļi ir savstarpēji pirmskaitļi?
+- Efektīvs algoritms: Eiklīda algoritms (izmantojot $mod$); laika sarežģītība:
+  $O(log n)$ (jo katrā iterācijā skaitļi būtiski samazinās).
 
 = Klase NP
 
@@ -799,6 +823,8 @@ ir problēmas (2 ekvivalentas definīcijas):
 + $L in NP$, ja eksistē pārbaudes algoritms - $O(n^c)$ laika Tjūringa mašīna $M$:
   + Ja $L(x) = 1$, tad eksistē y: $M(x, y) = 1$.
   + Ja $L(x) = 0$, tad visiem y: $M(x, y) = 0$.
+  + _Informācija $y$ var saturēt brīvi definētu informāciju._
+  + _Pārbaudes algoritmā tas ir risinājums, ko tas pārbauda._
 + #NP = problēmas $L$, ko var atrisināt ar nedeterminētu mašīnu $O(n^c)$ laikā.
 
 Ekvivalence ir pierādīta ar abpusēju pārveidojumu no pārbaudītāja uz nedet.
@@ -1015,7 +1041,7 @@ kā nav $G$ ir $G'$.
 caption: "Papildgrafa piemērs",
 )
 
-Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
+Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G', k)$.
 
 = Extras
 
@@ -1046,6 +1072,13 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
       log_8(3x-4)=log_8(5x+2) \
       "so," 3x-4=5x+2
     $,
+    [Pow. to log],
+    $
+      a^(log_a (x)) = x
+    $,
+    $
+      2^(log_2 (x)) = x
+    $
   ))
 ]
 
@@ -1065,12 +1098,71 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
     $ e^x $, $ e^x $, "",
     $ a^x $, $ a^x ln(a) $, $ a > 0 $,
     $ ln(x) $, $ 1 / x $, "",
+    $ log_a (x) $, $ 1 / (x ln(a)) $, "",
     $ 1 / x $, $ -1 / x^2 $, "",
     $ 1 / x^n $, $ -n / x^(n+1) $, "",
     $ sqrt(x) $, $ 1 / (2 sqrt(x)) $, "",
     $ 1 / sqrt(x) $, $ -1 / (2 x^(3/2)) $, "",
   )
 ]
+
+== Atvasinājumu īpašības 
+#context [
+  #set text(size: 11pt)
+  #show math.equation: set text(weight: 400, size: 11pt)
+
+  #table(
+    columns: 3,
+    [*Rule Name*], [*Function*], [*Derivative*],
+
+    [Summa], [$ f(x) + g(x) $], [$ f'(x) + g'(x) $],
+    [Starpība], [$ f(x) - g(x) $], [$ f'(x) - g'(x) $],
+    [Reizinājums], [$ f(x) * g(x) $],
+    [
+      $
+      f'(x) * g(x) + \
+      f(x) * g'(x) 
+      $
+    ],
+
+    /*
+    [Quotient Rule], [$ (f'(x) * g(x) - f(x) * g'(x)) / (g(x))^2 $], [$ (f'(x) * g(x) - f(x) * g'(x)) / (g(x))^2 $],
+    [Chain Rule], [$ f(g(x)) $], [$ f'(g(x)) * g'(x) $],
+    [Euler’s Number Exponent Rule], [$ e^x $], [$ e^x $],
+    [Constant Exponent Rule], [$ a^x $], [$ a^x * ln(a) $],
+    [Natural Log Rule], [$ ln(x) $], [$ 1 / x $],
+    [Logarithm Rule], [$ log_a(x) $], [$ 1 / (x * ln(a)) $],
+    [Sine Rule], [$ sin(x) $], [$ cos(x) $],
+    [Cosine Rule], [$ cos(x) $], [$ -sin(x) $],
+    [Tangent Rule], [$ tan(x) $], [$ sec^2(x) $],
+    [Cosecant Rule], [$ csc(x) $], [$ -csc(x) * cot(x) $],
+    [Secant Rule], [$ sec(x) $], [$ sec(x) * tan(x) $],
+    [Cotangent Rule], [$ cot(x) $], [$ -csc^2(x) $],
+    */
+  )
+]
+
+== Kāpinājumu īpašības
+#context [
+  #set text(size: 11pt)
+  #show math.equation: set text(weight: 400, size: 11pt)
+
+  #table(
+    columns: 2,
+    [*Rule Name*], [*Formula*],
+
+    [Reizinājums], [$ a^m * a^n = a^(m+n) $],
+    [Dalījums], [$ a^m / a^n = a^(m-n) $],
+    [Pakāpes pakāpe], [$ (a^m)^n = a^(m*n) $],
+    [Reizinājuma pakāpe], [$ (a*b)^m = a^m * b^m $],
+    [Dalījuma pakāpe], [$ (a/b)^m = a^m / b^m $],
+    [0-pakāpe], [$ a^0 = 1 $],
+    [Negatīva pakāpe], [$ a^(-m) = 1 / a^m $],
+    [Saikne ar sakni], [$ a^(m/n) = root(n, a^m) $],
+  )
+]
+
+
 
 == Noderīgas izteiksmes laika analīzē<time_analysis_expressions>
 
