@@ -1015,7 +1015,7 @@ kā nav $G$ ir $G'$.
 caption: "Papildgrafa piemērs",
 )
 
-Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
+Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G', k)$.
 
 = Extras
 
