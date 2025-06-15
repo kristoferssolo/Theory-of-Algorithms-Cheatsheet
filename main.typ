@@ -643,7 +643,7 @@ Tātad vienādojums ir
 patiess.
 
 === Piemērs (mazais-$o$)
-$ 2^n n^2 =^? o(n^3) $
+$ 2^n n^2 =^? o(3^n) $
 
 Pēc tās pašas aprakstītās īpašības, kā @small-o-example-3, sanāktu
 $ lim_(n->oo) (2^n n^2)/3^n $
