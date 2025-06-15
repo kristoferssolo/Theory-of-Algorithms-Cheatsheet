@@ -488,14 +488,6 @@ ka $L in NP$ un ka $SAT <_p L$ (vai jebkura cita zināma NP-pilna problēma).
   - Ja $A(x) = 1$, tad $T(x) = 1$.
   - Ja $A(x) = 0$, tad $T(x) = 0$ vai $T(x)$ neapstājas.
 
-Tas, ka problēma ir daļēji atrisināma, nozīmē, ka nav konkrēta un *vispārīga*
-algoritma, kas vienmēr varētu sniegt pareizu "nē" atbildi gadījumiem ārpus
-problēmas.
-
-Var būt iespējams konstruēt Tjūringa mašīnu, kas apstājas un sniedz
-"nē" atbildi noteiktiem gadījumiem ārpus problēmas, bet tas nav garantēts
-visiem gadījumiem (_un īsti nav apskatīts šajā kursā_).
-
 #teo[$A$ -- daļēji atrisināma tad un tikai tad, ja $A$ -- algoritmiski sanumurējama.]
 
 Cits nosaukums daļējai atrisināmībai ir atpazīstamība (angl.
@@ -757,6 +749,9 @@ $
   U_c "TIME" (N^c) = P
 $
 
+Labs mentālais modelis, lai pierādītu, ka algoritms pieder $"LOGSPACE"$ -- ja
+var iztikt ar $O(1)$ mainīgo daudzumu, kur katrs mainīgais ir no $0$ līdz $N$
+vai noteikts fiksētu vērtību skaits. 
 
 === Laika-Telpas sakarības
 
@@ -764,7 +759,7 @@ $
   Ja $f(n) >= log N$, tad
   $
     "TIME"(f(N)) subset.eq "SPACE"(f(N)) subset.eq \
-    subset.eq U_c "TIME" (c^(f(N)))
+    subset.eq union.big_c "TIME" (c^(f(N)))
   $
 ]
 
@@ -787,7 +782,36 @@ _$x^epsilon$ ir izņemts laukā, lai nejauktu galvu_
 
 _Source; Mathematics for Computer Science, 2018, Eric Lehman, Google Inc._
 
-= Klase P (TODO)
+= Klase P
+
+== Definīcija
+
+Klase $P$ ir problēmu kopa, ko var atrisināt ar deterministisku Tjūringa mašīnu
+polinomiālā laikā.
+
+- $P=union.big_k "TIME"(n^k)$
+
+Citiem vārdiem: problēma pieder $P$, ja eksistē deterministiska Tjūringa
+mašīna, kas to atrisina O($n^k$) soļos, kādai konstantei $k$.
+
+Klase $P$ tiek uzskatīta par praktiski atrisināmo problēmu klasi. Visi
+saprātīgie deterministiskie skaitļošanas modeļi ir polinomiāli ekvivalenti
+(vienu var simulēt ar otru polinomiālā laikā).
+
+== Piemērs ($"PATH"$)
+
+- Dots grafs $G$ un divas virsotnes $u$, $v$.
+- Jautājums: vai eksistē ceļš no $u$ uz $v$?
+- Rupjais-spēks: pārbaudīt visus ceļus — eksponenciāls laiks.
+- Efektīvs algoritms: meklēšana plašumā (breadth-first search); laika
+  sarežģītība: $O(|V| + |E|)$.
+
+== Piemērs ($"RELPRIME"$)
+
+- Doti skaitļi $x$, $y$ (binārā kodējumā).
+- Jautājums: vai skaitļi ir savstarpēji pirmskaitļi?
+- Efektīvs algoritms: Eiklīda algoritms (izmantojot $mod$); laika sarežģītība:
+  $O(log n)$ (jo katrā iterācijā skaitļi būtiski samazinās).
 
 = Klase NP
 
@@ -1048,6 +1072,13 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G', k)$.
       log_8(3x-4)=log_8(5x+2) \
       "so," 3x-4=5x+2
     $,
+    [Pow. to log],
+    $
+      a^(log_a (x)) = x
+    $,
+    $
+      2^(log_2 (x)) = x
+    $
   ))
 ]
 
