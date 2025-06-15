@@ -802,9 +802,9 @@ saprātīgie deterministiskie skaitļošanas modeļi ir polinomiāli ekvivalenti
 
 - Dots grafs $G$ un divas virsotnes $u$, $v$.
 - Jautājums: vai eksistē ceļš no $u$ uz $v$?
-- Rupjais-spēks: pārbaudīt visus ceļus — eksponenciāls laiks.
+- Rupjais-spēks: pārbaudīt visus ceļus -- eksponenciāls laiks.
 - Efektīvs algoritms: meklēšana plašumā (breadth-first search); laika
-  sarežģītība: $O(|V| + |E|)$.
+  sarežģītība: $O(abs(V) + abs(E))$.
 
 == Piemērs ($"RELPRIME"$)
 
@@ -820,7 +820,7 @@ saprātīgie deterministiskie skaitļošanas modeļi ir polinomiāli ekvivalenti
 #NP (nederminēti-polinomiālas) problēmas
 ir problēmas (2 ekvivalentas definīcijas):
 
-+ $L in NP$, ja eksistē pārbaudes algoritms - $O(n^c)$ laika Tjūringa mašīna $M$:
++ $L in NP$, ja eksistē pārbaudes algoritms -- $O(n^c)$ laika Tjūringa mašīna $M$:
   + Ja $L(x) = 1$, tad eksistē y: $M(x, y) = 1$.
   + Ja $L(x) = 0$, tad visiem y: $M(x, y) = 0$.
   + _Informācija $y$ var saturēt brīvi definētu informāciju._
@@ -1006,39 +1006,40 @@ Vārdiski. Jauns grafs $G$, kurā ir visas virsotnes no $V$, bet
 visas šķautnes, kas ir $G$ nav $G'$ un pretēji -- visas šķautnes
 kā nav $G$ ir $G'$.
 
-#figure(diagram(
-  cell-size: 1mm,
-  node-stroke: 0pt,
-  spacing: 1em,
-  node-shape: circle,
-  // phantom location nodes
-  dot-node((0, 0), <b1>),
-  dot-node((-2, 1), <a1>),
-  dot-node((0, 2), <c1>),
+#figure(
+  diagram(
+    cell-size: 1mm,
+    node-stroke: 0pt,
+    spacing: 1em,
+    node-shape: circle,
+    // phantom location nodes
+    dot-node((0, 0), <b1>),
+    dot-node((-2, 1), <a1>),
+    dot-node((0, 2), <c1>),
 
-  dot-node((0, 4), <b2>),
-  dot-node((-2, 5), <a2>),
-  dot-node((0, 6), <c2>),
+    dot-node((0, 4), <b2>),
+    dot-node((-2, 5), <a2>),
+    dot-node((0, 6), <c2>),
 
-  // label nodes
-  node((rel: (0.7em, 0.7em), to: <b1>), $B$),
-  node((rel: (-0.7em, 0em), to: <a1>), $A$),
-  node((rel: (0.7em, 0.7em), to: <c1>), $C$),
-  node((1, 1), text(green, $G$)),
+    // label nodes
+    node((rel: (0.7em, 0.7em), to: <b1>), $B$),
+    node((rel: (-0.7em, 0em), to: <a1>), $A$),
+    node((rel: (0.7em, 0.7em), to: <c1>), $C$),
+    node((1, 1), text(green, $G$)),
 
-  node((rel: (0.7em, 0.7em), to: <b2>), $B$),
-  node((rel: (-0.7em, 0em), to: <a2>), $A$),
-  node((rel: (0.7em, 0.7em), to: <c2>), $C$),
-  node((1.6, 5), text(green, $G "papildinājums"$)),
+    node((rel: (0.7em, 0.7em), to: <b2>), $B$),
+    node((rel: (-0.7em, 0em), to: <a2>), $A$),
+    node((rel: (0.7em, 0.7em), to: <c2>), $C$),
+    node((1.6, 5), text(green, $G "papildinājums"$)),
 
-  edge(<a1>, <b1>),
-  edge(<c1>, <b1>, "--", stroke: yellow),
-  edge(<c1>, <a1>),
-  edge(<a2>, <b2>, "--", stroke: yellow),
-  edge(<c2>, <b2>),
-  edge(<c2>, <a2>, "--", stroke: yellow),
-)),
-caption: "Papildgrafa piemērs",
+    edge(<a1>, <b1>),
+    edge(<c1>, <b1>, "--", stroke: yellow),
+    edge(<c1>, <a1>),
+    edge(<a2>, <b2>, "--", stroke: yellow),
+    edge(<c2>, <b2>),
+    edge(<c2>, <a2>, "--", stroke: yellow),
+  ),
+  caption: "Papildgrafa piemērs",
 )
 
 Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G', k)$.
@@ -1118,26 +1119,26 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G', k)$.
 
     [Summa], [$ f(x) + g(x) $], [$ f'(x) + g'(x) $],
     [Starpība], [$ f(x) - g(x) $], [$ f'(x) - g'(x) $],
-    [Reizinājums], [$ f(x) * g(x) $],
+    [Reizinājums], [$ f(x) dot g(x) $],
     [
       $
-        f'(x) * g(x) + \
-        f(x) * g'(x)
+        f'(x) dot g(x) + \
+        f(x) dot g'(x)
       $
     ],
 
     /*
-    [Quotient Rule], [$ (f'(x) * g(x) - f(x) * g'(x)) / (g(x))^2 $], [$ (f'(x) * g(x) - f(x) * g'(x)) / (g(x))^2 $],
-    [Chain Rule], [$ f(g(x)) $], [$ f'(g(x)) * g'(x) $],
+    [Quotient Rule], [$ (f'(x) dot g(x) - f(x) * g'(x)) / (g(x))^2 $], [$ (f'(x) * g(x) - f(x) * g'(x)) / (g(x))^2 $],
+    [Chain Rule], [$ f(g(x)) $], [$ f'(g(x)) dot g'(x) $],
     [Euler’s Number Exponent Rule], [$ e^x $], [$ e^x $],
-    [Constant Exponent Rule], [$ a^x $], [$ a^x * ln(a) $],
+    [Constant Exponent Rule], [$ a^x $], [$ a^x dot ln(a) $],
     [Natural Log Rule], [$ ln(x) $], [$ 1 / x $],
-    [Logarithm Rule], [$ log_a(x) $], [$ 1 / (x * ln(a)) $],
+    [Logarithm Rule], [$ log_a(x) $], [$ 1 / (x dot ln(a)) $],
     [Sine Rule], [$ sin(x) $], [$ cos(x) $],
     [Cosine Rule], [$ cos(x) $], [$ -sin(x) $],
     [Tangent Rule], [$ tan(x) $], [$ sec^2(x) $],
-    [Cosecant Rule], [$ csc(x) $], [$ -csc(x) * cot(x) $],
-    [Secant Rule], [$ sec(x) $], [$ sec(x) * tan(x) $],
+    [Cosecant Rule], [$ csc(x) $], [$ -csc(x) dot cot(x) $],
+    [Secant Rule], [$ sec(x) $], [$ sec(x) dot tan(x) $],
     [Cotangent Rule], [$ cot(x) $], [$ -csc^2(x) $],
     */
   )
