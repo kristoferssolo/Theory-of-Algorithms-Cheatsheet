@@ -552,11 +552,11 @@ QED.
 Notācija, kas tiek izmantota, lai raksturotu *funkciju* sarežģītību
 asimptotiski.
 
-=== Lielais-O (formālā definīcija)
+=== Lielais-$O$ (formālā definīcija)
 
 $f(n) in O(g(n))$, ja:
 
-$exists C > 0, exists n_0 > 0:$ $(forall n >= n_0: f(n) <= c * g(n))$
+$exists C > 0, exists n_0 > 0:$ $(forall n >= n_0: f(n) <= c dot g(n))$
 
 Tas nozīmē, ka funkcija $f(n)$ asimptotiski nepārsniedz konstanti $c$ reizinātu
 $g(n)$.
@@ -751,7 +751,7 @@ $
 
 Labs mentālais modelis, lai pierādītu, ka algoritms pieder $"LOGSPACE"$ -- ja
 var iztikt ar $O(1)$ mainīgo daudzumu, kur katrs mainīgais ir no $0$ līdz $N$
-vai noteikts fiksētu vērtību skaits. 
+vai noteikts fiksētu vērtību skaits.
 
 === Laika-Telpas sakarības
 
@@ -767,7 +767,7 @@ Laiks $O(f(N)) ->$ atmiņa $O(f(N))$.
 
 === Asimptotiskas augšanas hierarhija
 
-Sekojošas funkcijas pieaugums pie $x -> infinity$:
+Sekojošas funkcijas pieaugums pie $x -> oo$:
 
 $log(x) << x << x dot log(x) << x^k << a^x << x! << x^x$
 
@@ -1072,13 +1072,14 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G', k)$.
       log_8(3x-4)=log_8(5x+2) \
       "so," 3x-4=5x+2
     $,
+
     [Pow. to log],
     $
       a^(log_a (x)) = x
     $,
     $
       2^(log_2 (x)) = x
-    $
+    $,
   ))
 ]
 
@@ -1106,7 +1107,7 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G', k)$.
   )
 ]
 
-== Atvasinājumu īpašības 
+== Atvasinājumu īpašības
 #context [
   #set text(size: 11pt)
   #show math.equation: set text(weight: 400, size: 11pt)
@@ -1120,8 +1121,8 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G', k)$.
     [Reizinājums], [$ f(x) * g(x) $],
     [
       $
-      f'(x) * g(x) + \
-      f(x) * g'(x) 
+        f'(x) * g(x) + \
+        f(x) * g'(x)
       $
     ],
 
@@ -1151,10 +1152,10 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G', k)$.
     columns: 2,
     [*Rule Name*], [*Formula*],
 
-    [Reizinājums], [$ a^m * a^n = a^(m+n) $],
+    [Reizinājums], [$ a^m dot a^n = a^(m+n) $],
     [Dalījums], [$ a^m / a^n = a^(m-n) $],
-    [Pakāpes pakāpe], [$ (a^m)^n = a^(m*n) $],
-    [Reizinājuma pakāpe], [$ (a*b)^m = a^m * b^m $],
+    [Pakāpes pakāpe], [$ (a^m)^n = a^(m dot n) $],
+    [Reizinājuma pakāpe], [$ (a dot b)^m = a^m dot b^m $],
     [Dalījuma pakāpe], [$ (a/b)^m = a^m / b^m $],
     [0-pakāpe], [$ a^0 = 1 $],
     [Negatīva pakāpe], [$ a^(-m) = 1 / a^m $],
@@ -1171,8 +1172,8 @@ $
   sum_(i=1)^(n) i^2 = (n(n+1)(2n+1))/(6)\
   sum_(i=1)^(n) i^3 = ( (n(n+1))/(2))^2 \
   // Geometric series (ratio r \neq 1)
-  r > 1: sum_(i=0)^(n) a*r^i = a * (r^(n+1)-1)/(r-1) quad \
-  r < 1: sum_(i=0)^(infinity) a*r^i = (a)/(1-r) \
+  r > 1: sum_(i=0)^(n) a dot r^i = a dot (r^(n+1)-1)/(r-1) quad \
+  r < 1: sum_(i=0)^(oo) a dot r^i = (a)/(1-r) \
   // Logarithmic sum
   sum_(i=1)^(n) log i = log(n!) approx n log n - n + O(log n) \
   // Exponential sum (appears in brute-force algorithms)
