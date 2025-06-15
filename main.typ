@@ -1065,12 +1065,71 @@ Ir spēkā sakarība $"INDSET"(G, k) = "CLIQUE"(G, k)$.
     $ e^x $, $ e^x $, "",
     $ a^x $, $ a^x ln(a) $, $ a > 0 $,
     $ ln(x) $, $ 1 / x $, "",
+    $ log_a (x) $, $ 1 / (x ln(a)) $, "",
     $ 1 / x $, $ -1 / x^2 $, "",
     $ 1 / x^n $, $ -n / x^(n+1) $, "",
     $ sqrt(x) $, $ 1 / (2 sqrt(x)) $, "",
     $ 1 / sqrt(x) $, $ -1 / (2 x^(3/2)) $, "",
   )
 ]
+
+== Atvasinājumu īpašības 
+#context [
+  #set text(size: 11pt)
+  #show math.equation: set text(weight: 400, size: 11pt)
+
+  #table(
+    columns: 3,
+    [*Rule Name*], [*Function*], [*Derivative*],
+
+    [Summa], [$ f(x) + g(x) $], [$ f'(x) + g'(x) $],
+    [Starpība], [$ f(x) - g(x) $], [$ f'(x) - g'(x) $],
+    [Reizinājums], [$ f(x) * g(x) $],
+    [
+      $
+      f'(x) * g(x) + \
+      f(x) * g'(x) 
+      $
+    ],
+
+    /*
+    [Quotient Rule], [$ (f'(x) * g(x) - f(x) * g'(x)) / (g(x))^2 $], [$ (f'(x) * g(x) - f(x) * g'(x)) / (g(x))^2 $],
+    [Chain Rule], [$ f(g(x)) $], [$ f'(g(x)) * g'(x) $],
+    [Euler’s Number Exponent Rule], [$ e^x $], [$ e^x $],
+    [Constant Exponent Rule], [$ a^x $], [$ a^x * ln(a) $],
+    [Natural Log Rule], [$ ln(x) $], [$ 1 / x $],
+    [Logarithm Rule], [$ log_a(x) $], [$ 1 / (x * ln(a)) $],
+    [Sine Rule], [$ sin(x) $], [$ cos(x) $],
+    [Cosine Rule], [$ cos(x) $], [$ -sin(x) $],
+    [Tangent Rule], [$ tan(x) $], [$ sec^2(x) $],
+    [Cosecant Rule], [$ csc(x) $], [$ -csc(x) * cot(x) $],
+    [Secant Rule], [$ sec(x) $], [$ sec(x) * tan(x) $],
+    [Cotangent Rule], [$ cot(x) $], [$ -csc^2(x) $],
+    */
+  )
+]
+
+== Kāpinājumu īpašības
+#context [
+  #set text(size: 11pt)
+  #show math.equation: set text(weight: 400, size: 11pt)
+
+  #table(
+    columns: 2,
+    [*Rule Name*], [*Formula*],
+
+    [Reizinājums], [$ a^m * a^n = a^(m+n) $],
+    [Dalījums], [$ a^m / a^n = a^(m-n) $],
+    [Pakāpes pakāpe], [$ (a^m)^n = a^(m*n) $],
+    [Reizinājuma pakāpe], [$ (a*b)^m = a^m * b^m $],
+    [Dalījuma pakāpe], [$ (a/b)^m = a^m / b^m $],
+    [0-pakāpe], [$ a^0 = 1 $],
+    [Negatīva pakāpe], [$ a^(-m) = 1 / a^m $],
+    [Saikne ar sakni], [$ a^(m/n) = root(n, a^m) $],
+  )
+]
+
+
 
 == Noderīgas izteiksmes laika analīzē<time_analysis_expressions>
 
