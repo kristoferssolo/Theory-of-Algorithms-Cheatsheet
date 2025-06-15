@@ -909,11 +909,11 @@ Vai dotā lineāru nevienādību sistēma ar bināriem mainīgajiem ir atrisinā
   $x_n$) ievieš jaunus mainīgos $y_i$.
 - Katriem vārtiem formulē atbilstošas izteiksmes.
 
-Piemērs AND vārtiem. Nosaucam ievades kā x, y un izvadi kā z: $z = x and y$
+Piemērs `AND` vārtiem. Nosaucam ievades kā x, y un izvadi kā z: $z = x and y$
 
 #table(
   columns: 4,
-  [*$x$*], [*$y$*], [*$z$*], [*$z = x and z$?*],
+  [*$x$*], [*$y$*], [*$z$*], [*$z = x and y$?*],
   $0$, $0$, $0$, [jā],
   $0$, $0$, $1$, [nē],
   $0$, $1$, $0$, [jā],
