@@ -830,7 +830,7 @@ ir problēmas (2 ekvivalentas definīcijas):
 Ekvivalence ir pierādīta ar abpusēju pārveidojumu no pārbaudītāja uz nedet.
 #TM un atpakaļ.
 
-== NP-pilnas probēmas un to redukcijas
+== NP-pilnas problēmas un to redukcijas
 
 === Polinomiāla redukcija $(<=#sub("poly"))$
 
